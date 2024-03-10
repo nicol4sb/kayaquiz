@@ -1,16 +1,11 @@
 /* IntroParagrap.css */
 .intro-paragraph {
-    background-color: #ebc6c6;
-    padding: 20px;
-    border: 1px solid #746b6b;
-  }
-  
-  .title {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .description {
-    font-size: 16px;
-  }
-  
+  background-color: #ebc6c6;
+  padding: 10px;
+  border: 1px solid #746b6b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+}

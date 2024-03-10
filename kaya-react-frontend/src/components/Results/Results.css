@@ -1,0 +1,16 @@
+/* Form.css */
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+div{  max-width: 800px;}
+
+img {
+  display: block; /* Make the image a block element to allow for margin and padding */
+  margin-top: 10px; /* Add some space between the text and the image */
+  max-width: 800px;
+}

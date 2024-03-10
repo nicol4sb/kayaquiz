@@ -164,11 +164,12 @@ function KayaQuizForm() {
               per year)
             </label>
           </div>
-        </div>
 
-        <button className="submit-button" type="submit">
-          Submit
-        </button>
+          <button className="submit-button" type="submit">
+            Submit
+          </button>
+          
+        </div>
       </form>
     </div>
   );

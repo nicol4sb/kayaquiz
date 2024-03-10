@@ -1,16 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.80d89720.css",
-    "main.js": "/static/js/main.ab035a7d.js",
+    "main.css": "/static/css/main.9eb9ab84.css",
+    "main.js": "/static/js/main.c05b23ec.js",
     "static/js/453.52364438.chunk.js": "/static/js/453.52364438.chunk.js",
     "static/media/co2-gdp-growth.png": "/static/media/co2-gdp-growth.e716f7c8dfbb584adb95.png",
+    "static/media/Ssp1+2.png": "/static/media/Ssp1+2.8306f0d24329ceb6d49a.png",
+    "static/media/Ssp1+2-2.png": "/static/media/Ssp1+2-2.39b9a14eae5dacaf516e.png",
     "index.html": "/index.html",
-    "main.80d89720.css.map": "/static/css/main.80d89720.css.map",
-    "main.ab035a7d.js.map": "/static/js/main.ab035a7d.js.map",
+    "main.9eb9ab84.css.map": "/static/css/main.9eb9ab84.css.map",
+    "main.c05b23ec.js.map": "/static/js/main.c05b23ec.js.map",
     "453.52364438.chunk.js.map": "/static/js/453.52364438.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.80d89720.css",
-    "static/js/main.ab035a7d.js"
+    "static/css/main.9eb9ab84.css",
+    "static/js/main.c05b23ec.js"
   ]
 }
