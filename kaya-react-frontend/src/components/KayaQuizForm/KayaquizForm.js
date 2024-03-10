@@ -96,7 +96,7 @@ function KayaQuizForm() {
                 checked={answers.question2 === "option1"}
                 onChange={() => handleAnswerChange("question2", "option1")}
               />
-              Below 10\'000 USD (on average people are poorer)
+              Below 10'000 USD (on average people are poorer)
             </label>
             <label>
               <input
