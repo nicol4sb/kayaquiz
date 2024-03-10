@@ -1,0 +1,2 @@
+SSH keys are stored on alubook in /home/nic/.ssh
+The key is used to access the droplet on DigitalOcean
