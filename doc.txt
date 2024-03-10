@@ -1,2 +1,40 @@
 SSH keys are stored on alubook in /home/nic/.ssh
 The key is used to access the droplet on DigitalOcean
+
+Generated ssh keys server side - openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+then moved to /etc/ssl/certs etc
+
+NGINx config refers to these locations
+
+server {
+    listen 443 ssl;
+    server_name kayaquiz.com;  # Replace with your domain
+
+    ssl_certificate /etc/ssl/certs/kaya-server.cert;  # Replace with your SSL certificate path
+    ssl_certificate_key /etc/ssl/private/kaya-server.key;  # Replace with your private key path
+
+    location / {
+        proxy_pass http://localhost:5000;  # Replace with your Node.js server address
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+server {
+    listen 80;
+    server_name kayaquiz.com;  # Replace with your domain name or IP address
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;  # Proxy to port 5000
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+

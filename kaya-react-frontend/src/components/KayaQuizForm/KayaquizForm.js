@@ -104,7 +104,7 @@ function KayaQuizForm() {
                 checked={answers.question2 === "option2"}
                 onChange={() => handleAnswerChange("question2", "option2")}
               />
-              Around 15\'000 USD (on average people are a bit richer)
+              Around 15'000 USD (on average people are a bit richer)
             </label>
             <label>
               <input
@@ -112,7 +112,7 @@ function KayaQuizForm() {
                 checked={answers.question2 === "option3"}
                 onChange={() => handleAnswerChange("question2", "option3")}
               />
-              Around 20\'000 USD (on average people are fairly richer)
+              Around 20'000 USD (on average people are fairly richer)
             </label>
             <label>
               <input
@@ -120,7 +120,7 @@ function KayaQuizForm() {
                 checked={answers.question2 === "option4"}
                 onChange={() => handleAnswerChange("question2", "option4")}
               />
-              Around 30\'000 USD (on average people are much richer)
+              Around 30'000 USD (on average people are much richer)
             </label>
           </div>
         </div>
