@@ -29,7 +29,7 @@ function KayaQuizForm() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://192.168.1.177:5000/submitForm", {
+      const response = await fetch("/submitForm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

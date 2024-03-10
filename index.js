@@ -11,7 +11,7 @@ console.log("Server startup");
 app.use(cors());
 
 // Serve static files from the 'build' directory
-app.use(express.static(path.join(__dirname, 'kaya-quiz/build')));
+app.use(express.static(path.join(__dirname, 'kaya-react-frontend/build')));
 
 // Serve index.html for any other requests
 app.get('/', (req, res) => {
