@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 app.use(bodyParser.json());
 // Endpoint to handle form submission
 app.post('/submitForm', (req, res) => {
-  db.storeRestCallResult(req.socket.remoteAddress, JSON.stringify(req.body));
+  db.storeRestCallResult(req.header('x-forwarded-for'), JSON.stringify(req.body));
   res.json({ message: 'Form submitted successfully!' });
 });
 
