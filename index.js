@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
+const db = require('./db'); // Import the db module
 
 console.log("Server startup");
 
@@ -18,19 +19,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
 // Endpoint to handle form submission
 app.post('/submitForm', (req, res) => {
-  const formData = req.body;
-  // Handle the form data, e.g., save it to a database
-  console.log('Form Data:', formData);
+  db.storeRestCallResult(req.socket.remoteAddress, JSON.stringify(req.body));
   res.json({ message: 'Form submitted successfully!' });
 });
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello World' });
-});
 
 // Start the server
 app.listen(PORT, () => {
