@@ -7,24 +7,32 @@ import IntroParagraph from "../IntroParagraph/IntroParagraph";
 import { useNavigate } from "react-router-dom";
 
 function KayaQuizForm() {
+  
+  //------------------------------------------------------
+  // intialize questions state from local storage
+  const storedAnswersString = localStorage.getItem("answers");
+  const storedAnswers = storedAnswersString
+    ? JSON.parse(storedAnswersString)
+    : { question1: "", question2: "", question3: "" };
+
   const [answers, setAnswers] = useState({
-    question1: localStorage.getItem("question1LocalStorage"),
-    question2: localStorage.getItem("question2LocalStorage"),
-    question3: localStorage.getItem("question3LocalStorage"),
+    question1: storedAnswers.question1,
+    question2: storedAnswers.question2,
+    question3: storedAnswers.question3,
   });
+  //------------------------------------------------------
 
   const handleAnswerChange = (question, value) => {
     setAnswers({ ...answers, [question]: value });
-    console.log("Form changed :: "+question+" "+value);
+    console.log("Form changed :: " + question + " " + value);
   };
 
   // Update localStorage when answers is changed
   useEffect(() => {
-    localStorage.setItem("question1LocalStorage", answers.question1);
-    localStorage.setItem("question2LocalStorage", answers.question2);
-    localStorage.setItem("question3LocalStorage", answers.question3);
+    localStorage.setItem("answers", JSON.stringify(answers));
   }, [answers]);
 
+  
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,13 +47,15 @@ function KayaQuizForm() {
       });
 
       if (response.ok) {
-        
         const serverResponse = await response.json();
 
-        navigate("/results"+serverResponse.calculatedSSP, { state: { id: 1, ans: answers } });
-        console.log("Form submitted successfully! - result :: "+serverResponse.calculatedSSP);
-
-        console.debug("Q1 results :  " + answers.question1);
+        navigate("/results" + serverResponse.calculatedSSP, {
+          state: { ans: answers },
+        });
+        console.log(
+          "Form submitted successfully! - result :: " +
+            serverResponse.calculatedSSP
+        );
       } else {
         console.error("Form submission failed:", response.statusText);
       }
@@ -173,7 +183,6 @@ function KayaQuizForm() {
           <button className="submit-button" type="submit">
             Submit
           </button>
-          
         </div>
       </form>
     </div>
