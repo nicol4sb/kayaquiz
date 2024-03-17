@@ -15,6 +15,7 @@ function KayaQuizForm() {
 
   const handleAnswerChange = (question, value) => {
     setAnswers({ ...answers, [question]: value });
+    console.log("Form changed :: "+question+" "+value);
   };
 
   // Update localStorage when answers is changed
@@ -38,8 +39,12 @@ function KayaQuizForm() {
       });
 
       if (response.ok) {
-        navigate("/results", { state: { id: 1, ans: answers } });
-        console.log("Form submitted successfully!");
+        
+        const serverResponse = await response.json();
+
+        navigate("/results"+serverResponse.calculatedSSP, { state: { id: 1, ans: answers } });
+        console.log("Form submitted successfully! - result :: "+serverResponse.calculatedSSP);
+
         console.debug("Q1 results :  " + answers.question1);
       } else {
         console.error("Form submission failed:", response.statusText);
@@ -61,24 +66,24 @@ function KayaQuizForm() {
             <label>
               <input
                 type="radio"
-                checked={answers.question1 === "option1"}
-                onChange={() => handleAnswerChange("question1", "option1")}
+                checked={answers.question1 === 1}
+                onChange={() => handleAnswerChange("question1", 1)}
               />
               Much less than projections (8 billions)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question1 === "option2"}
-                onChange={() => handleAnswerChange("question1", "option2")}
+                checked={answers.question1 === 1.25}
+                onChange={() => handleAnswerChange("question1", 1.25)}
               />
               In line with projections (10 billions)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question1 === "option3"}
-                onChange={() => handleAnswerChange("question1", "option3")}
+                checked={answers.question1 === 1.5}
+                onChange={() => handleAnswerChange("question1", 1.5)}
               />
               Much more than projections 12 billions
             </label>
@@ -93,32 +98,32 @@ function KayaQuizForm() {
             <label>
               <input
                 type="radio"
-                checked={answers.question2 === "option1"}
-                onChange={() => handleAnswerChange("question2", "option1")}
+                checked={answers.question2 === 0.8}
+                onChange={() => handleAnswerChange("question2", 0.8)}
               />
               Below 10'000 USD (on average people are poorer)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question2 === "option2"}
-                onChange={() => handleAnswerChange("question2", "option2")}
+                checked={answers.question2 === 1.2}
+                onChange={() => handleAnswerChange("question2", 1.2)}
               />
               Around 15'000 USD (on average people are a bit richer)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question2 === "option3"}
-                onChange={() => handleAnswerChange("question2", "option3")}
+                checked={answers.question2 === 1.6}
+                onChange={() => handleAnswerChange("question2", 1.6)}
               />
               Around 20'000 USD (on average people are fairly richer)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question2 === "option4"}
-                onChange={() => handleAnswerChange("question2", "option4")}
+                checked={answers.question2 === 2.4}
+                onChange={() => handleAnswerChange("question2", 2.4)}
               />
               Around 30'000 USD (on average people are much richer)
             </label>
@@ -133,32 +138,32 @@ function KayaQuizForm() {
             <label>
               <input
                 type="radio"
-                checked={answers.question3 === "option1"}
-                onChange={() => handleAnswerChange("question3", "option1")}
+                checked={answers.question3 === 0.03}
+                onChange={() => handleAnswerChange("question3", 0.03)}
               />
               Super massive investments to decarbonize (3% improvement per year)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question3 === "option2"}
-                onChange={() => handleAnswerChange("question3", "option2")}
+                checked={answers.question3 === 0.02}
+                onChange={() => handleAnswerChange("question3", 0.02)}
               />
               Massive investment to decarbonize (2% improvement per year)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question3 === "option3"}
-                onChange={() => handleAnswerChange("question3", "option3")}
+                checked={answers.question3 === 0.01}
+                onChange={() => handleAnswerChange("question3", 0.01)}
               />
               Continued investment to decarbonize (1% improvement per year)
             </label>
             <label>
               <input
                 type="radio"
-                checked={answers.question3 === "option4"}
-                onChange={() => handleAnswerChange("question3", "option4")}
+                checked={answers.question3 === -0.01}
+                onChange={() => handleAnswerChange("question3", -0.01)}
               />
               We revert back to coal as oil reserves run low (1% deterioration
               per year)

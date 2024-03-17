@@ -5,7 +5,7 @@ import "./Results.css"; // Importing external stylesheet for component-specific 
 import ssp12 from "../../assets/Ssp1+2.png";
 import ssp122 from "../../assets/Ssp1+2-2.png";
 
-const Results = () => {
+const Results119 = () => {
   const location = useLocation();
   return (
     <div className="results">
@@ -52,4 +52,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default Results119;
