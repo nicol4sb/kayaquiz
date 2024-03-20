@@ -1,6 +1,7 @@
 /* IntroParagrap.css */
 .intro-paragraph {
-  background-color: #ebc6c6;
-  padding: 10px;
-  border: 1px solid #746b6b;
-}
+    padding: 10px;
+    border: 3px solid #0f0f0f;
+    margin: 0 auto;
+    background-color: rgb(98, 211, 141);
+  }

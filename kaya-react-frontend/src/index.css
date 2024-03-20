@@ -1,27 +1,19 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  max-width: 800px;
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
 }
 
 img {
   width: 100%;
   height: auto;
-  padding-top: 20px; /* Add padding above the image */
-  padding-bottom: 20px; /* Add padding below the image */
 }
-
 
 div {
-  display: block;
-  max-width: 800px;
-  margin: 0 auto; /* Center horizontally */
-  padding: 20px;
-  background-color: #f7f7f7;
+  max-width: 800px; /* Maximum width of content */
   border-radius: 10px;
   box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
+  padding: 10px;
 }
+
+

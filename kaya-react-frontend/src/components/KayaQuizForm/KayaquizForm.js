@@ -66,7 +66,7 @@ function KayaQuizForm() {
   };
 
   return (
-    <div className="form-container">
+    <div>
       <IntroParagraph />
       <form onSubmit={handleSubmit}>
         <div className="option-container">
