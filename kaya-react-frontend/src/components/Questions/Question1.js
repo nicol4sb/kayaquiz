@@ -1,7 +1,7 @@
 import "./Question.css";
 function Question1() {
   return (
-    <div class="question">
+    <div className="question">
       <p>1. World Population?</p>
       <p>
         What do you believe the world population in 2050 will be? Current world

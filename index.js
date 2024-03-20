@@ -7,6 +7,8 @@ const cors = require("cors");
 const db = require("./src/db"); // Import the db module
 const SSPCalculation = require("./src/SSPcalculation");
 
+const sqlite3 = require("sqlite3").verbose();
+
 console.log("Server startup");
 
 // Allow requests from specific origins
@@ -20,7 +22,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.use(bodyParser.json());
+app.use(express.json());
 // Endpoint to handle form submission
 app.post("/submitForm", (req, res) => {
   const sspRes = SSPCalculation.calculateSSPScenario(
@@ -29,17 +31,26 @@ app.post("/submitForm", (req, res) => {
     req.body.question3
   );
 
-  console.log(" ------ " + sspRes[0]);
-  
   db.storeRestCallResult(
     req.header("x-forwarded-for"),
     JSON.stringify(req.body)
   );
   res.json({
-    message: "Form submitted successfully!",
     CO2Tons: sspRes[0],
     calculatedSSP: sspRes[1],
   });
+});
+
+app.post("/submitEmail", (req, res) => {
+
+  const email = req.body.email;
+  console.log("Email ---- "+email)
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  db.storeEmail(email);
+  
 });
 
 // Start the server

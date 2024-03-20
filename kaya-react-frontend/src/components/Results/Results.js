@@ -6,6 +6,7 @@ import Results126 from "./Results126";
 import Results245 from "./Results245";
 import Results370 from "./Results370";
 import Results580 from "./Results580";
+import { useNavigate } from "react-router-dom";
 
 const Results = () => {
   let ComponentToRender;
@@ -22,12 +23,33 @@ const Results = () => {
     ComponentToRender = Results580;
   }
 
+  const navigate = useNavigate();
+  const handleClick = () => {
+    console.log(" On to the conclusion");
+    navigate("/conclusion");
+  };
+
+  const handleGoBack = () => {
+    navigate("/");
+  };
+
   return (
     <div className="results">
       <h2>Results</h2>
       <div>
         <IntroResults />
         {ComponentToRender && <ComponentToRender />}
+      </div>
+
+      <div>
+        <button className="submit-button" type="submit" onClick={handleGoBack}>
+          Take me back !
+        </button>
+      </div>
+      <div>
+        <button className="submit-button" type="submit" onClick={handleClick}>
+          Next !
+        </button>
       </div>
     </div>
   );
