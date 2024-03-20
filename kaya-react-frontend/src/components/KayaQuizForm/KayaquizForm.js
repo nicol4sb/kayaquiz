@@ -32,7 +32,7 @@ function KayaQuizForm() {
     localStorage.setItem("answers", JSON.stringify(answers));
   }, [answers]);
 
-  
+
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,13 +48,13 @@ function KayaQuizForm() {
 
       if (response.ok) {
         const serverResponse = await response.json();
-
+        localStorage.setItem("CO2Tons",serverResponse.CO2Tons);
         navigate("/results" + serverResponse.calculatedSSP, {
           state: { ans: answers },
         });
         console.log(
           "Form submitted successfully! - result :: " +
-            serverResponse.calculatedSSP
+            serverResponse.calculatedSSP +" --- "+serverResponse.CO2Tons
         );
       } else {
         console.error("Form submission failed:", response.statusText);

@@ -26,14 +26,15 @@ app.post("/submitForm", (req, res) => {
 
   const sspRes = SSPCalculation.calculateSSPScenario(req.body.question1,req.body.question2,req.body.question3);
 
-  console.log(" ------ "+sspRes);
+  console.log(" ------ "+sspRes[0]);
   db.storeRestCallResult(
     req.header("x-forwarded-for"),
     JSON.stringify(req.body)
   );
   res.json({
     message: "Form submitted successfully!",
-    calculatedSSP: sspRes,
+    calculatedSSP: sspRes[1],
+    CO2Tons: sspRes[0],
   });
 });
 
