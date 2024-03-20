@@ -13,6 +13,7 @@ import Results370 from "./components/Results/Results370";
 import Results580 from "./components/Results/Results580";
 
 const App = () => {
+
   return (
     <Router>
       <div>

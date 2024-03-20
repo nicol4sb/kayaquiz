@@ -1,4 +1,4 @@
-// About.js
+  // About.js
 import React from "react";
 import ssp370 from "../../assets/Ssp370.png";
 import ssp370Temperatures from "../../assets/Ssp370-1.png";
