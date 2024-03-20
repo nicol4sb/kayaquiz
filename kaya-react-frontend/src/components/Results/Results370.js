@@ -27,7 +27,7 @@ const Results370 = () => {
       <p>
         The average temperature on earth 10 thousand years ago was roughly 5C
         colder than the pre-industrial era. Most of Canada, the UK and France
-        where covered under several kilometres of ice. Ocean levels where more
+        were covered under several kilometres of ice. Ocean levels were more
         than 100 metres lower (the UK was part of continental Europe). +4C
         increase in temperatures will happen over a very short period of time
         (geologically speaking) leaving little time for adaptation to most
