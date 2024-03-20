@@ -49,7 +49,8 @@ function KayaQuizForm() {
       if (response.ok) {
         const serverResponse = await response.json();
         localStorage.setItem("CO2Tons",serverResponse.CO2Tons);
-        navigate("/results" + serverResponse.calculatedSSP, {
+        localStorage.setItem("calculatedSSP",serverResponse.calculatedSSP);
+        navigate("/results", {
           state: { ans: answers },
         });
         console.log(

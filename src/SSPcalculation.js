@@ -9,7 +9,7 @@ function calculateSSPScenario(int1, int2, int3) {
   } else if (co2InTonsIn2050 < 50) {
     scenarioCode = "245";
   } else if (co2InTonsIn2050 < 70) {
-    scenarioCode = "460";
+    scenarioCode = "370";
   } else {
     scenarioCode = "580";
   }

@@ -1,11 +1,16 @@
-import './Question.css';
+import "./Question.css";
 function Question1() {
   return (
     <div className="question">
-      <p>1) Expected World Population?</p>
-      The current world population is around 8 billion. Most estimates expect us
-      to reach about 10 billion in 2050. What world population do you think we
-      will be at in 2050?
+      <p>1. World Population?</p>
+      <p>
+        What do you believe the world population in 2050 will be? Current world
+        population is estimated at 8 billion people.
+      </p>
+      <p>
+        UN projections are for the world population to be between 9.4b and 10.1b
+        in 2050.
+      </p>
     </div>
   );
 }

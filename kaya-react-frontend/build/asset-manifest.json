@@ -1,18 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.1ea84904.css",
-    "main.js": "/static/js/main.ee4b2e21.js",
+    "main.css": "/static/css/main.dff1258e.css",
+    "main.js": "/static/js/main.81736251.js",
     "static/js/453.52364438.chunk.js": "/static/js/453.52364438.chunk.js",
     "static/media/co2-gdp-growth.png": "/static/media/co2-gdp-growth.e716f7c8dfbb584adb95.png",
-    "static/media/Ssp1+2.png": "/static/media/Ssp1+2.8306f0d24329ceb6d49a.png",
-    "static/media/Ssp1+2-2.png": "/static/media/Ssp1+2-2.39b9a14eae5dacaf516e.png",
+    "static/media/Ssp119.png": "/static/media/Ssp119.eb26dd8854a49ad1fd28.png",
+    "static/media/Ssp126.png": "/static/media/Ssp126.8306f0d24329ceb6d49a.png",
+    "static/media/Ssp370-1.png": "/static/media/Ssp370-1.9ab729c0b3728e3e0cf3.png",
+    "static/media/Ssp245-1.png": "/static/media/Ssp245-1.e05f293cf0dea46ad092.png",
+    "static/media/Ssp119-1.png": "/static/media/Ssp119-1.6b5c02cb59ad39c3b896.png",
+    "static/media/Ssp580.png": "/static/media/Ssp580.31e084d6eb5b1d570a1d.png",
+    "static/media/Ssp370.png": "/static/media/Ssp370.83da84897ad3f0d84299.png",
+    "static/media/Ssp126-1.png": "/static/media/Ssp126-1.39b9a14eae5dacaf516e.png",
+    "static/media/Ssp245.png": "/static/media/Ssp245.ac3e5ed88df250da2f05.png",
+    "static/media/Ssp580-1.png": "/static/media/Ssp580-1.8995aca9ac216107ee1f.png",
     "index.html": "/index.html",
-    "main.1ea84904.css.map": "/static/css/main.1ea84904.css.map",
-    "main.ee4b2e21.js.map": "/static/js/main.ee4b2e21.js.map",
+    "main.dff1258e.css.map": "/static/css/main.dff1258e.css.map",
+    "main.81736251.js.map": "/static/js/main.81736251.js.map",
     "453.52364438.chunk.js.map": "/static/js/453.52364438.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1ea84904.css",
-    "static/js/main.ee4b2e21.js"
+    "static/css/main.dff1258e.css",
+    "static/js/main.81736251.js"
   ]
 }
