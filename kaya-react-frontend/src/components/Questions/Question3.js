@@ -4,7 +4,7 @@ import co2 from "../../assets/co2-gdp-growth.png";
 function Question3() {
   return (
     <div className="question">
-      <p>3) Decarbonisation efforts</p>
+      <p>3. Decarbonisation efforts</p>
       The world economy burns a lot of fossil fuels (Oil, Gas, Coal). Since we
       primarily use fossil fuels to build things, transport things, grow things,
       produce electricity and heat/cool homes economic activity and CO2

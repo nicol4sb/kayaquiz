@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Conclusion.css"
 
 const Conclusion = () => {
   const [email, setEmail] = useState("");
@@ -38,8 +39,8 @@ const Conclusion = () => {
   if (submitted) {
     return (
       <div>
-        <p>Thank you for your submission!</p>
-        <p>Wait, I want to try again !</p>
+        <p className="title">Thank you for playing along !</p>
+        <p>We're eager to hear your feedback - be in touch on our Instagram !</p>
         <div>
           <button className="submit-button" type="button" onClick={handleClick}>
             Take me back
@@ -51,23 +52,24 @@ const Conclusion = () => {
 
   // Render email form if form is not submitted
   return (
-    <div>
-      <p>Let me know what's new on Kayaquiz.com !</p>
+    <div className="email-input">
+      <p className="title">Keep me posted on what's next !</p>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email"></label>
         <input
           type="email"
           id="email"
           value={email}
           onChange={handleChange}
           required
+          className="email-input"
+          placeholder="Enter your email here"
         />
-        <button type="submit">Submit</button>
+        <button type="submit" className="submit-button">Submit</button>
       </form>
-      <p>Wait, I want to try again !</p>
       <div>
         <button className="submit-button" type="button" onClick={handleClick}>
-          Take me back
+          Let me play again !
         </button>
       </div>
     </div>

@@ -1,0 +1,6 @@
+.big-number {
+    font-size: 3rem; /* Adjust the font size as desired */
+    color: rgb(73, 64, 64); /* Change the color as desired */
+    font-weight: bold;
+    text-align: center;
+  }
