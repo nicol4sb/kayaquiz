@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 // Endpoint to handle form submission
-app.post("/submitForm", (req, res) => {
+app.post("/api/submitForm", (req, res) => {
   const sspRes = SSPCalculation.calculateSSPScenario(
     req.body.question1,
     req.body.question2,
@@ -33,7 +33,8 @@ app.post("/submitForm", (req, res) => {
 
   db.storeRestCallResult(
     req.header("x-forwarded-for"),
-    JSON.stringify(req.body)
+    JSON.stringify(req.body),
+    sspRes[1]
   );
   res.json({
     CO2Tons: sspRes[0],
@@ -41,22 +42,22 @@ app.post("/submitForm", (req, res) => {
   });
 });
 
-app.post("/submitEmail", (req, res) => {
+app.get("/api/groupResults", (req, res) => {
+  db.fetchRollingResultsFromLastHour(res); //  '[{ "text": "SSP1-1.9", "value": 3 },{ "text": "SSP1-2.6", "value": 2 },]'
+});
 
+app.post("/api/submitEmail", (req, res) => {
   const email = req.body.email;
-  console.log("Email ---- "+email)
+  console.log("Email ---- " + email);
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
   }
-
   db.storeEmail(email);
-  
 });
-
 
 // if somehow a react route is called - will result in a 404 - best approach is to redirect to /
 app.use((req, res, next) => {
-  res.status(404).redirect('/');
+  res.status(404).redirect("/");
 });
 
 // Start the server

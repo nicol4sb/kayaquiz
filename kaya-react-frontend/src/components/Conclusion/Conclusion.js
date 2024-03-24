@@ -19,7 +19,7 @@ const Conclusion = () => {
 
     // push the email to the backend
     try {
-      await fetch("/submitEmail", {
+      await fetch("/api/submitEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

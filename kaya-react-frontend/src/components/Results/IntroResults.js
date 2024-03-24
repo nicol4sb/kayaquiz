@@ -13,7 +13,7 @@ const IntroResults = () => {
         Based on your inputs, CO2 emissions in 2050 would be{" "}
         {localStorage.getItem("CO2Tons")} GT per annum.
       </p>{" "}
-      <div class="big-number">{localStorage.getItem("CO2Tons")} Gigatons</div>
+      <div className="big-number">{localStorage.getItem("CO2Tons")} Gigatons</div>
     </div>
   );
 };

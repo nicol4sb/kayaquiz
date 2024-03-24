@@ -38,7 +38,7 @@ function KayaQuizForm() {
     event.preventDefault();
 
     try {
-      const response = await fetch("/submitForm", {
+      const response = await fetch("/api/submitForm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,17 +65,6 @@ function KayaQuizForm() {
     }
   };
 
-  const [slider1Value, setSlider1Value] = useState(50);
-  const handleSliderChange = (event) => {
-    const { name, value } = event.target;
-    switch (name) {
-      case 'slider1':
-        setSlider1Value(parseInt(value));
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <div>
