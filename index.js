@@ -53,6 +53,12 @@ app.post("/submitEmail", (req, res) => {
   
 });
 
+
+// if somehow a react route is called - will result in a 404 - best approach is to redirect to /
+app.use((req, res, next) => {
+  res.status(404).redirect('/');
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
