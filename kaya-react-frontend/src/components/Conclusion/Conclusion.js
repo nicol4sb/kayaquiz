@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Conclusion.css"
+import "./Conclusion.css";
+import GroupResults from "../GroupResults/GroupResults";
 
 const Conclusion = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,6 @@ const Conclusion = () => {
   };
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
     console.log("Goodbye, " + email + "!");
     setSubmitted(true); // Set submitted state to true after form submission
@@ -24,7 +24,7 @@ const Conclusion = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: '{"email":"'+ email+'"}',
+        body: '{"email":"' + email + '"}',
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -40,7 +40,9 @@ const Conclusion = () => {
     return (
       <div>
         <p className="title">Thank you for playing along !</p>
-        <p>We're eager to hear your feedback - be in touch on our Instagram !</p>
+        <p>
+          We're eager to hear your feedback - be in touch on our Instagram !
+        </p>
         <div>
           <button className="submit-button" type="button" onClick={handleClick}>
             Take me back
@@ -65,12 +67,17 @@ const Conclusion = () => {
           className="email-input"
           placeholder="Enter your email here"
         />
-        <button type="submit" className="submit-button">Submit</button>
+        <button type="submit" className="submit-button">
+          Submit
+        </button>
       </form>
       <div>
         <button className="submit-button" type="button" onClick={handleClick}>
           Let me play again !
         </button>
+      </div>
+      <div>
+        <GroupResults />
       </div>
     </div>
   );
