@@ -53,7 +53,7 @@ function fetchRollingResultsFromLastHour(res) {
       }
       // Transform rows to the desired format
       const formattedData = rows.map((row) => ({
-        text: "SSP - "+row.SSP,
+        text: row.SSP,
         value: row.count,
       }));
 

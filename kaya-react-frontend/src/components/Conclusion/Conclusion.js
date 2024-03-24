@@ -55,7 +55,7 @@ const Conclusion = () => {
   // Render email form if form is not submitted
   return (
     <div className="email-input">
-      <p className="title">Keep me posted on what's next !</p>
+      <p className="title">Keep me posted !</p>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email"></label>
         <input

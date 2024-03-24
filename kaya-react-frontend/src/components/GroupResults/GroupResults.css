@@ -1,0 +1,13 @@
+
+/* Assuming your bar chart container has a class or ID */
+.bar-chart-container {
+    /* Specify the maximum width and height to ensure the labels fit properly */
+    max-width: 100%;
+    max-height: 100%;
+  
+    /* Apply rotation to the labels */
+    .axis-labels text {
+      transform: rotate(-90deg);
+      transform-origin: center; /* Adjust the rotation origin if needed */
+    }
+  }
