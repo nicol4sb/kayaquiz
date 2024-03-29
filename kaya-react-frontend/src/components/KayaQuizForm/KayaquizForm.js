@@ -75,13 +75,21 @@ function KayaQuizForm() {
             <Question1 />
           </p>
           <div>
+          <label>
+              <input
+                type="radio"
+                checked={answers.question1 === 0.75}
+                onChange={() => handleAnswerChange("question1", 0.75)}
+              />
+              6 billion - Much much less than projections
+            </label>
             <label>
               <input
                 type="radio"
                 checked={answers.question1 === 1}
                 onChange={() => handleAnswerChange("question1", 1)}
               />
-              Much less than projections (8 billions)
+              Much less than projections (8 billion)
             </label>
             <label>
               <input
@@ -89,7 +97,7 @@ function KayaQuizForm() {
                 checked={answers.question1 === 1.25}
                 onChange={() => handleAnswerChange("question1", 1.25)}
               />
-              In line with projections (10 billions)
+              In line with projections (10 billion)
             </label>
             <label>
               <input
@@ -97,7 +105,7 @@ function KayaQuizForm() {
                 checked={answers.question1 === 1.5}
                 onChange={() => handleAnswerChange("question1", 1.5)}
               />
-              Much more than projections 12 billions
+              Much more than projections 12 billion
             </label>
           </div>
         </div>
@@ -107,6 +115,14 @@ function KayaQuizForm() {
             <Question2 />
           </p>
           <div>
+          <label>
+              <input
+                type="radio"
+                checked={answers.question2 === 0.64}
+                onChange={() => handleAnswerChange("question2", 0.64)}
+              />
+              Below 8'000 USD (on average people are poorer)
+            </label>
             <label>
               <input
                 type="radio"
