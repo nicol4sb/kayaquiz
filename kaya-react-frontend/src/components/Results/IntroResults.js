@@ -14,6 +14,7 @@ const IntroResults = () => {
         {localStorage.getItem("CO2Tons")} GT per annum.
       </p>{" "}
       <div className="big-number">{localStorage.getItem("CO2Tons")} Gigatons</div>
+      <div className="medium-number">{localStorage.getItem("calculatedSSP")}</div>
     </div>
   );
 };

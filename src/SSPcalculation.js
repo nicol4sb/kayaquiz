@@ -3,15 +3,15 @@ function calculateSSPScenario(int1, int2, int3) {
 
   let scenarioCode;
   if (co2InTonsIn2050 < 10) {
-    scenarioCode = "119";
+    scenarioCode = "SSP 1-1.9";
   } else if (co2InTonsIn2050 < 30) {
-    scenarioCode = "126";
+    scenarioCode = "SSP 1-2.6";
   } else if (co2InTonsIn2050 < 50) {
-    scenarioCode = "245";
+    scenarioCode = "SSP 2-4.5";
   } else if (co2InTonsIn2050 < 70) {
-    scenarioCode = "370";
+    scenarioCode = "SSP 3-7.0";
   } else {
-    scenarioCode = "580";
+    scenarioCode = "SSP 5-8.5";
   }
 
   return [parseInt(co2InTonsIn2050), scenarioCode];

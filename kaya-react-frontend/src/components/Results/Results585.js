@@ -3,7 +3,7 @@ import React from "react";
 import ssp580 from "../../assets/Ssp580.png";
 import ssp580Temperatures from "../../assets/Ssp580-1.png";
 
-const Results580 = () => {
+const Results585 = () => {
   return (
     <div className="results">
       <p>
@@ -28,7 +28,7 @@ const Results580 = () => {
         stronger even on this pathway. On this pathway CO2 Emissions drop slowly
         but negative effects do not disappear.
       </p>
-      <img src={ssp580} alt="SSP 5 8.0" />
+      <img src={ssp580} alt="SSP 5 8.5" />
       <p>
         The average temperature on earth 10 thousand years ago was roughly 5C
         colder than the pre-industrial era. Most of Canada, the UK and France
@@ -39,7 +39,7 @@ const Results580 = () => {
         species on earth. Here you can see the change expected average
         temperature on earth.
       </p>
-      <img src={ssp580Temperatures} alt="SSP 5 -8.0" />
+      <img src={ssp580Temperatures} alt="SSP 5-8.5" />
       <p>
         A few important points are worth highlighting: - temperatures on land
         rise much faster than the average surface temperature of the globe as
@@ -54,4 +54,4 @@ const Results580 = () => {
   );
 };
 
-export default Results580;
+export default Results585;

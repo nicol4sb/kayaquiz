@@ -5,22 +5,23 @@ import Results119 from "./Results119";
 import Results126 from "./Results126";
 import Results245 from "./Results245";
 import Results370 from "./Results370";
-import Results580 from "./Results580";
+import Results585 from "./Results585";
 import { useNavigate } from "react-router-dom";
+import GroupResults from "../GroupResults/GroupResults";
 
 const Results = () => {
   let ComponentToRender;
   var calculatedSSP = localStorage.getItem("calculatedSSP");
-  if (calculatedSSP === "119") {
+  if (calculatedSSP === "SSP 1-1.9") {
     ComponentToRender = Results119;
-  } else if (calculatedSSP === "126") {
+  } else if (calculatedSSP === "SSP 1-2.6") {
     ComponentToRender = Results126;
-  } else if (calculatedSSP === "245") {
+  } else if (calculatedSSP === "SSP 2-4.5") {
     ComponentToRender = Results245;
-  } else if (calculatedSSP === "370") {
+  } else if (calculatedSSP === "SSP 3-7.0") {
     ComponentToRender = Results370;
-  } else if (calculatedSSP === "580") {
-    ComponentToRender = Results580;
+  } else if (calculatedSSP === "SSP 5-8.5") {
+    ComponentToRender = Results585;
   }
 
   const navigate = useNavigate();

@@ -77,7 +77,7 @@ const Conclusion = () => {
         </button>
       </div>
       <div>
-        <GroupResults />
+        <GroupResults/>
       </div>
     </div>
   );
