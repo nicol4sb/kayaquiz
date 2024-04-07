@@ -8,6 +8,7 @@ import Results from "./components/Results/Results";
 import Conclusion from "./components/Conclusion/Conclusion";
 import GroupResults from "./components/GroupResults/GroupResults"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/conclusion" element={<Conclusion />} />
           <Route path="/groupResults" element={<GroupResults />} />
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );
