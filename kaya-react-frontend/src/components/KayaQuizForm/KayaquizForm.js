@@ -74,6 +74,7 @@ function KayaQuizForm() {
             <Question1 />
           </p>
           <div>
+            <p>World population in 2050 : {answers.question1} billlion</p>
             <input
               type="range"
               value={answers.question1}
@@ -84,8 +85,6 @@ function KayaQuizForm() {
                 handleAnswerChange("question1", parseFloat(e.target.value))
               }
             />
-            <br />
-            World population in 2050 : {answers.question1} billlion
           </div>
         </div>
 
@@ -94,6 +93,7 @@ function KayaQuizForm() {
             <Question2 />
           </p>
           <div>
+            <div>income of {answers.question2} USD/year</div>
             <input
               type="range"
               className="slider" // You can define this class in your CSS for styling
@@ -105,7 +105,6 @@ function KayaQuizForm() {
                 handleAnswerChange("question2", parseFloat(e.target.value))
               }
             />
-            <div>income of {answers.question2} USD/year</div>
           </div>
         </div>
 
@@ -114,6 +113,20 @@ function KayaQuizForm() {
             <Question3 />
           </p>
           <div className="option-container">
+            <div>
+              {/* Displaying a descriptive label based on the value could improve UX */}
+              {answers.question3 === -0.01
+                ? "We revert back to coal (-1% deterioration per year)"
+                : answers.question3 === 0
+                ? "Steady scenario (0% improvement per year)"
+                : answers.question3 === 0.01
+                ? "Continued investment (1% improvement per year)"
+                : answers.question3 === 0.02
+                ? "Massive investment (2% improvement per year)"
+                : answers.question3 === 0.03
+                ? "Super massive investments (3% improvement per year)"
+                : "Super massive investments (3% improvement per year)"}
+            </div>{" "}
             <input
               type="range"
               className="slider" // Use this class for any needed CSS styling
@@ -125,20 +138,6 @@ function KayaQuizForm() {
                 handleAnswerChange("question3", parseFloat(e.target.value))
               }
             />
-            <div>
-              {/* Displaying a descriptive label based on the value could improve UX */}
-              {answers.question3 === -0.01
-                ? "We revert back to coal (-1% deterioration per year)"
-                : answers.question3 === 0
-                ? "Steady scenario (0% improvement per year)"
-                  : answers.question3 === 0.01
-                ? "Continued investment (1% improvement per year)"
-                : answers.question3 === 0.02
-                ? "Massive investment (2% improvement per year)"
-                : answers.question3 === 0.03
-                ? "Super massive investments (3% improvement per year)"
-                : "Super massive investments (3% improvement per year)"}
-            </div>
           </div>
           <button className="submit-button" type="submit">
             Submit
