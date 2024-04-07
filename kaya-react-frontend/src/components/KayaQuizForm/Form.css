@@ -1,4 +1,11 @@
 
+.option-container {
+  display: flex;
+  flex-direction: column; /* Stacks children vertically */
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Adjust this if you need vertical centering as well */
+}
+
 .option-container label {
   display: flex;
   padding: 10px;
@@ -16,4 +23,14 @@
   padding: 10px;
   background-color: #bfbfbf; /* Darker shade when radio button is checked */
   border-color: #999; /* Change border color on selection */
+}
+
+input {
+  width: 80%; /* Default width */
+}
+
+@media (max-width: 600px) {
+input {
+    width: 90%; /* Slightly smaller on smaller screens */
+  }
 }

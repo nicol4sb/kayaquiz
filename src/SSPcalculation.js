@@ -1,6 +1,6 @@
 function calculateSSPScenario(int1, int2, int3) {
-  const co2InTonsIn2050 = int1 * int2 * Math.pow(1 - int3, 25) * 40; // CO2 prod in Gt in 2050
-
+  const co2InTonsIn2050 = int1/8 * int2/12500 * Math.pow(1 - int3, 25) * 40; // int1 = pop in absolute. int2 = income in absolute
+  
   let scenarioCode;
   if (co2InTonsIn2050 < 10) {
     scenarioCode = "SSP 1-1.9";
