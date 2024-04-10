@@ -115,24 +115,24 @@ function KayaQuizForm() {
           <div className="option-container">
             <div>
               {/* Displaying a descriptive label based on the value could improve UX */}
-              {answers.question3 === -0.01
-                ? "We revert back to coal (-1% deterioration per year)"
-                : answers.question3 === 0
-                ? "Steady scenario (0% improvement per year)"
-                : answers.question3 === 0.01
-                ? "Continued investment (1% improvement per year)"
-                : answers.question3 === 0.02
-                ? "Massive investment (2% improvement per year)"
-                : answers.question3 === 0.03
-                ? "Super massive investments (3% improvement per year)"
-                : "Super massive investments (3% improvement per year)"}
+              {answers.question3 <= 0.00
+                ? Number((answers.question3*100).toFixed(2))+" % - We revert back to coal"
+                : answers.question3 > 0 && answers.question3 <= 0.005
+                ? Number((answers.question3*100).toFixed(2))+" % - Steady scenario (small to no improvement)"
+                : answers.question3 > 0.005 && answers.question3 <= 0.015
+                ? Number((answers.question3*100).toFixed(2))+" % - Continued investment"
+                : answers.question3 > 0.015 && answers.question3 <= 0.025
+                ? Number((answers.question3*100).toFixed(2))+" % - Massive investment"
+                : answers.question3 >=0.025
+                ? Number((answers.question3*100).toFixed(2))+" % - Super massive investments"
+                : Number((answers.question3*100).toFixed(2))+" % - Super massive investments"}
             </div>{" "}
             <input
               type="range"
               className="slider" // Use this class for any needed CSS styling
               min="-0.01"
               max="0.03"
-              step="0.01"
+              step="0.0001"
               value={answers.question3}
               onChange={(e) =>
                 handleAnswerChange("question3", parseFloat(e.target.value))

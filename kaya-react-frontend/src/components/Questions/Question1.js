@@ -1,4 +1,5 @@
 import "./Question.css";
+import projections from"../../assets/PROJECTIONS-95-hi-lo-rec_0.png"
 function Question1() {
   return (
     <div className="question">
@@ -9,8 +10,10 @@ function Question1() {
       </p>
       <p>
         UN projections are for the world population to be between 9.4b and 10.1b
-        in 2050.
+        in 2050
       </p>
+      <img src={projections} alt="CO2" />
+
     </div>
   );
 }
