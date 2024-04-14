@@ -19,8 +19,13 @@ app.use(express.static(path.join(__dirname, "kaya-react-frontend/build")));
 
 // Serve index.html for any other requests
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
 });
+
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
+});
+
 
 app.use(express.json());
 // Endpoint to handle form submission

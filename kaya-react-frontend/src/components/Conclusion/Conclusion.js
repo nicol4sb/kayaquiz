@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Conclusion.css";
-import GroupResults from "../GroupResults/GroupResults";
 
 const Conclusion = () => {
   const [email, setEmail] = useState("");
@@ -75,9 +74,6 @@ const Conclusion = () => {
         <button className="submit-button" type="button" onClick={handleClick}>
           Let me play again !
         </button>
-      </div>
-      <div>
-        <GroupResults/>
       </div>
     </div>
   );

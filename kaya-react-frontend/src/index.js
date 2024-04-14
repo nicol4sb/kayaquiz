@@ -19,7 +19,7 @@ const App = () => {
           <Route path="/" element={<KayaQuizForm />} />
           <Route path="/results" element={<Results />} />
           <Route path="/conclusion" element={<Conclusion />} />
-          <Route path="/groupResults" element={<GroupResults />} />
+          <Route path="/admin" element={<GroupResults />} />
         </Routes>
         <Footer/>
       </div>

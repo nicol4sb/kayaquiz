@@ -130,8 +130,8 @@ function KayaQuizForm() {
             <input
               type="range"
               className="slider" // Use this class for any needed CSS styling
-              min="-0.01"
-              max="0.03"
+              min="-0.02"
+              max="0.04"
               step="0.0001"
               value={answers.question3}
               onChange={(e) =>
