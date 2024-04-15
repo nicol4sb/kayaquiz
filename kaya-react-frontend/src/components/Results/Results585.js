@@ -39,7 +39,7 @@ const Results585 = () => {
         species on earth. Here you can see the change expected average
         temperature on earth.
       </p>
-      <img src={ssp580Temperatures} alt="SSP 5-8.5" />
+      <img src={ssp580Temperatures} alt="+5°C (SSP 5-8.5)" />
       <p>
         A few important points are worth highlighting: - temperatures on land
         rise much faster than the average surface temperature of the globe as

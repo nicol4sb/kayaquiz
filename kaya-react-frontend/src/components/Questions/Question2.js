@@ -1,4 +1,5 @@
 import "./Question.css";
+import GDP from "../../assets/GDPperPerson.png";
 
 function Question2() {
   return (
@@ -18,6 +19,7 @@ function Question2() {
           <li>26'000 USD with +3% growth per year</li>
         </ul>
       </p>
+      <img src={GDP} alt="GDP per person" />
     </div>
   );
 }
