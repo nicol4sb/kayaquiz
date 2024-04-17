@@ -1,15 +1,17 @@
 import "./Question.css";
 import co2 from "../../assets/co2-gdp-growth.png";
+import growth_old from "../../assets/co2-gdp-growth-old.png";
 
 function Question3() {
   return (
     <div className="question">
-      <p>3. Decarbonization speed - CO2/GDP</p>
+      <p><u>3. Decarbonization speed - CO2/GDP</u></p>
       <p>
         Do you think global economies will become more or less CO2 intensive? If
         so, by how much per annum? Do you think the world average CO2 intensity
         of GDP will decrease (or increase)?
       </p>
+      <img src={growth_old} alt="Growth vs carbon"/>
       <p>
         High CO2 emissions for low economic output are for example burning coal
         to heat poorly isolated homes. This activity would lead to higher carbon

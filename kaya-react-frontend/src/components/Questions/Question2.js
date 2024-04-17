@@ -4,7 +4,7 @@ import GDP from "../../assets/GDPperPerson.png";
 function Question2() {
   return (
     <div className="question">
-      <p>2. GDP per person (inflation adjusted)</p>
+      <p><u>2. GDP per person (inflation adjusted)</u></p>
       <p>
         How much do you think GDP per person trajectory will lead us to by 2050?
         Current world GDP per person is roughly 12'500 USD, in 2050 GDP per

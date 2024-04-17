@@ -1,7 +1,13 @@
-/* IntroParagrap.css */
+/* IntroParagraph.css */
 .intro-paragraph {
-    padding: 10px;
-    border: 3px solid #0f0f0f;
-    margin: 0 auto;
-    background-color: rgb(98, 211, 141);
-  }
+  padding: 20px;
+  margin: 20px auto;
+  border: 3px solid #070707; /* Light grey border for a subtle outline */
+  background-color: #c5e3f7; /* Very light grey background for minimal contrast */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); /* Very soft shadow for depth without flashiness */
+  border-radius: 20px; /* Slightly rounded corners to soften the look */
+}
+
+.intro-paragraph:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly more pronounced shadow on hover for a gentle lift effect */
+}
