@@ -32,7 +32,7 @@ function GroupResults() {
   }, []);
 
   return (
-    <div style={{ width: '90%', height: 300 }}>
+    <div style={{ width: 1000 , height: 300 }}>
       <ResponsiveContainer>
         <BarChart
           data={data}

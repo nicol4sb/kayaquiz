@@ -54,26 +54,47 @@ const Conclusion = () => {
   // Render email form if form is not submitted
   return (
     <div className="email-input">
-      <p className="title">Keep me posted !</p>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email"></label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleChange}
-          required
-          className="email-input"
-          placeholder="Enter your email here"
-        />
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
-      </form>
+      <p className="title">
+        Thanks for taking <br />
+        the Kayaquiz
+      </p>
+      <p>
+        Most people agree that climate change is an issue that urgently needs to
+        be adressed. The aim of the KayaQuiz is to start quantfying the
+        trade-offs that we collectively need to implement to avoid the worst
+        outcomes.
+      </p>
       <div>
+        <p>
+          Restart the quiz (can you find a more suistainable path) Becoming a
+          facilitator and help others play (contact julien.huston@gmail.com)
+        </p>
+
         <button className="submit-button" type="button" onClick={handleClick}>
-          Let me play again !
+          Keep playing
         </button>
+      </div>
+      <div>
+        <p>
+          Learn more about the Kaya Identity Read more in the IPCC summary
+          Participate in a Climate Fresk (to learn about the science in a fun
+          way)
+        </p>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email"></label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleChange}
+            required
+            className="email-input"
+            placeholder="Enter your email here"
+          />
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
       </div>
     </div>
   );
