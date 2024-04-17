@@ -60,25 +60,26 @@ const Conclusion = () => {
       </p>
       <p>
         Most people agree that climate change is an issue that urgently needs to
-        be adressed. The aim of the KayaQuiz is to start quantfying the
+        be adressed. The aim of the KayaQuiz is to start quantifying the
         trade-offs that we collectively need to implement to avoid the worst
         outcomes.
       </p>
       <div>
-        <p>
-          Restart the quiz (can you find a more suistainable path) Becoming a
-          facilitator and help others play (contact julien.huston@gmail.com)
-        </p>
-
         <button className="submit-button" type="button" onClick={handleClick}>
           Keep playing
         </button>
       </div>
       <div>
+        <br />
+        <br />
+        <br />
         <p>
-          Learn more about the Kaya Identity Read more in the IPCC summary
-          Participate in a Climate Fresk (to learn about the science in a fun
-          way)
+          Learn more about the <a href="https://en.wikipedia.org/wiki/Kaya_identity">Kaya Identity</a>?
+          <br />
+          Read more in the <a href="https://www.ipcc.ch/report/ar6/wg2/">IPCC summary</a>
+          <br/>
+          Participate in a <a href="https://climatefresk.org/world/">Climate Fresk</a> (to learn
+          about the science in a fun way)
         </p>
         <form onSubmit={handleSubmit}>
           <label htmlFor="email"></label>
