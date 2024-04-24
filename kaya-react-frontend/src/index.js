@@ -9,7 +9,6 @@ import Conclusion from "./components/Conclusion/Conclusion";
 import GroupResults from "./components/GroupResults/GroupResults"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
-import './i18n'; // Import the i18n configuration
 
 const App = () => {
   return (

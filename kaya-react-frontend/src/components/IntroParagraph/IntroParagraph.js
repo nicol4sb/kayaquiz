@@ -1,18 +1,19 @@
-
-import './IntroParagraph.css';
+import "./IntroParagraph.css";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import "../../i18n"; // Import the i18n configuration
 
 function IntroParagraph() {
-    return (
-      <div className='intro-paragraph'>
-        <p className='title'>How does our future look like?</p>
-        <p>
-          In order to limit global warming to 1.5°C or 2°C by 2100, we will need to significantly reduce global CO2 emissions by 2050 (and continue to reduce after that).
-        </p>
-        <p>
-          You will be asked 3 questions that will help understand the arbitrages needed to get there.
-        </p>
-      </div>
-    );
-  }
-  
-  export default IntroParagraph;
+  const { t } = useTranslation();
+
+  return (
+    <div className="intro-paragraph">
+      <LanguageSwitcher />
+      <p className="title">{t("IntroTitle")}</p>
+      <p>{t("IntroParagraph1")}</p>
+      <p>{t("IntroParagraph2")}</p>
+    </div>
+  );
+}
+
+export default IntroParagraph;

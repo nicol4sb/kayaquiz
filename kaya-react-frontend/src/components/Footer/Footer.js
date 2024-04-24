@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import ShowLocale from '../showLocale/showLocale';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -14,7 +13,6 @@ const Footer = () => {
       }}
     >
       © {new Date().getFullYear()} kayaquiz.com. {t("All_rights_reserved")}
-      <ShowLocale />
     </footer>
   );
 };

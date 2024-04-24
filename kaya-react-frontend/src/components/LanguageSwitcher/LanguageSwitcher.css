@@ -1,0 +1,9 @@
+.flags-container {
+    display: flex;
+    justify-content: right; /* Aligns children (flags) to the right */
+    padding: 10px; /* Optional padding for better spacing */
+    cursor: pointer; /* Makes the flags look clickable */
+    font-size: 24px; /* Increases the size of the flag emojis */
+    margin-left: 10px; /* Spacing between flags */
+  }
+  

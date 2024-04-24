@@ -1,3 +1,15 @@
 {
-  "All_rights_reserved": "All rights reserved."
+  "All_rights_reserved": "All rights reserved.",
+  "IntroTitle": "How does our future look like?",
+  "IntroParagraph1": "In order to limit global warming to 1.5°C or 2°C by 2100, we will need to significantly reduce global CO2 emissions by 2050 (and continue to reduce after that).",
+  "IntroParagraph2": "You will be asked 3 questions that will help understand the arbitrages needed to get there.",
+  "Q1Title": "1. World Population",
+  "Q1": "<p>What do you believe the world population in 2050 will be? </p><p>Current world population is estimated at 8 billion people.UN projections are for the world population to be between 9.4b and 10.1b in 2050</p>",
+  "Q1Slider": "World population in 2050 :",
+  "Q2Title": "2. GDP per person (inflation adjusted)<br/><br/>",
+  "Q2": "Current world GDP per person is roughly 12'500 USD. <br/>How much do you think GDP per person will be by 2050?<br/><br/>- 9'700 USD with minus 1% per year<br/>- 16'000 USD with +1% growth per year<br/>- 20'000 USD with +2% growth per year (since WW2 it has been roughly 2% per year)<br/>- 26'000 USD with +3% growth per year",
+  "Q2Slider": "GDP per person in 2050 :",
+  "Q3Title": "3. Decarbonization speed - CO2/GDP<br/><br/> ",
+  "Q3_1": "Do you think global economies will become more or less CO2 intensive? <br/>And by how much per annum? Do you think the world average CO2 intensity of GDP will decrease (or increase)?",
+  "Q3_2": "<p>High CO2 emissions for low economic output are for example burning coal to heat poorly isolated homes. This activity would lead to higher carbon  intensity of GDP (negative number - negative environmental impact).</p><p>Low CO2 emissions for high economic output are for example using  renewable energies to produce high value medication. This activity would  lead to lower carbon intensity of GDP (positive number - less negative  environmental impact). </p> <p>  A positive number means CO2 emissions globally drop for every unit of  GDP (i.e. economies are less carbon intensive). For your reference  historical trends are available below. </p> <p>  Over the last few decades the yearly improvement has been +1.5% per  annum. The last 10 years have seen a slight improvement at +2%. </p>"
 }

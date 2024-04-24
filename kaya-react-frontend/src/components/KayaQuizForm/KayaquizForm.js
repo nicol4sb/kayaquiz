@@ -5,8 +5,14 @@ import Question2 from "../Questions/Question2";
 import Question3 from "../Questions/Question3";
 import IntroParagraph from "../IntroParagraph/IntroParagraph";
 import { useNavigate } from "react-router-dom";
+import { useTranslation, Trans } from 'react-i18next';
+
+
 
 function KayaQuizForm() {
+
+  useTranslation();
+
   //------------------------------------------------------
   // intialize questions state from local storage
   const storedAnswersString = localStorage.getItem("answers");
@@ -74,7 +80,7 @@ function KayaQuizForm() {
             <Question1 />
           </p>
           <div>
-            <p>World population in 2050 : {answers.question1} billlion</p>
+            <p><Trans i18nKey="Q1Slider"/> {answers.question1} billlion</p>
             <input
               type="range"
               value={answers.question1}
@@ -93,7 +99,7 @@ function KayaQuizForm() {
             <Question2 />
           </p>
           <div>
-            <div>income of {answers.question2} USD/year</div>
+            <div><Trans i18nKey="Q2Slider"/> {answers.question2} USD</div>
             <input
               type="range"
               className="slider" // You can define this class in your CSS for styling
