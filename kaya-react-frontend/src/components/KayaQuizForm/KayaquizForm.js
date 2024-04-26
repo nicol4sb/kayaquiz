@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 
 function KayaQuizForm() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   //------------------------------------------------------
   // intialize questions state from local storage
   const storedAnswersString = localStorage.getItem("answers");

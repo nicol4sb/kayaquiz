@@ -5,7 +5,7 @@ import ssp119Temperatures from "../../assets/Ssp119-1.png";
 import { useTranslation, Trans } from "react-i18next";
 
 const Results119 = () => {
-  const { t, i18n } = useTranslation();
+  useTranslation();
 
   return (
     <div className="results">

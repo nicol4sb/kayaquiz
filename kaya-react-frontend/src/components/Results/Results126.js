@@ -2,7 +2,7 @@
 import React from "react";
 import ssp126 from "../../assets/Ssp126.png";
 import ssp126Temperatures from "../../assets/Ssp126-1.png";
-import { useTranslation, Trans } from "react-i18next";
+import {Trans} from "react-i18next";
 
 const Results126 = () => {
   return (
