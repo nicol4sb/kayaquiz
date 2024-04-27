@@ -65,20 +65,15 @@ function fetchResultsGroupedBySSP(res) {
 
 function fetchResultsDetails(res) {
   db.all(
-    "SELECT * as count FROM QUIZ_ANSWERS",
+    "SELECT * FROM QUIZ_ANSWERS",
     (err, rows) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
       }
-      // Transform rows to the desired format
-      const formattedData = rows.map((row) => ({
-        text: row.SSP,
-        value: row.count,
-      }));
 
       // Send the formatted data as JSON
-      res.json(formattedData);
+      res.json(rows);
     }
   );
 }
@@ -99,4 +94,5 @@ module.exports = {
   storeRestCallResult,
   storeEmail,
   fetchResultsGroupedBySSP,
+  fetchResultsDetails,
 };
