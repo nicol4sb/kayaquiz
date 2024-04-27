@@ -6,6 +6,7 @@ import Results126 from "./Results126";
 import Results245 from "./Results245";
 import Results370 from "./Results370";
 import Results585 from "./Results585";
+import LinkedinButton from "../SocialMediaSharing/SocialSharing" 
 import { useNavigate } from "react-router-dom";
 
 const Results = () => {
@@ -40,7 +41,8 @@ const Results = () => {
         <IntroResults />
         {ComponentToRender && <ComponentToRender />}
       </div>
-
+      <div>
+      <LinkedinButton url={window.location.href} title={calculatedSSP} summary={localStorage.getItem("CO2Tons")} />      </div>
       <div>
         <button className="submit-button" type="submit" onClick={handleGoBack}>
           Take me back !
