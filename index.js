@@ -48,8 +48,13 @@ app.post("/api/submitForm", (req, res) => {
 });
 
 app.get("/api/groupResults", (req, res) => {
-  db.fetchRollingResultsFromLastHour(res); //  '[{ "text": "SSP1-1.9", "value": 3 },{ "text": "SSP1-2.6", "value": 2 },]'
+  db.fetchResultsGroupedBySSP(res); //  '[{ "text": "SSP1-1.9", "value": 3 },{ "text": "SSP1-2.6", "value": 2 },]'
 });
+
+app.get("/api/resultsDetails", (req, res) => {
+  db.fetchResultsDetails(res);
+});
+
 
 app.post("/api/submitEmail", (req, res) => {
   const email = req.body.email;

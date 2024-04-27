@@ -43,9 +43,29 @@ function storeRestCallResult(ip, result, ssp) {
   );
 }
 
-function fetchRollingResultsFromLastHour(res) {
+function fetchResultsGroupedBySSP(res) {
   db.all(
     "SELECT SSP, COUNT(*) as count FROM QUIZ_ANSWERS GROUP BY SSP",
+    (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      // Transform rows to the desired format
+      const formattedData = rows.map((row) => ({
+        text: row.SSP,
+        value: row.count,
+      }));
+
+      // Send the formatted data as JSON
+      res.json(formattedData);
+    }
+  );
+}
+
+function fetchResultsDetails(res) {
+  db.all(
+    "SELECT * as count FROM QUIZ_ANSWERS",
     (err, rows) => {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -78,5 +98,5 @@ function storeEmail(email) {
 module.exports = {
   storeRestCallResult,
   storeEmail,
-  fetchRollingResultsFromLastHour,
+  fetchResultsGroupedBySSP,
 };
