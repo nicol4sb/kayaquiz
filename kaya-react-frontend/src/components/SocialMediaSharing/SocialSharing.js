@@ -27,7 +27,7 @@ function LinkedInButton() {
 
   return (
     <div style={containerStyle}> {/* Flex container to center the button */}
-      <LinkedinShareButton style={buttonStyle}>
+      <LinkedinShareButton style={buttonStyle} url={window.location.href} >
         <LinkedinIcon size={32} round={true} />
         <span style={{ marginLeft: '8px' }}>Share on LinkedIn!</span>
       </LinkedinShareButton>
