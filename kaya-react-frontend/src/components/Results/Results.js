@@ -42,7 +42,7 @@ const Results = () => {
         {ComponentToRender && <ComponentToRender />}
       </div>
       <div>
-      <LinkedinButton url={window.location.href} title={calculatedSSP} summary={localStorage.getItem("CO2Tons")} />      </div>
+      <LinkedinButton/>      </div>
       <div>
         <button className="submit-button" type="submit" onClick={handleGoBack}>
           Take me back !
