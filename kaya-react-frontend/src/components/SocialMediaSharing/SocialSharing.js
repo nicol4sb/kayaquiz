@@ -1,35 +1,51 @@
-import React from 'react';
-import { LinkedinShareButton, LinkedinIcon } from 'react-share';
+import React from "react";
+import { LinkedinShareButton, LinkedinIcon } from "react-share";
 
 function LinkedInButton() {
   const buttonStyle = {
-    display: 'flex',         // Enables flexbox for internal alignment
-    alignItems: 'center',    // Centers items vertically in the button
-    justifyContent: 'center', // Centers items horizontally in the button
-    height: '50px',           // Set a height for the button area
-    margin: '20px auto',      // Centers the button horizontally with auto margins
-    background: '#0077B5',    // LinkedIn brand color for background
-    color: 'white',           // White text color
-    border: 'none',           // No borders
-    borderRadius: '8px',      // Rounded corners
-    padding: '10px 20px',     // Padding inside the button
-    fontSize: '16px',         // Font size
-    cursor: 'pointer',        // Cursor to pointer on hover
-    textDecoration: 'none',   // No underline on the text
-    width: 'fit-content',     // Adjust width to fit its content
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "50px",
+    margin: "20px auto",
+    background: "#0077B5",
+    color: "white",
+    border: "none",
+    borderRadius: "8px",
+    padding: "10px 20px",
+    fontSize: "16px",
+    cursor: "pointer",
+    textDecoration: "none",
+    width: "fit-content",
   };
 
   const containerStyle = {
-    display: 'flex',          // Enable flexbox
-    justifyContent: 'center', // Center content horizontally
-    width: '100%',            // Take full width to allow centering
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   };
 
+  // Retrieving calculatedSSP from local storage
+  const calculatedSSP =
+    localStorage.getItem("calculatedSSP") || "Default summary if none found.";
+
+  // Content to share
+  const shareUrl = window.location.href; // URL of the page
+  const title = "Check out my Kayaquiz carbon trajectory !"; // Title for the LinkedIn post
+  const summary =
+    "My projections of GDP, population and pace of dacarbonization lead me to " +
+    calculatedSSP; // Summary or description retrieved from local storage
+
   return (
-    <div style={containerStyle}> {/* Flex container to center the button */}
-      <LinkedinShareButton style={buttonStyle} url={window.location.href} >
+    <div style={containerStyle}>
+      <LinkedinShareButton
+        style={buttonStyle}
+        url={shareUrl}
+        title={title}
+        summary={summary}
+      >
         <LinkedinIcon size={32} round={true} />
-        <span style={{ marginLeft: '8px' }}>Share on LinkedIn!</span>
+        <span style={{ marginLeft: "8px" }}>Share on LinkedIn!</span>
       </LinkedinShareButton>
     </div>
   );
