@@ -37,35 +37,41 @@ function KayaQuizForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const response = await fetch("/api/submitForm", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(answers),
-      });
-
-      if (response.ok) {
-        const serverResponse = await response.json();
-        localStorage.setItem("CO2Tons", serverResponse.CO2Tons);
-        localStorage.setItem("calculatedSSP", serverResponse.calculatedSSP);
-        navigate("/results", {
-          state: { ans: answers },
-        });
-        console.log(
-          "Form submitted successfully! - result :: " +
-            serverResponse.calculatedSSP +
-            " --- " +
-            serverResponse.CO2Tons
-        );
-      } else {
-        console.error("Form submission failed:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    // Check if all sliders have been touched
+    if (!answers.question1 || !answers.question2 || answers.question3 === "") {
+        alert(t("alertMissingFields"));
+        return; // Stop the form submission
     }
-  };
+
+    try {
+        const response = await fetch("/api/submitForm", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(answers),
+        });
+
+        if (response.ok) {
+            const serverResponse = await response.json();
+            localStorage.setItem("CO2Tons", serverResponse.CO2Tons);
+            localStorage.setItem("calculatedSSP", serverResponse.calculatedSSP);
+            navigate("/results", {
+                state: { ans: answers },
+            });
+            console.log(
+                "Form submitted successfully! - result :: " +
+                serverResponse.calculatedSSP +
+                " --- " +
+                serverResponse.CO2Tons
+            );
+        } else {
+            console.error("Form submission failed:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
 
   return (
     <div>
@@ -77,7 +83,7 @@ function KayaQuizForm() {
           </p>
           <div>
             <p>
-              <Trans i18nKey="Q1Slider" /> {answers.question1} billlion
+              <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}
             </p>
             <input
               type="range"
