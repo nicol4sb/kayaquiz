@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Conclusion.css";
+import { useTranslation, Trans } from "react-i18next";
 
 const Conclusion = () => {
   const [email, setEmail] = useState("");
@@ -55,32 +56,49 @@ const Conclusion = () => {
   return (
     <div className="email-input">
       <p className="title">
-        Thanks for taking <br />
-        the Kayaquiz
+        <Trans i18nKey="conclusionTitle" />
       </p>
       <p>
-        Most people agree that climate change is an issue that urgently needs to
-        be adressed. The aim of the KayaQuiz is to start quantifying the
-        trade-offs that we collectively need to implement to avoid the worst
-        outcomes.
+        <Trans i18nKey="conclusion" />
       </p>
       <div>
         <button className="submit-button" type="button" onClick={handleClick}>
-          Keep playing
+          <Trans i18nKey="keepPlayingButton" />
         </button>
       </div>
       <div>
         <br />
         <br />
         <br />
-        <p>
-          Learn more about the <a href="https://en.wikipedia.org/wiki/Kaya_identity">Kaya Identity</a>?
-          <br />
-          Read more in the <a href="https://www.ipcc.ch/report/ar6/wg2/">IPCC summary</a>
-          <br/>
-          Participate in a <a href="https://climatefresk.org/world/">Climate Fresk</a> (to learn
-          about the science in a fun way)
-        </p>
+
+        <Trans i18nKey="moreLinks">
+          Learn more about the
+          <a
+            href="https://en.wikipedia.org/wiki/Kaya_identity"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Kaya Identity
+          </a>
+          ? Read more in the
+          <a
+            href="https://www.ipcc.ch/report/ar6/wg2/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            IPCC summary
+          </a>
+          . Participate in a
+          <a
+            href="https://climatefresk.org/world/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Climate Fresk
+          </a>
+          (to learn about the science in a fun way).
+        </Trans>
+
         <form onSubmit={handleSubmit}>
           <label htmlFor="email"></label>
           <input
@@ -90,10 +108,10 @@ const Conclusion = () => {
             onChange={handleChange}
             required
             className="email-input"
-            placeholder="Enter your email here"
+            placeholder="Email !"
           />
           <button type="submit" className="submit-button">
-            Submit
+            Go !
           </button>
         </form>
       </div>
