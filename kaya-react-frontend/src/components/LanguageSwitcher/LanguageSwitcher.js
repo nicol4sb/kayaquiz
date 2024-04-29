@@ -10,10 +10,12 @@ function LanguageSwitcher() {
   };
 
   return (
-    <div class="flags-container">
+    <div className="flags-container">
       <button onClick={() => changeLanguage("en")}>🇬🇧</button>
       <button onClick={() => changeLanguage("fr")}>🇫🇷</button>
       <button onClick={() => changeLanguage("de")}>🇩🇪</button>
+      <button onClick={() => changeLanguage("es")}>🇪🇸</button> {/* Spanish flag button */}
+      <button onClick={() => changeLanguage("pt")}>🇵🇹</button> {/* Added Portuguese flag button */}
     </div>
   );
 }

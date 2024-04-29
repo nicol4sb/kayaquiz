@@ -22,10 +22,10 @@ db.serialize(() => {
 });
 
 // Function to store REST call result
-function storeRestCallResult(ip, result, ssp) {
+function storeRestCallResult(ip, result, ssp, browser_lang) {
   db.run(
-    `INSERT INTO QUIZ_ANSWERS (ip, result, ssp) VALUES (?, ?, ?)`,
-    [ip, result, ssp],
+    `INSERT INTO QUIZ_ANSWERS (ip, result, SSP, browser_lang) VALUES (?, ?, ?,?)`,
+    [ip, result, ssp, browser_lang],
     function (err) {
       if (err) {
         console.error("Error storing quiz result:", err);

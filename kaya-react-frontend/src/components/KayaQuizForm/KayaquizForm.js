@@ -34,14 +34,23 @@ function KayaQuizForm() {
   }, [answers]);
 
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Check if all sliders have been touched
     if (!answers.question1 || !answers.question2 || answers.question3 === "") {
         alert(t("alertMissingFields"));
-        return; // Stop the form submission
+        return; // Stop the form submission if not all answers are filled
     }
+
+    // Retrieve the language setting from localStorage
+    const language = localStorage.getItem('i18nextLng') || 'en'; // Default to English if not found
+
+    const submissionData = {
+        ...answers,
+        language, // Add the language to the submission data
+    };
 
     try {
         const response = await fetch("/api/submitForm", {
@@ -49,7 +58,7 @@ function KayaQuizForm() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(answers),
+            body: JSON.stringify(submissionData),
         });
 
         if (response.ok) {
@@ -59,12 +68,9 @@ function KayaQuizForm() {
             navigate("/results", {
                 state: { ans: answers },
             });
-            console.log(
-                "Form submitted successfully! - result :: " +
-                serverResponse.calculatedSSP +
-                " --- " +
-                serverResponse.CO2Tons
-            );
+            console.log("Form submitted successfully! - result :: " +
+                serverResponse.calculatedSSP + " --- " +
+                serverResponse.CO2Tons);
         } else {
             console.error("Form submission failed:", response.statusText);
         }
@@ -72,6 +78,7 @@ function KayaQuizForm() {
         console.error("Error submitting form:", error);
     }
 };
+
 
   return (
     <div>
