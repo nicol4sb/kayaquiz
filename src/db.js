@@ -14,7 +14,8 @@ db.serialize(() => {
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     ip TEXT,
     result TEXT,
-    SSP TEXT
+    SSP TEXT,
+    browser_lang TEXT
   )`);
   db.run(
     `CREATE TABLE IF NOT EXISTS EMAILS (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT)`
