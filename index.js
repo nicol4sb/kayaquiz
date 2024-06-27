@@ -26,6 +26,10 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
 });
 
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
+});
+
 
 app.use(express.json());
 // Endpoint to handle form submission
