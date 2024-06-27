@@ -20,3 +20,10 @@ h1 {
 .total-visits h2, .weekly-visits h2 {
     margin-top: 0;
 }
+
+.big-number {
+    font-size: 3rem; /* Adjust the font size as desired */
+    color: rgb(73, 64, 64); /* Change the color as desired */
+    font-weight: bold;
+    text-align: center;
+  }

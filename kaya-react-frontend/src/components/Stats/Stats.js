@@ -41,9 +41,9 @@ function Stats() {
 
   return (
     <div style={{ width: 800, height: 600 }}>
-      <h1>Website Visits</h1>
-      <p>Total Visits: {totalVisits}</p>
-      <ResponsiveContainer>
+      <h1>Kayaquiz  stats</h1>
+      <div className="big-number">Total Visits: {totalVisits}</div>
+      
         <BarChart
           width={500}
           height={300}
@@ -75,7 +75,6 @@ function Stats() {
             ))}
           </Bar>
         </BarChart>
-      </ResponsiveContainer>
     </div>
   );
 }
