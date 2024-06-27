@@ -1,0 +1,22 @@
+.stats-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.total-visits, .weekly-visits {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.total-visits h2, .weekly-visits h2 {
+    margin-top: 0;
+}
