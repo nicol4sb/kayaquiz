@@ -1,0 +1,19 @@
+{
+  "name": "kayaquiz",
+  "version": "1.0.0",
+  "description": "The Kaya quiz allows to play with the 3 factors that compound into our carbon emissions. This is a tool that supports workshops we do live, and quick quizzes done purely online in autonomy.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

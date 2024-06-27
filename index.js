@@ -55,6 +55,10 @@ app.get("/api/resultsDetails", (req, res) => {
   db.fetchResultsDetails(res);
 });
 
+app.get('/api/total-visits', (req, res) => {
+  db.fetchTotalVisits(res);
+});
+
 
 app.post("/api/submitEmail", (req, res) => {
   const email = req.body.email;
