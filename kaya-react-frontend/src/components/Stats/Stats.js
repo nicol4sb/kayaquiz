@@ -11,7 +11,6 @@ import {
 } from "recharts";
 import './Stats.css';
 
-// Function to get a color for each facilitator
 function getColor(index) {
   const colors = [
     '#8884d8',
@@ -60,15 +59,13 @@ function Stats() {
   }, []);
 
   return (
-    <div style={{ width: 800, height: 600 }}>
+    <div className="stats-container">
       <h1>Kayaquiz Stats</h1>
       <div className="big-number" style={{ fontSize: '32px', fontWeight: 'bold' }}>
         Total Visits: {totalVisits}
       </div>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={400}>
         <BarChart
-          width={500}
-          height={300}
           data={data}
           margin={{
             top: 20,

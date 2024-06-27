@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import KayaQuizForm from "./components/KayaQuizForm/KayaquizForm";
 import Results from "./components/Results/Results";
 import Conclusion from "./components/Conclusion/Conclusion";
-import GroupResults from "./components/GroupResults/GroupResults"
+import GroupResults from "./components/GroupResults/GroupResults";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
@@ -15,15 +15,19 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div>
-        <Routes>
-          <Route path="/" element={<KayaQuizForm />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/conclusion" element={<Conclusion />} />
-          <Route path="/admin" element={<GroupResults />} />
-          <Route path="/stats" element={<Stats />} />
-        </Routes>
-        <Footer/>
+      <div className="App">
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<KayaQuizForm />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/conclusion" element={<Conclusion />} />
+            <Route path="/admin" element={<GroupResults />} />
+            <Route path="/stats" element={<Stats />} />
+          </Routes>
+        </div>
+        <div>
+          <Footer />
+        </div>
       </div>
     </Router>
   );
