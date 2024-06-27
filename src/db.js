@@ -91,11 +91,14 @@ function storeEmail(email) {
 function fetchTotalVisits(res) {
   const totalVisitsQuery = "SELECT COUNT(*) AS total_visits FROM QUIZ_ANSWERS";
   const weeklyVisitsQuery = `
-    SELECT strftime('%Y-%W', timestamp) AS week, COUNT(*) AS weekly_visits
-    FROM QUIZ_ANSWERS
-    GROUP BY week
-    ORDER BY week
-  `;
+  SELECT 
+    strftime('%Y-%W', timestamp) AS week, 
+    facilitator,
+    COUNT(*) AS weekly_visits
+  FROM QUIZ_ANSWERS
+  GROUP BY week, facilitator
+  ORDER BY week, facilitator;
+`;
 
   // Execute the total visits query
   db.get(totalVisitsQuery, (err, totalVisitsRow) => {
@@ -114,7 +117,7 @@ function fetchTotalVisits(res) {
       // Combine the results
       const result = {
         total_visits: totalVisitsRow.total_visits,
-        weekly_visits: weeklyVisitsRows
+        weekly_visits: weeklyVisitsRows,
       };
 
       // Send the combined result
@@ -122,7 +125,6 @@ function fetchTotalVisits(res) {
     });
   });
 }
-
 
 // Export functions
 module.exports = {
