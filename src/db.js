@@ -91,14 +91,18 @@ function storeEmail(email) {
 function fetchTotalVisits(res) {
   const totalVisitsQuery = "SELECT COUNT(*) AS total_visits FROM QUIZ_ANSWERS";
   const weeklyVisitsQuery = `
-  SELECT 
-    strftime('%Y-%W', timestamp) AS week, 
-    facilitator,
-    COUNT(*) AS weekly_visits
-  FROM QUIZ_ANSWERS
-  GROUP BY week, facilitator
-  ORDER BY week, facilitator;
-`;
+    SELECT 
+        strftime('%Y-%W', qa.timestamp) AS week, 
+        f.name AS facilitator,
+        COUNT(*) AS weekly_visits
+    FROM 
+        quiz_answers qa
+    JOIN 
+        facilitators f ON qa.facilitator_id = f.id
+    GROUP BY 
+        week, facilitator
+    ORDER BY 
+        week, facilitator;`;
 
   // Execute the total visits query
   db.get(totalVisitsQuery, (err, totalVisitsRow) => {

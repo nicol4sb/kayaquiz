@@ -4,7 +4,7 @@ This is a tool that supports workshops we do live, and quick quizzes done purely
 Dev manual :
 Git clone
 Run the node backend on port 5000 :
-$ nodemon index.js &
+$ nodemon index.js & # nodemon will reload automatically the changes
 The db is embedded by the backend.
 
 Run the frontend on port 3000 (backend calls will be proxied to 5000)
@@ -21,7 +21,13 @@ sudo to the kaya user
 git pull
 
 sudo restart the kaya service
-sudo systemctl restart kay  
+sudo systemctl restart kay
+
+=============================================
+On the server, nginx 
+- redirects http to https
+- redirects to the local serve on 5000
+- manages the certificates
 
 =============================================
 DB table structure 
@@ -45,3 +51,9 @@ sqlite> PRAGMA table_info(QUIZ_ANSWERS);
 sqlite> PRAGMA table_info(EMAILS);
 0|id|INTEGER|0||1
 1|email|TEXT|0||0
+
+sqlite> PRAGMA table_info(FACILITATORS);
+0|id|INTEGER|0||1
+1|name|TEXT|1||0
+2|creation_date|DATETIME|0|CURRENT_TIMESTAMP|0
+
