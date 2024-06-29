@@ -43,8 +43,10 @@ app.post("/api/submitForm", (req, res) => {
   db.storeRestCallResult(
     req.header("x-forwarded-for"),
     JSON.stringify(req.body),
-    sspRes[1]
-  );
+    sspRes[1],
+    "en",
+    req.header('Facilitator-Id')
+    );
   res.json({
     CO2Tons: sspRes[0],
     calculatedSSP: sspRes[1],

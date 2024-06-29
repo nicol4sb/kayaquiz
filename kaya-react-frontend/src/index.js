@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import KayaQuizForm from "./components/KayaQuizForm/KayaquizForm";
@@ -10,6 +10,11 @@ import GroupResults from "./components/GroupResults/GroupResults";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
+
+const KayaQuizWithFacilitator = () => {
+  const { id } = useParams();
+  return <KayaQuizForm facilitatorId={id} />;
+};
 
 const App = () => {
   return (
@@ -23,6 +28,7 @@ const App = () => {
             <Route path="/conclusion" element={<Conclusion />} />
             <Route path="/admin" element={<GroupResults />} />
             <Route path="/stats" element={<Stats />} />
+            <Route path="/:id" element={<KayaQuizWithFacilitator />} />
           </Routes>
         </div>
         <div>

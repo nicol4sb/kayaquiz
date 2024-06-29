@@ -7,8 +7,9 @@ import IntroParagraph from "../IntroParagraph/IntroParagraph";
 import { useNavigate } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 
-function KayaQuizForm() {
+function KayaQuizForm({ facilitatorId }) {
   const { t } = useTranslation();
+  
   //------------------------------------------------------
   // intialize questions state from local storage
   const storedAnswersString = localStorage.getItem("answers");
@@ -50,13 +51,15 @@ function KayaQuizForm() {
     const submissionData = {
         ...answers,
         language, // Add the language to the submission data
+        facilitator_id: facilitatorId // Add the facilitator_id to the submission data
     };
 
     try {
-        const response = await fetch("/api/submitForm", {
+        const response = await fetch(`/api/submitForm`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Facilitator-Id": facilitatorId // Pass facilitatorId as a custom header
             },
             body: JSON.stringify(submissionData),
         });
@@ -78,7 +81,6 @@ function KayaQuizForm() {
         console.error("Error submitting form:", error);
     }
 };
-
 
   return (
     <div>
