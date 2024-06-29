@@ -1,13 +1,11 @@
 const express = require("express");
 const path = require("path");
-const bodyParser = require("body-parser");
-const app = express();
-const PORT = process.env.PORT || 5000;
 const cors = require("cors");
 const db = require("./src/db"); // Import the db module
 const SSPCalculation = require("./src/SSPcalculation");
 
-const sqlite3 = require("sqlite3").verbose();
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 console.log("Server startup");
 
@@ -17,22 +15,10 @@ app.use(cors());
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, "kaya-react-frontend/build")));
 
-// Serve index.html for any other requests
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
-});
-
-app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
-});
-
-app.get("/stats", (req, res) => {
-  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
-});
-
-
+// Parse JSON bodies
 app.use(express.json());
-// Endpoint to handle form submission
+
+// API routes
 app.post("/api/submitForm", (req, res) => {
   const sspRes = SSPCalculation.calculateSSPScenario(
     req.body.question1,
@@ -46,7 +32,8 @@ app.post("/api/submitForm", (req, res) => {
     sspRes[1],
     "en",
     req.header('Facilitator-Id')
-    );
+  );
+
   res.json({
     CO2Tons: sspRes[0],
     calculatedSSP: sspRes[1],
@@ -54,7 +41,7 @@ app.post("/api/submitForm", (req, res) => {
 });
 
 app.get("/api/groupResults", (req, res) => {
-  db.fetchResultsGroupedBySSP(res); //  '[{ "text": "SSP1-1.9", "value": 3 },{ "text": "SSP1-2.6", "value": 2 },]'
+  db.fetchResultsGroupedBySSP(res);
 });
 
 app.get("/api/resultsDetails", (req, res) => {
@@ -65,7 +52,6 @@ app.get('/api/total-visits', (req, res) => {
   db.fetchTotalVisits(res);
 });
 
-
 app.post("/api/submitEmail", (req, res) => {
   const email = req.body.email;
   console.log("Email ---- " + email);
@@ -75,9 +61,9 @@ app.post("/api/submitEmail", (req, res) => {
   db.storeEmail(email);
 });
 
-// if somehow a react route is called - will result in a 404 - best approach is to redirect to /
-app.use((req, res, next) => {
-  res.status(404).redirect("/");
+// Serve index.html for all non-API routes (React Router handling)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "kaya-react-frontend/build", "index.html"));
 });
 
 // Start the server
