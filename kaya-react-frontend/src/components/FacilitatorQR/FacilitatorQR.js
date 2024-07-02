@@ -9,9 +9,9 @@ function FacilitatorQR() {
 
   return (
     <div className="qr-container">
-      <h1>QR Code for Facilitator : {facilitator}</h1>
+      <h1>QR Code for Facilitator ID: {facilitator}</h1>
       <QRCode value={url} />
-      <p>Scan this QR code to start a session with {facilitator}</p>
+      <p>Scan this QR code to visit the facilitator's page.</p>
     </div>
   );
 }

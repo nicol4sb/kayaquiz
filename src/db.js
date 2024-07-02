@@ -106,7 +106,7 @@ function fetchTotalVisits(res) {
 
   const totalQuery = `
   SELECT 
-      COALESCE(f.name, 'Kaya community') AS facilitator,
+      COALESCE(f.name, 'Kaya community') AS facilitator, f.id,
       COUNT(*) AS total_visits
   FROM QUIZ_ANSWERS qa
   LEFT JOIN FACILITATORS f ON qa.facilitator_id = f.id
