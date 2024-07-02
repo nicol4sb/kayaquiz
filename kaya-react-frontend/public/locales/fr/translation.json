@@ -1,7 +1,7 @@
 {
   "All_rights_reserved": "Tous droit réservés",
   "IntroTitle": "A quoi ressemble notre futur?",
-  "IntroParagraph1": "Afin de limiter le réchauffement à 1.5°C ou 2°C by 2100, nous allons devoir réduire nos émissions drastiquement d'ici 2050 (pour commençer).",
+  "IntroParagraph1": "Afin de limiter le réchauffement à 1.5°C ou 2°C en 2100, nous allons devoir réduire nos émissions drastiquement d'ici 2050 (pour commençer).",
   "IntroParagraph2": "3 questions vont vous être posées et exposer les arbitrages nécessaires pour atteindre ces objectifs.",
   "Q1Title": "1. Population mondiale",
   "Q1": "<p>Ou en sera la population mondiale en 2050?</p><p>Actuellement la population mondiale est de 8 milliards. Les projections des nations unies sont dans une fourchette de 9.4Mds à 10.1Mds en 2050.</p>",
@@ -11,7 +11,7 @@
   "Q2Slider": "PIB par personne en 2050 :",
   "Q3Title": "3. Vitesse de décarbonation - CO2/GDP<br/><br/> ",
   "Q3_1": "L'économie mondiale va-t-elle devenir plus ou moins intensive en CO2? <br/>Et de combien en % par an?",
-  "Q3_2": "<p>Un logement mal isolé et chaffé au fioul est un exemple d'un gain économique faible par rapport à des émissions CO2 élevées. Ce type d'activités mènent à une intensité carbone de l'économie faible (Chiffre négatif = impact environnemental négatif).</p><p>A l'inverse produire des médicaments avec de l'énergie renouvelable est un exemple d'activité economique à basse intensité carbone.</p>",
+  "Q3_2": "<p>Un logement mal isolé et chauffé au fioul est un exemple d'un gain économique faible par rapport à des émissions CO2 élevées. Ce type d'activités mènent à une intensité carbone de l'économie faible (Chiffre négatif = impact environnemental négatif).</p><p>A l'inverse produire des médicaments avec de l'énergie renouvelable est un exemple d'activité economique à basse intensité carbone.</p>",
   "Q3Slider1": " % - Charbon pleine balle",
   "Q3Slider2": " % - Scenario stable",
   "Q3Slider3": " % - Investissement continu",

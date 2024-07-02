@@ -31,10 +31,12 @@ function LinkedInButton() {
 
   // Content to share
   const shareUrl = window.location.href; // URL of the page
-  const title = "Check out my Kayaquiz carbon trajectory !"; // Title for the LinkedIn post
+  const title = "Check out my Kayaquiz carbon trajectory!"; // Title for the LinkedIn post
   const summary =
-    "My projections of GDP, population and pace of dacarbonization lead me to " +
+    "My projections of GDP, population, and pace of decarbonization lead me to " +
     calculatedSSP; // Summary or description retrieved from local storage
+  const source = "Kayaquiz"; // Source for the LinkedIn post
+  const description = summary; // Description for the LinkedIn post
 
   return (
     <div style={containerStyle}>
@@ -43,6 +45,8 @@ function LinkedInButton() {
         url={shareUrl}
         title={title}
         summary={summary}
+        source={source}
+        description={description}
       >
         <LinkedinIcon size={32} round={true} />
         <span style={{ marginLeft: "8px" }}>Share on LinkedIn!</span>
