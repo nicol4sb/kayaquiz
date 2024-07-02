@@ -2,27 +2,43 @@
     padding: 20px;
     max-width: 800px;
     margin: auto;
-}
-
-h1 {
+  }
+  
+  h1 {
     text-align: center;
     color: #333;
-}
-
-.total-visits, .weekly-visits {
+  }
+  
+  .total-visits, .weekly-visits, .facilitator-totals {
     margin-top: 20px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
-}
-
-.total-visits h2, .weekly-visits h2 {
+  }
+  
+  .total-visits h2, .weekly-visits h2, .facilitator-totals h2 {
     margin-top: 0;
-}
-
-.big-number {
-  font-size: 3rem; /* Adjust the font size as desired */
-  color: rgb(73, 64, 64); /* Change the color as desired */
-  font-weight: bold;
-  text-align: center;
-}
+  }
+  
+  .big-number {
+    font-size: 3rem; /* Adjust the font size as desired */
+    color: rgb(73, 64, 64); /* Change the color as desired */
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .facilitator-totals ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .facilitator-totals li {
+    margin-bottom: 10px;
+    font-size: 1.2rem; /* Adjust the font size as desired */
+  }
+  
+  .bar-chart-container {
+    width: 100%;
+    height: 400px;
+  }
+  

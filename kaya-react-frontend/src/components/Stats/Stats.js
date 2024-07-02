@@ -30,6 +30,7 @@ function Stats() {
   const [data, setData] = useState([]);
   const [totalVisits, setTotalVisits] = useState(0);
   const [facilitators, setFacilitators] = useState([]);
+  const [facilitatorTotals, setFacilitatorTotals] = useState([]);
 
   useEffect(() => {
     fetch("/api/total-visits", {
@@ -52,6 +53,7 @@ function Stats() {
         setFacilitators(Array.from(facilitatorSet));
         setData(formattedData);
         setTotalVisits(response.total_visits);
+        setFacilitatorTotals(response.total_visits_per_facilitator);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -64,36 +66,48 @@ function Stats() {
       <div className="big-number" style={{ fontSize: '32px', fontWeight: 'bold' }}>
         Total Visits: {totalVisits}
       </div>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          data={data}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="week" />
-          <YAxis
-            label={{
-              value: "Visits",
-              angle: -90,
-              position: "insideLeft",
-            }}
-          />
-          <Tooltip />
-          <Legend />
-          {facilitators.map((facilitator, index) => (
-            <Bar
-              key={facilitator}
-              dataKey={facilitator}
-              fill={getColor(index)}
-            />
+      <div className="facilitator-totals">
+        <h2>Visits per Facilitator</h2>
+        <ul>
+          {facilitatorTotals.map((facilitator, index) => (
+            <li key={index}>
+              {facilitator.facilitator}: {facilitator.total_visits} visits
+            </li>
           ))}
-        </BarChart>
-      </ResponsiveContainer>
+        </ul>
+      </div>
+      <div className="bar-chart-container">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="week" />
+            <YAxis
+              label={{
+                value: "Visits",
+                angle: -90,
+                position: "insideLeft",
+              }}
+            />
+            <Tooltip />
+            <Legend />
+            {facilitators.map((facilitator, index) => (
+              <Bar
+                key={facilitator}
+                dataKey={facilitator}
+                fill={getColor(index)}
+              />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

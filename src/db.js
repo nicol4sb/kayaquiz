@@ -38,9 +38,9 @@ function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id) {
             " and content " +
             result +
             " --- IP : " +
-            ip+
-            " --- browser lang "+
-            browser_lang+
+            ip +
+            " --- browser lang " +
+            browser_lang +
             " --- facilitator : " +
             facilitator_id
         );
@@ -93,43 +93,47 @@ function storeEmail(email) {
 }
 
 function fetchTotalVisits(res) {
-  const totalVisitsQuery = "SELECT COUNT(*) AS total_visits FROM QUIZ_ANSWERS";
-  const weeklyVisitsQuery = `
-    SELECT 
-        strftime('%Y-%W', qa.timestamp) AS week, 
-        f.name AS facilitator,
-        COUNT(*) AS weekly_visits
-    FROM 
-        quiz_answers qa
-    JOIN 
-        facilitators f ON qa.facilitator_id = f.id
-    GROUP BY 
-        week, facilitator
-    ORDER BY 
-        week, facilitator;`;
+  const weeklyQuery = `
+  SELECT 
+      strftime('%Y-%W', qa.timestamp) AS week,
+      COALESCE(f.name, 'Kaya community') AS facilitator,
+      COUNT(*) AS weekly_visits
+  FROM QUIZ_ANSWERS qa
+  LEFT JOIN FACILITATORS f ON qa.facilitator_id = f.id
+  GROUP BY week, facilitator
+  ORDER BY week, facilitator;
+`;
 
-  // Execute the total visits query
-  db.get(totalVisitsQuery, (err, totalVisitsRow) => {
+  const totalQuery = `
+  SELECT 
+      COALESCE(f.name, 'Kaya community') AS facilitator,
+      COUNT(*) AS total_visits
+  FROM QUIZ_ANSWERS qa
+  LEFT JOIN FACILITATORS f ON qa.facilitator_id = f.id
+  GROUP BY facilitator;
+`;
+
+  db.all(weeklyQuery, [], (err, weeklyRows) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
     }
 
-    // Execute the weekly visits query
-    db.all(weeklyVisitsQuery, (err, weeklyVisitsRows) => {
+    db.all(totalQuery, [], (err, totalRows) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
       }
 
-      // Combine the results
-      const result = {
-        total_visits: totalVisitsRow.total_visits,
-        weekly_visits: weeklyVisitsRows,
-      };
-
-      // Send the combined result
-      res.json(result);
+      const totalVisits = weeklyRows.reduce(
+        (sum, item) => sum + item.weekly_visits,
+        0
+      );
+      res.json({
+        total_visits: totalVisits,
+        weekly_visits: weeklyRows,
+        total_visits_per_facilitator: totalRows,
+      });
     });
   });
 }
