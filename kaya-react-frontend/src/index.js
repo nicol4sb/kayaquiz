@@ -29,7 +29,7 @@ const App = () => {
             <Route path="/conclusion" element={<Conclusion />} />
             <Route path="/admin" element={<GroupResults />} />
             <Route path="/stats" element={<Stats />} />
-            <Route path="/facilitator/:facilitator" element={<FacilitatorQR />} /> {/* Nouvelle route */}
+            <Route path="/facilitator/:facilitatorId" element={<FacilitatorQR />} /> {/* Nouvelle route */}
             <Route path="/:id" element={<KayaQuizWithFacilitator />} />
           </Routes>
         </div>

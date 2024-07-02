@@ -62,8 +62,8 @@ function Stats() {
       });
   }, []);
 
-  const handleCardClick = (facilitator) => {
-    navigate(`/facilitator/${facilitator}`);
+  const handleCardClick = (facilitatorId, facilitatorName) => {
+    navigate(`/facilitator/${facilitatorId}`, { state: { facilitatorName } });
   };
 
   return (
@@ -74,7 +74,10 @@ function Stats() {
       </div>
       <div className="facilitator-totals">
         {facilitatorTotals.map((facilitator, index) => (
-          <div key={index} className="facilitator-card" onClick={() => handleCardClick(facilitator.facilitator)}>
+          <div 
+            key={index} 
+            className="facilitator-card" 
+            onClick={() => handleCardClick(facilitator.id, facilitator.facilitator)}>
             <h3>{facilitator.facilitator}</h3>
             <p>{facilitator.total_visits} visits</p>
           </div>
