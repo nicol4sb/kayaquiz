@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -31,6 +32,7 @@ function Stats() {
   const [totalVisits, setTotalVisits] = useState(0);
   const [facilitators, setFacilitators] = useState([]);
   const [facilitatorTotals, setFacilitatorTotals] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/api/total-visits", {
@@ -60,6 +62,10 @@ function Stats() {
       });
   }, []);
 
+  const handleCardClick = (facilitator) => {
+    navigate(`/facilitator/${facilitator}`);
+  };
+
   return (
     <div className="stats-container">
       <h1>Kayaquiz Stats</h1>
@@ -68,7 +74,7 @@ function Stats() {
       </div>
       <div className="facilitator-totals">
         {facilitatorTotals.map((facilitator, index) => (
-          <div key={index} className="facilitator-card">
+          <div key={index} className="facilitator-card" onClick={() => handleCardClick(facilitator.facilitator)}>
             <h3>{facilitator.facilitator}</h3>
             <p>{facilitator.total_visits} visits</p>
           </div>

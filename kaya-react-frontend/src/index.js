@@ -10,6 +10,7 @@ import GroupResults from "./components/GroupResults/GroupResults";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
+import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR"; // Import du nouveau composant
 
 const KayaQuizWithFacilitator = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/conclusion" element={<Conclusion />} />
             <Route path="/admin" element={<GroupResults />} />
             <Route path="/stats" element={<Stats />} />
+            <Route path="/facilitator/:facilitator" element={<FacilitatorQR />} /> {/* Nouvelle route */}
             <Route path="/:id" element={<KayaQuizWithFacilitator />} />
           </Routes>
         </div>

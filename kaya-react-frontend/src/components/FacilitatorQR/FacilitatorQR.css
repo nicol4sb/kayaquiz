@@ -1,0 +1,15 @@
+.qr-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .qr-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .qr-container p {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
