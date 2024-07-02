@@ -63,18 +63,16 @@ function Stats() {
   return (
     <div className="stats-container">
       <h1>Kayaquiz Stats</h1>
-      <div className="big-number" style={{ fontSize: '32px', fontWeight: 'bold' }}>
+      <div className="big-number">
         Total Visits: {totalVisits}
       </div>
       <div className="facilitator-totals">
-        <h2>Visits per Facilitator</h2>
-        <ul>
-          {facilitatorTotals.map((facilitator, index) => (
-            <li key={index}>
-              {facilitator.facilitator}: {facilitator.total_visits} visits
-            </li>
-          ))}
-        </ul>
+        {facilitatorTotals.map((facilitator, index) => (
+          <div key={index} className="facilitator-card">
+            <h3>{facilitator.facilitator}</h3>
+            <p>{facilitator.total_visits} visits</p>
+          </div>
+        ))}
       </div>
       <div className="bar-chart-container">
         <ResponsiveContainer width="100%" height="100%">
