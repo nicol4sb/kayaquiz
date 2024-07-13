@@ -30,6 +30,7 @@ On the server, nginx
 - manages the certificates
 
 kayquiz service on Linux
+deploy.sh to deploy
 
 =============================================
 DB table structure 
