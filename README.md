@@ -29,6 +29,8 @@ On the server, nginx
 - redirects to the local serve on 5000
 - manages the certificates
 
+kayquiz service on Linux
+
 =============================================
 DB table structure 
 sqlite> PRAGMA table_info(QUIZ_ANSWERS);
