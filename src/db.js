@@ -51,7 +51,7 @@ function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id) {
 
 function fetchResultsGroupedBySSP(res) {
   db.all(
-    "SELECT SSP, COUNT(*) as count FROM QUIZ_ANSWERS WHERE timestamp >= datetime('now', '-10 minutes') GROUP BY SSP",
+    "SELECT SSP, COUNT(*) as count FROM QUIZ_ANSWERS GROUP BY SSP",
     (err, rows) => {
       if (err) {
         res.status(500).json({ error: err.message });
