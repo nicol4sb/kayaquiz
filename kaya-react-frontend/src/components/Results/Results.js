@@ -1,12 +1,11 @@
-// About.js
-import React from "react";
+import React, { useState } from "react";
 import IntroResults from "./IntroResults";
 import Results119 from "./Results119";
 import Results126 from "./Results126";
 import Results245 from "./Results245";
 import Results370 from "./Results370";
 import Results585 from "./Results585";
-import LinkedinButton from "../SocialMediaSharing/SocialSharing" 
+import LinkedinButton from "../SocialMediaSharing/SocialSharing";
 import { useNavigate } from "react-router-dom";
 
 const Results = () => {
@@ -25,8 +24,21 @@ const Results = () => {
   }
 
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState("");
+
+  const openModal = (image) => {
+    setModalImage(image);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalImage("");
+  };
+
   const handleClick = () => {
-    console.log(" On to the conclusion");
+    console.log("On to the conclusion");
     navigate("/conclusion");
   };
 
@@ -39,10 +51,11 @@ const Results = () => {
       <h2>Results</h2>
       <div>
         <IntroResults />
-        {ComponentToRender && <ComponentToRender />}
+        {ComponentToRender && <ComponentToRender openModal={openModal} />}
       </div>
       <div>
-      <LinkedinButton/>      </div>
+        <LinkedinButton />
+      </div>
       <div>
         <button className="submit-button" type="submit" onClick={handleGoBack}>
           Take me back !
@@ -53,6 +66,13 @@ const Results = () => {
           Next !
         </button>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-container" onClick={closeModal}>
+          <img src={modalImage} alt="Enlarged view" className="modal-image" />
+        </div>
+      )}
     </div>
   );
 };
