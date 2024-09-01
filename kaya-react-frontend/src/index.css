@@ -15,7 +15,7 @@ img {
   max-width: 800px; /* Maximum width of content */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Improved shadow visibility */
-  padding: 10px;
+  padding: 40px;
   margin: 0 auto; /* Center within parent container */
 }
 

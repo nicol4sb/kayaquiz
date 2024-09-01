@@ -1,5 +1,6 @@
 import React from "react";
 import DynamicResults from "../DynamicResults/DynamicResults";
+import { Trans } from "react-i18next";
 import { useModal } from "../ModalContext/ModalContext"; // Adjust path as needed
 import { useNavigate } from "react-router-dom";
 import IntroResults from "./IntroResults";
@@ -21,7 +22,9 @@ const Results = () => {
 
   return (
     <div className="content-container">
-      <h2>Results</h2>
+      <h2>
+        <Trans i18nKey="Results" />
+      </h2>
       <IntroResults />
       <DynamicResults openModal={openModal} calculatedSSP={calculatedSSP} />
       <div>

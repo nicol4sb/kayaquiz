@@ -20,21 +20,3 @@
 .option-container label:hover {
   background-color: #dcdcdc; /* Darker shade on hover */
 }
-
-.option-container input[type="radio"]:checked + label {
-  padding: 10px;
-  background-color: #bfbfbf; /* Darker shade when radio button is checked */
-  border-color: #999; /* Change border color on selection */
-}
-
-/* Add spacing between the text and the input slider */
-.option-container input[type="range"] {
-  margin-top: 15px; /* Space above the slider */
-  margin-bottom: 15px; /* Space below the slider */
-}
-
-@media (max-width: 600px) {
-  input {
-    width: 90%; /* Slightly smaller on smaller screens */
-  }
-}
