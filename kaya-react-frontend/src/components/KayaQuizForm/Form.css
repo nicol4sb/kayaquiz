@@ -3,7 +3,6 @@
   flex-direction: column; /* Stacks children vertically */
   align-items: center; /* Center children horizontally */
   justify-content: center; /* Adjust this if you need vertical centering as well */
-  padding: 20px; /* Add padding to create space around the content */
   gap: 15px; /* Adds space between children elements */
 }
 
