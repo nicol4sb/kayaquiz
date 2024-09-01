@@ -1,6 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import KayaQuizForm from "./components/KayaQuizForm/KayaquizForm";
@@ -11,6 +16,7 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
 import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR"; // Import du nouveau composant
+import { ModalProvider } from "./components/ModalContext/ModalContext"; // Adjust path as needed
 
 const KayaQuizWithFacilitator = () => {
   const { id } = useParams();
@@ -29,7 +35,11 @@ const App = () => {
             <Route path="/conclusion" element={<Conclusion />} />
             <Route path="/admin" element={<GroupResults />} />
             <Route path="/stats" element={<Stats />} />
-            <Route path="/facilitator/:facilitatorId" element={<FacilitatorQR />} /> {/* Nouvelle route */}
+            <Route
+              path="/facilitator/:facilitatorId"
+              element={<FacilitatorQR />}
+            />{" "}
+            {/* Nouvelle route */}
             <Route path="/:id" element={<KayaQuizWithFacilitator />} />
           </Routes>
         </div>
@@ -44,7 +54,9 @@ const App = () => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <ModalProvider>
+      <App />
+    </ModalProvider>
   </React.StrictMode>
 );
 

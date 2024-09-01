@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Attach to Firefox",
+        "type": "firefox",
+        "request": "attach",
+        "reAttach": true,
+        "url": "http://localhost:3000",  // Adjust this URL to match your development server
+        "webRoot": "${workspaceFolder}/src",  // Adjust if your source files are in a different directory
+        "firefoxExecutable": "/path/to/firefox" // Optional: Set this if Firefox is not in your PATH
+      }
+    ]
+  }
+  

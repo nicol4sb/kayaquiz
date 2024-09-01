@@ -11,25 +11,4 @@
   font-weight: bold;
   text-align: center;
 }
-/* Modal container styling */
-.modal-container {
-  position: fixed; /* Fix the modal to the viewport */
-  top: 0; /* Start at the top of the viewport */
-  left: 0; /* Start at the left side of the viewport */
-  width: 100vw; /* Ensure the modal takes up the full viewport width */
-  height: 100vh; /* Ensure the modal takes up the full viewport height */
-  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center the modal content horizontally */
-  align-items: center; /* Center the modal content vertically */
-  z-index: 1000; /* Ensure the modal appears above all other elements */
-  cursor: pointer; /* Change cursor to pointer for the modal */
-  overflow: hidden; /* Prevent scrolling within the modal */
-}
 
-.modal-image {
-  max-height: 90%; /* Scale to 90% of the viewport height */
-  max-width: 90%; /* Scale to 90% of the viewport width */
-  object-fit: contain; /* Maintains aspect ratio */
-  box-shadow: 0 0 10px white; /* Adds a white shadow for better visibility */
-}
