@@ -88,10 +88,7 @@ function KayaQuizForm({ facilitatorId }) {
       <form onSubmit={handleSubmit}>
         <div className="option-container">
             <Question1 />
-          <div>
-            <div>
               <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}
-            </div>
             <input
               type="range"
               value={answers.question1}
@@ -102,17 +99,11 @@ function KayaQuizForm({ facilitatorId }) {
                 handleAnswerChange("question1", parseFloat(e.target.value))
               }
             />
-          </div>
         </div>
 
         <div className="option-container">
-          <p>
             <Question2 />
-          </p>
-          <div>
-            <div>
               <Trans i18nKey="Q2Slider" /> {answers.question2} USD
-            </div>
             <input
               type="range"
               className="slider" // You can define this class in your CSS for styling
@@ -124,15 +115,11 @@ function KayaQuizForm({ facilitatorId }) {
                 handleAnswerChange("question2", parseFloat(e.target.value))
               }
             />
-          </div>
         </div>
 
         <div>
-          <p>
             <Question3 />
-          </p>
           <div className="option-container">
-            <div>
               {/* Displaying a descriptive label based on the value could improve UX */}
               {answers.question3 <= 0.0
                 ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
@@ -145,7 +132,6 @@ function KayaQuizForm({ facilitatorId }) {
                 : answers.question3 >= 0.025
                 ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
                 : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
-            </div>
             <input
               type="range"
               className="slider" // Use this class for any needed CSS styling

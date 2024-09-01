@@ -2,7 +2,6 @@
 body {
   margin: 0; /* Remove any default margin */
   padding: 0; /* Remove any default padding */
-  /* No flexbox on body to avoid modal issues */
 }
 
 img {
@@ -12,7 +11,7 @@ img {
 
 /* Limit width for specific content containers */
 .content-container {
-  max-width: 800px; /* Maximum width of content */
+  max-width: 1000px; /* Maximum width of content */
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Improved shadow visibility */
   padding: 20px;
@@ -25,14 +24,16 @@ img {
   text-align: center;
 }
 
+/* Updated button styling */
 .submit-button {
-  width: 100%;
+  width: 60%; /* Occupy only 60% of the available width */
   padding: 10px;
-  margin-top: 20px;
+  margin: 30px auto; /* Add vertical margin and center horizontally */
   border-radius: 20px; /* Rounded edges */
   cursor: pointer;
   font-size: 22px;
   transition: background-color 0.3s ease; /* Smooth hover effect */
+  display: block; /* Ensure the button behaves as a block-level element */
 }
 
 /* Modal Specific Styles */
@@ -63,16 +64,16 @@ img {
   object-fit: contain;
 }
 
-
 /* General slider track styling */
 input[type="range"] {
-  width: 100%; /* Full-width */
+  width: 60%; /* Occupy only 60% of the available width */
   height: 12px; /* Increased height */
   background: #ddd; /* Grey background */
   border-radius: 5px; /* Rounded corners */
   outline: none; /* Remove outline */
   opacity: 0.9; /* Slight transparency */
   transition: opacity 0.2s; /* Smooth transition */
+  margin: 15px 0; /* Space above and below the slider */
 }
 
 input[type="range"]:hover {
