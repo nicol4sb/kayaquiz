@@ -11,7 +11,7 @@ function Question3() {
       <h3>
         <Trans i18nKey="Q3Title" />
       </h3>
-        <Trans i18nKey="Q3_1" />
+      <Trans i18nKey="Q3_1" />
 
       <img
         src={growth_old}

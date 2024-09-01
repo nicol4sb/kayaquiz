@@ -10,11 +10,6 @@ img {
   height: auto;
 }
 
-div {
-  padding-top: 20px; /* Adds padding inside the div, at the top */
-}
-
-
 /* Limit width for specific content containers */
 .content-container {
   max-width: 800px; /* Maximum width of content */

@@ -11,7 +11,7 @@ function KayaQuizForm({ facilitatorId }) {
   const { t } = useTranslation();
   
   //------------------------------------------------------
-  // Initialize questions state from local storage
+  // intialize questions state from local storage
   const storedAnswersString = localStorage.getItem("answers");
   const storedAnswers = storedAnswersString
     ? JSON.parse(storedAnswersString)
@@ -87,66 +87,81 @@ function KayaQuizForm({ facilitatorId }) {
       <IntroParagraph />
       <form onSubmit={handleSubmit}>
         <div className="option-container">
-          <Question1 />
-          <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />
-          <input
-            type="range"
-            value={answers.question1}
-            min="6"
-            max="12"
-            step="0.1"
-            onChange={(e) =>
-              handleAnswerChange("question1", parseFloat(e.target.value))
-            }
-          />
+            <Question1 />
+          <div>
+            <div>
+              <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}
+            </div>
+            <input
+              type="range"
+              value={answers.question1}
+              min="6"
+              max="12"
+              step="0.1"
+              onChange={(e) =>
+                handleAnswerChange("question1", parseFloat(e.target.value))
+              }
+            />
+          </div>
         </div>
 
         <div className="option-container">
-          <Question2 />
-          <Trans i18nKey="Q2Slider" /> {answers.question2} USD
-          <input
-            type="range"
-            className="slider"
-            min="8000"
-            max="30000"
-            step="100"
-            value={answers.question2}
-            onChange={(e) =>
-              handleAnswerChange("question2", parseFloat(e.target.value))
-            }
-          />
+          <p>
+            <Question2 />
+          </p>
+          <div>
+            <div>
+              <Trans i18nKey="Q2Slider" /> {answers.question2} USD
+            </div>
+            <input
+              type="range"
+              className="slider" // You can define this class in your CSS for styling
+              min="8000"
+              max="30000"
+              step="100" // Adjust step as needed for granularity
+              value={answers.question2}
+              onChange={(e) =>
+                handleAnswerChange("question2", parseFloat(e.target.value))
+              }
+            />
+          </div>
         </div>
 
-        <div className="option-container">
-          <Question3 />
-          {/* Displaying a descriptive label based on the value could improve UX */}
-          {answers.question3 <= 0.0
-            ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
-            : answers.question3 > 0 && answers.question3 <= 0.005
-            ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider2")
-            : answers.question3 > 0.005 && answers.question3 <= 0.015
-            ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
-            : answers.question3 > 0.015 && answers.question3 <= 0.025
-            ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
-            : answers.question3 >= 0.025
-            ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
-            : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
-          <input
-            type="range"
-            className="slider"
-            min="-0.02"
-            max="0.04"
-            step="0.001"
-            value={answers.question3}
-            onChange={(e) =>
-              handleAnswerChange("question3", parseFloat(e.target.value))
-            }
-          />
+        <div>
+          <p>
+            <Question3 />
+          </p>
+          <div className="option-container">
+            <div>
+              {/* Displaying a descriptive label based on the value could improve UX */}
+              {answers.question3 <= 0.0
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
+                : answers.question3 > 0 && answers.question3 <= 0.005
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider2")
+                : answers.question3 > 0.005 && answers.question3 <= 0.015
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
+                : answers.question3 > 0.015 && answers.question3 <= 0.025
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
+                : answers.question3 >= 0.025
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
+                : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
+            </div>
+            <input
+              type="range"
+              className="slider" // Use this class for any needed CSS styling
+              min="-0.02"
+              max="0.04"
+              step="0.001"
+              value={answers.question3}
+              onChange={(e) =>
+                handleAnswerChange("question3", parseFloat(e.target.value))
+              }
+            />
+          </div>
+          <button className="submit-button" type="submit">
+            Go !
+          </button>
         </div>
-
-        <button className="submit-button" type="submit">
-          Go !
-        </button>
       </form>
     </div>
   );

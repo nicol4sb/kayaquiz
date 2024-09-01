@@ -12,7 +12,7 @@ function Question1() {
       <h3>
         <Trans i18nKey="Q1Title" />
       </h3>
-      <Trans i18nKey="Q1" />{" "}
+      <Trans i18nKey="Q1" />
       <img
         src={projections}
         alt="CO2"
