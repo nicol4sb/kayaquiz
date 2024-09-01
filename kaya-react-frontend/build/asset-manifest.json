@@ -1,30 +1,30 @@
 {
   "files": {
     "main.css": "/static/css/main.a2009f56.css",
-    "main.js": "/static/js/main.1668cc0e.js",
+    "main.js": "/static/js/main.d37920a5.js",
     "static/js/453.6e2a9ddd.chunk.js": "/static/js/453.6e2a9ddd.chunk.js",
-    "static/media/co2-gdp-growth-old.png": "/static/media/co2-gdp-growth-old.e716f7c8dfbb584adb95.png",
+    "static/media/co2-gdp-growth-old.png": "/static/media/co2-gdp-growth-old.9a8efbff50df9ca16ce9.png",
+    "static/media/PROJECTIONS-95-hi-lo-rec_0.png": "/static/media/PROJECTIONS-95-hi-lo-rec_0.63c01009485d20d285f0.png",
+    "static/media/co2-gdp-growth.png": "/static/media/co2-gdp-growth.b12d6247b91ec74c1788.png",
     "static/media/Ssp370-1.png": "/static/media/Ssp370-1.003fbdc06e27cbeebf46.png",
     "static/media/Ssp245-1.png": "/static/media/Ssp245-1.fae634ed589c2d351e11.png",
     "static/media/Ssp126-1.png": "/static/media/Ssp126-1.23de53e5528e53f666c5.png",
-    "static/media/PROJECTIONS-95-hi-lo-rec_0.png": "/static/media/PROJECTIONS-95-hi-lo-rec_0.5aed1690b975e1c802dc.png",
     "static/media/Ssp119-1.png": "/static/media/Ssp119-1.966e87930d9bff8a6059.png",
     "static/media/Ssp580-1.png": "/static/media/Ssp580-1.f56e9c5938f89c11e6f7.png",
+    "static/media/GDPperPerson.png": "/static/media/GDPperPerson.5850959f8f633435a80b.png",
     "static/media/Ssp370.png": "/static/media/Ssp370.5e5bd09d8d6f74d7465e.png",
     "static/media/Ssp119.png": "/static/media/Ssp119.7deace8bb20f8ed2eaf9.png",
     "static/media/Ssp245.png": "/static/media/Ssp245.0ab44993ee11aab4bcfb.png",
     "static/media/Ssp126.png": "/static/media/Ssp126.dda2bb9b8e0723685bf9.png",
     "static/media/Ssp580.png": "/static/media/Ssp580.dcf3c4197b0645300e05.png",
-    "static/media/co2-gdp-growth.png": "/static/media/co2-gdp-growth.8351eba8016b676a6a75.png",
-    "static/media/GDPperPerson.png": "/static/media/GDPperPerson.222d786b2d374ea4c5a6.png",
     "index.html": "/index.html",
     "static/media/getFetch.cjs": "/static/media/getFetch.c4cca45e22bc1b2c7d0d.cjs",
     "main.a2009f56.css.map": "/static/css/main.a2009f56.css.map",
-    "main.1668cc0e.js.map": "/static/js/main.1668cc0e.js.map",
+    "main.d37920a5.js.map": "/static/js/main.d37920a5.js.map",
     "453.6e2a9ddd.chunk.js.map": "/static/js/453.6e2a9ddd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a2009f56.css",
-    "static/js/main.1668cc0e.js"
+    "static/js/main.d37920a5.js"
   ]
 }
