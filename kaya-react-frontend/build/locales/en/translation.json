@@ -39,5 +39,6 @@
   "conclusion": "Most people agree that climate change is an issue that urgently needs to  be adressed. <br/>The aim of the KayaQuiz is to start quantifying the  trade-offs that we collectively need to implement to avoid the worst  outcomes.",
   "keepPlayingButton": "Keep playing !",
   "moreLinks": "Learn more about the <1>Kaya Identity</1>? <br/>Read more in the <3>IPCC summary</3><br/> Participate to a <5>Climate Fresk</5> (to learn about the science in a fun way).",
-  "submitButton" : "Go !"
+  "submitButton" : "Go !",
+  "Stats" : "Stats"
 }

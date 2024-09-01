@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.406214a1.css",
+    "main.css": "/static/css/main.112e96d6.css",
     "main.js": "/static/js/main.26277ba1.js",
     "static/js/453.6e2a9ddd.chunk.js": "/static/js/453.6e2a9ddd.chunk.js",
     "static/media/co2-gdp-growth-old.png": "/static/media/co2-gdp-growth-old.9a8efbff50df9ca16ce9.png",
@@ -19,12 +19,12 @@
     "static/media/SSP585.png": "/static/media/SSP585.dcf3c4197b0645300e05.png",
     "index.html": "/index.html",
     "static/media/getFetch.cjs": "/static/media/getFetch.c4cca45e22bc1b2c7d0d.cjs",
-    "main.406214a1.css.map": "/static/css/main.406214a1.css.map",
+    "main.112e96d6.css.map": "/static/css/main.112e96d6.css.map",
     "main.26277ba1.js.map": "/static/js/main.26277ba1.js.map",
     "453.6e2a9ddd.chunk.js.map": "/static/js/453.6e2a9ddd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.406214a1.css",
+    "static/css/main.112e96d6.css",
     "static/js/main.26277ba1.js"
   ]
 }
