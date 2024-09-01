@@ -8,14 +8,6 @@ const importAll = (r) => {
 };
 importAll(require.context('../../assets', false, /SSP.*\.(png|jpe?g|svg)$/));
 
-const sspMap = {
-  "+1.5°C (SSP 1-1.9)": "SSP119",
-  "+2°C (SSP 1-2.6)": "SSP126",
-  "+3°C (SSP 2-4.5)": "SSP245",
-  "+4°C (SSP 3-7.0)": "SSP370",
-  "+5°C (SSP 5-8.5)": "SSP585",
-};
-
 const generateSspMapping = () => {
   const sspMapping = {};
 
@@ -26,16 +18,8 @@ const generateSspMapping = () => {
     if (match) {
       const sspKey = match[1];
 
-      // Find the corresponding calculatedSSP key
-      const calculatedSSP = Object.keys(sspMap).find(key => sspMap[key] === sspKey);
-
-      if (!calculatedSSP) {
-        console.warn(`No matching calculatedSSP found for sspKey: ${sspKey}`);
-        return;
-      }
-
-      if (!sspMapping[calculatedSSP]) {
-        sspMapping[calculatedSSP] = {
+      if (!sspMapping[sspKey]) {
+        sspMapping[sspKey] = {
           component: `Results${sspKey}`,
           data: {
             images: [],
@@ -45,7 +29,7 @@ const generateSspMapping = () => {
       }
 
       const imageKey = filename.includes("-1") ? "temperatures" : "main";
-      sspMapping[calculatedSSP].data.images.push({
+      sspMapping[sspKey].data.images.push({
         src: images[filename],
         alt: `${sspKey}, ${imageKey}`,
       });
