@@ -24,16 +24,22 @@ img {
   text-align: center;
 }
 
-/* Updated button styling */
+/* Button Styling */
 .submit-button {
   width: 60%; /* Occupy only 60% of the available width */
   padding: 10px;
-  margin: 30px auto; /* Add vertical margin and center horizontally */
+  margin: 20px auto; /* Centered with vertical margin */
   border-radius: 20px; /* Rounded edges */
   cursor: pointer;
   font-size: 22px;
+  background-color: #bbb; /* Grey background color to align with slider thumb */
+  color: #fff; /* White text color for contrast */
+  border: none; /* Remove default border */
   transition: background-color 0.3s ease; /* Smooth hover effect */
   display: block; /* Ensure the button behaves as a block-level element */
+  text-align: center; /* Center text inside button */
+  -webkit-appearance: none; /* Remove default button styling on Safari */
+  appearance: none; /* Remove default button styling on modern browsers */
 }
 
 /* Modal Specific Styles */
@@ -62,6 +68,28 @@ img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+
+.submit-button:hover {
+  background-color: #999; /* Darker grey on hover */
+}
+
+.submit-button:active,
+.submit-button:focus {
+  background-color: #777; /* Even darker grey when pressed */
+  outline: none; /* Remove default focus outline */
+  box-shadow: none; /* Remove any default shadow on focus */
+}
+
+/* Remove Safari's blue highlight */
+.submit-button::-moz-focus-inner {
+  border: 0; /* Remove inner border in Firefox */
+  padding: 0;
+}
+
+.submit-button:focus {
+  outline: none; /* Remove default focus outline */
 }
 
 /* General slider track styling */
