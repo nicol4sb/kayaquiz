@@ -1,5 +1,5 @@
 import "./Question.css";
-import { Trans } from 'react-i18next';
+import { Trans } from "react-i18next";
 import GDP from "../../assets/GDPperPerson.png";
 import { useModal } from "../ModalContext/ModalContext"; // Import the useModal hook
 
@@ -7,8 +7,11 @@ function Question2() {
   const { openModal } = useModal(); // Use the modal context
   return (
     <div className="question">
-      <Trans i18nKey="Q2Title" />
+      <h3>
+        <Trans i18nKey="Q2Title" />
+      </h3>
       <Trans i18nKey="Q2" />
+
       <img
         src={GDP}
         alt="GDP per person"
