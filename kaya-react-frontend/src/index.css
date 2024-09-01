@@ -62,3 +62,53 @@ img {
   max-height: 100%;
   object-fit: contain;
 }
+
+
+/* General slider track styling */
+input[type="range"] {
+  width: 100%; /* Full-width */
+  height: 12px; /* Increased height */
+  background: #ddd; /* Grey background */
+  border-radius: 5px; /* Rounded corners */
+  outline: none; /* Remove outline */
+  opacity: 0.9; /* Slight transparency */
+  transition: opacity 0.2s; /* Smooth transition */
+}
+
+input[type="range"]:hover {
+  opacity: 1; /* Fully opaque on hover */
+}
+
+/* Styling the slider thumb */
+input[type="range"]::-thumb {
+  width: 28px; /* Larger thumb width */
+  height: 28px; /* Larger thumb height */
+  border-radius: 50%; /* Fully rounded */
+  cursor: pointer; /* Pointer cursor */
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+/* Common styles for all browsers using ::-webkit-slider-thumb, ::-moz-range-thumb, and ::-ms-thumb equivalents */
+input[type="range"]::-webkit-slider-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-ms-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}

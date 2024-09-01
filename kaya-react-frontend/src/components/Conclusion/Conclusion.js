@@ -4,8 +4,9 @@ import "./Conclusion.css";
 import { useTranslation, Trans } from "react-i18next";
 
 const Conclusion = () => {
+  const { t } = useTranslation(); // Use the t function for translation
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false); // State to track form submission
+  const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -14,20 +15,19 @@ const Conclusion = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Goodbye, " + email + "!");
-    setSubmitted(true); // Set submitted state to true after form submission
+    console.log(`${t("goodbyeMessage")}, ${email}!`); // Translated goodbye message
+    setSubmitted(true);
 
-    // push the email to the backend
     try {
       await fetch("/api/submitEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: '{"email":"' + email + '"}',
+        body: JSON.stringify({ email }), // Use JSON.stringify to create the body
       });
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error(t("submitError"), error); // Translated error message
     }
   };
 
@@ -35,26 +35,22 @@ const Conclusion = () => {
     navigate("/");
   };
 
-  // Render thank you message if form is submitted
   if (submitted) {
     return (
-      <div>
-        <p className="title">Thank you for playing along !</p>
-        <p>
-          We're eager to hear your feedback - be in touch on our Instagram !
-        </p>
+      <div className="content-container">
+        <p className="title">{t("thankYouMessage")}</p>
+        <p>{t("feedbackPrompt")}</p>
         <div>
           <button className="submit-button" type="button" onClick={handleClick}>
-            Take me back
+            {t("keepPlayingButton")}
           </button>
         </div>
       </div>
     );
   }
 
-  // Render email form if form is not submitted
   return (
-    <div className="email-input">
+    <div className="content-container">
       <p className="title">
         <Trans i18nKey="conclusionTitle" />
       </p>
@@ -70,7 +66,6 @@ const Conclusion = () => {
         <br />
         <br />
         <br />
-
         <Trans i18nKey="moreLinks">
           Learn more about the
           <a
@@ -100,7 +95,7 @@ const Conclusion = () => {
         </Trans>
 
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email"></label>
+          <label htmlFor="email">{t("emailLabel")}</label>
           <input
             type="email"
             id="email"
@@ -108,10 +103,10 @@ const Conclusion = () => {
             onChange={handleChange}
             required
             className="email-input"
-            placeholder="Email !"
+            placeholder={"email"} // Translated placeholder
           />
           <button type="submit" className="submit-button">
-            Go !
+            {t("submitButton")}
           </button>
         </form>
       </div>

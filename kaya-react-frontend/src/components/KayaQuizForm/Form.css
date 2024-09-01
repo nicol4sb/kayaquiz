@@ -1,9 +1,10 @@
-
 .option-container {
   display: flex;
   flex-direction: column; /* Stacks children vertically */
   align-items: center; /* Center children horizontally */
   justify-content: center; /* Adjust this if you need vertical centering as well */
+  padding: 20px; /* Add padding to create space around the content */
+  gap: 15px; /* Adds space between children elements */
 }
 
 .option-container label {
@@ -13,6 +14,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   transition: background-color 1s ease;
+  margin-bottom: 10px; /* Adds space below the label */
 }
 
 .option-container label:hover {
@@ -25,12 +27,14 @@
   border-color: #999; /* Change border color on selection */
 }
 
-input {
-  width: 90%; /* Default width */
+/* Add spacing between the text and the input slider */
+.option-container input[type="range"] {
+  margin-top: 15px; /* Space above the slider */
+  margin-bottom: 15px; /* Space below the slider */
 }
 
 @media (max-width: 600px) {
-input {
+  input {
     width: 90%; /* Slightly smaller on smaller screens */
   }
 }
