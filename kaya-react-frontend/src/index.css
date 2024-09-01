@@ -1,7 +1,8 @@
+/* Global Styles */
 body {
-  display: flex;
-  justify-content: center; /* Center content horizontally */
-  align-items: center; /* Center content vertically */
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+  /* No flexbox on body to avoid modal issues */
 }
 
 img {
@@ -9,17 +10,19 @@ img {
   height: auto;
 }
 
-div {
+/* Limit width for specific content containers */
+.content-container {
   max-width: 800px; /* Maximum width of content */
   border-radius: 10px;
-  box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Improved shadow visibility */
   padding: 10px;
+  margin: 0 auto; /* Center within parent container */
 }
 
-.title{
-    font-size: 2rem; /* Adjust the font size as desired */
-    font-weight: bold;
-    text-align: center;
+.title {
+  font-size: 2rem; /* Adjust the font size as desired */
+  font-weight: bold;
+  text-align: center;
 }
 
 .submit-button {
@@ -32,3 +35,30 @@ div {
   transition: background-color 0.3s ease; /* Smooth hover effect */
 }
 
+/* Modal Specific Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  max-width: 90%; /* Allow modal to scale */
+  max-height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

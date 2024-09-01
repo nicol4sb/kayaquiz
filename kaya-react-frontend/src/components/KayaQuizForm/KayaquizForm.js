@@ -83,13 +83,11 @@ function KayaQuizForm({ facilitatorId }) {
 };
 
   return (
-    <div>
+    <div className="content-container">
       <IntroParagraph />
       <form onSubmit={handleSubmit}>
         <div className="option-container">
-          <p>
             <Question1 />
-          </p>
           <div>
             <p>
               <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}

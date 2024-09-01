@@ -20,7 +20,7 @@ const Results = () => {
   };
 
   return (
-    <div className="results">
+    <div className="content-container">
       <h2>Results</h2>
       <IntroResults />
       <DynamicResults openModal={openModal} calculatedSSP={calculatedSSP} />

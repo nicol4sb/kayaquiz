@@ -4,9 +4,9 @@ import { Trans } from "react-i18next";
 // Dynamically import all images starting with "SSP"
 const images = {};
 const importAll = (r) => {
-  r.keys().forEach((key) => (images[key.replace('./', '')] = r(key)));
+  r.keys().forEach((key) => (images[key.replace("./", "")] = r(key)));
 };
-importAll(require.context('../../assets', false, /SSP.*\.(png|jpe?g|svg)$/));
+importAll(require.context("../../assets", false, /SSP.*\.(png|jpe?g|svg)$/));
 
 const generateSspMapping = () => {
   const sspMapping = {};
@@ -36,15 +36,12 @@ const generateSspMapping = () => {
     }
   });
 
-  console.log("Generated sspMapping:", sspMapping);
   return sspMapping;
 };
 
 const sspMapping = generateSspMapping();
 
 const DynamicResults = ({ openModal, calculatedSSP }) => {
-  console.log("calculatedSSP --- :", calculatedSSP);
-
   const sspData = sspMapping[calculatedSSP]?.data;
 
   if (!sspData) {
