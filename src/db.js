@@ -24,10 +24,10 @@ db.serialize(() => {
 });
 
 // Function to store REST call result
-function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id) {
+function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id, session_id) {
   db.run(
-    `INSERT INTO QUIZ_ANSWERS (ip, result, SSP, browser_lang, facilitator_id) VALUES (?, ?, ?,?,?)`,
-    [ip, result, ssp, browser_lang, facilitator_id],
+    `INSERT INTO QUIZ_ANSWERS (ip, result, SSP, browser_lang, facilitator_id, session_id) VALUES (?, ?, ?,?,?,?)`,
+    [ip, result, ssp, browser_lang, facilitator_id, session_id],
     function (err) {
       if (err) {
         console.error("Error storing quiz result:", err);
@@ -42,7 +42,9 @@ function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id) {
             " --- browser lang " +
             browser_lang +
             " --- facilitator : " +
-            facilitator_id
+            facilitator_id+
+            " --- session Id : " +
+            session_id
         );
       }
     }

@@ -7,11 +7,11 @@ import IntroParagraph from "../IntroParagraph/IntroParagraph";
 import { useNavigate } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 
-function KayaQuizForm({ facilitatorId }) {
+function KayaQuizForm({ facilitatorId, sessionId }) {
   const { t } = useTranslation();
   
   //------------------------------------------------------
-  // intialize questions state from local storage
+  // Initialize questions state from local storage
   const storedAnswersString = localStorage.getItem("answers");
   const storedAnswers = storedAnswersString
     ? JSON.parse(storedAnswersString)
@@ -24,12 +24,17 @@ function KayaQuizForm({ facilitatorId }) {
   });
   //------------------------------------------------------
 
+  useEffect(() => {
+    console.log("Facilitator ID:", facilitatorId);
+    console.log("Session ID:", sessionId);
+  }, [facilitatorId, sessionId]);
+
   const handleAnswerChange = (question, value) => {
     setAnswers({ ...answers, [question]: value });
     console.log("Form changed :: " + question + " " + value);
   };
 
-  // Update localStorage when answers is changed
+  // Update localStorage when answers are changed
   useEffect(() => {
     localStorage.setItem("answers", JSON.stringify(answers));
   }, [answers]);
@@ -51,7 +56,8 @@ function KayaQuizForm({ facilitatorId }) {
     const submissionData = {
         ...answers,
         language, // Add the language to the submission data
-        facilitator_id: facilitatorId // Add the facilitator_id to the submission data
+        facilitator_id: facilitatorId, // Add the facilitator_id to the submission data
+        session_id: sessionId, // Add the session_id to the submission data
     };
 
     try {
@@ -59,7 +65,8 @@ function KayaQuizForm({ facilitatorId }) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Facilitator-Id": facilitatorId // Pass facilitatorId as a custom header
+                "Facilitator-Id": facilitatorId, // Pass facilitatorId as a custom header
+                "Session-Id": sessionId, // Pass sessionId as a custom header 
             },
             body: JSON.stringify(submissionData),
         });
@@ -87,51 +94,51 @@ function KayaQuizForm({ facilitatorId }) {
       <IntroParagraph />
       <form onSubmit={handleSubmit}>
         <div className="option-container">
-            <Question1 />
-              <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}
-            <input
-              type="range"
-              value={answers.question1}
-              min="6"
-              max="12"
-              step="0.1"
-              onChange={(e) =>
-                handleAnswerChange("question1", parseFloat(e.target.value))
-              }
-            />
+          <Question1 />
+          <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}
+          <input
+            type="range"
+            value={answers.question1}
+            min="6"
+            max="12"
+            step="0.1"
+            onChange={(e) =>
+              handleAnswerChange("question1", parseFloat(e.target.value))
+            }
+          />
         </div>
 
         <div className="option-container">
-            <Question2 />
-              <Trans i18nKey="Q2Slider" /> {answers.question2} USD
-            <input
-              type="range"
-              className="slider" // You can define this class in your CSS for styling
-              min="8000"
-              max="30000"
-              step="100" // Adjust step as needed for granularity
-              value={answers.question2}
-              onChange={(e) =>
-                handleAnswerChange("question2", parseFloat(e.target.value))
-              }
-            />
+          <Question2 />
+          <Trans i18nKey="Q2Slider" /> {answers.question2} USD
+          <input
+            type="range"
+            className="slider" // You can define this class in your CSS for styling
+            min="8000"
+            max="30000"
+            step="100" // Adjust step as needed for granularity
+            value={answers.question2}
+            onChange={(e) =>
+              handleAnswerChange("question2", parseFloat(e.target.value))
+            }
+          />
         </div>
 
         <div>
-            <Question3 />
+          <Question3 />
           <div className="option-container">
-              {/* Displaying a descriptive label based on the value could improve UX */}
-              {answers.question3 <= 0.0
-                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
-                : answers.question3 > 0 && answers.question3 <= 0.005
-                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider2")
-                : answers.question3 > 0.005 && answers.question3 <= 0.015
-                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
-                : answers.question3 > 0.015 && answers.question3 <= 0.025
-                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
-                : answers.question3 >= 0.025
-                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
-                : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
+            {/* Displaying a descriptive label based on the value could improve UX */}
+            {answers.question3 <= 0.0
+              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
+              : answers.question3 > 0 && answers.question3 <= 0.005
+              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider2")
+              : answers.question3 > 0.005 && answers.question3 <= 0.015
+              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
+              : answers.question3 > 0.015 && answers.question3 <= 0.025
+              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
+              : answers.question3 >= 0.025
+              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
+              : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
             <input
               type="range"
               className="slider" // Use this class for any needed CSS styling

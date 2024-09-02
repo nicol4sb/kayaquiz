@@ -15,12 +15,12 @@ import GroupResults from "./components/GroupResults/GroupResults";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
-import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR"; // Import du nouveau composant
-import { ModalProvider } from "./components/ModalContext/ModalContext"; // Adjust path as needed
+import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR";
+import { ModalProvider } from "./components/ModalContext/ModalContext"; 
 
 const KayaQuizWithFacilitator = () => {
-  const { id } = useParams();
-  return <KayaQuizForm facilitatorId={id} />;
+  const { facilitatorId, sessionId } = useParams();
+  return <KayaQuizForm facilitatorId={facilitatorId} sessionId={sessionId} />;
 };
 
 const App = () => {
@@ -38,9 +38,11 @@ const App = () => {
             <Route
               path="/facilitator/:facilitatorId"
               element={<FacilitatorQR />}
-            />{" "}
-            {/* Nouvelle route */}
-            <Route path="/:id" element={<KayaQuizWithFacilitator />} />
+            />
+            <Route
+              path="/:facilitatorId/:sessionId"
+              element={<KayaQuizWithFacilitator />}
+            />
           </Routes>
         </div>
         <div>

@@ -31,7 +31,8 @@ app.post("/api/submitForm", (req, res) => {
     JSON.stringify(req.body),
     sspRes[1],
     "en",
-    req.header('Facilitator-Id')
+    req.header('Facilitator-Id'),
+    req.header('Session-Id'),
   );
 
   res.json({
