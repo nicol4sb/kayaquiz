@@ -169,10 +169,29 @@ function fetchResultsBySession(sessionId, res) {
   );
 }
 
+function fetchLastSessions(facilitatorId, res) {
+  const query = `
+    SELECT session_Id, MAX(timestamp) as date 
+    FROM QUIZ_ANSWERS 
+    WHERE facilitator_Id = ? 
+    GROUP BY session_Id 
+    ORDER BY date DESC 
+    LIMIT 3;
+  `;
+
+  db.all(query, [facilitatorId], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
+}
+
 module.exports = {
   storeRestCallResult,
   fetchResultsGroupedBySSP,
   fetchResultsDetails,
   fetchTotalVisits,
-  fetchResultsBySession, // Export the new function
+  fetchResultsBySession,
+  fetchLastSessions,
 };

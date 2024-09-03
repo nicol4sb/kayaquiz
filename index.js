@@ -63,6 +63,18 @@ app.get('/api/total-visits', (req, res) => {
   db.fetchTotalVisits(res);
 });
 
+// Add this route to fetch the last three sessions for a facilitator
+app.get("/api/lastSessions", (req, res) => {
+  const facilitatorId = req.query.facilitatorId;
+
+  if (!facilitatorId) {
+    return res.status(400).json({ error: "Facilitator ID is required" });
+  }
+
+  db.fetchLastSessions(facilitatorId, res);
+});
+
+
 app.post("/api/submitEmail", (req, res) => {
   const email = req.body.email;
   console.log("Email ---- " + email);

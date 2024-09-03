@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import QRCode from "qrcode.react";
 import { useLocation, useParams } from "react-router-dom";
-import './FacilitatorQR.css';
+import "./FacilitatorQR.css";
 import kayaIdentityImage from "../../assets/kayaIdentity.png"; // Adjust the path as necessary
 import {
   BarChart,
@@ -27,12 +27,15 @@ const colorMapping = {
 function FacilitatorQR() {
   const { facilitatorId } = useParams();
   const location = useLocation();
-  const [facilitatorName, setFacilitatorName] = useState('Loading...');
-  const [qrUrl, setQrUrl] = useState(`${window.location.origin}/${facilitatorId}`);
+  const [facilitatorName, setFacilitatorName] = useState("Loading...");
+  const [qrUrl, setQrUrl] = useState(
+    `${window.location.origin}/${facilitatorId}`
+  );
   const [sessionCreated, setSessionCreated] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0); // Track the current slide
   const [data, setData] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false); // Track if data is loaded
+  const [lastSessions, setLastSessions] = useState([]); // Store the last three sessions
 
   const totalSlides = 3; // Total number of slides (QR code, chart, image)
 
@@ -42,12 +45,49 @@ function FacilitatorQR() {
     } else {
       fetch(`/api/facilitator/${facilitatorId}`)
         .then((response) => response.json())
-        .then((data) => setFacilitatorName(data.name || 'Unknown Facilitator'))
+        .then((data) => setFacilitatorName(data.name || "Unknown Facilitator"))
         .catch((error) => {
           console.error("Error fetching facilitator name:", error);
-          setFacilitatorName('Unknown Facilitator');
+          setFacilitatorName("Unknown Facilitator");
         });
     }
+
+    // Fetch last three sessions on component mount
+    fetch(`/api/lastSessions?facilitatorId=${facilitatorId}`)
+      .then((response) => response.json())
+      .then((sessions) => {
+        if (Array.isArray(sessions)) {
+          const localizedSessions = sessions.map((session) => {
+            const date = new Date(session.date);
+
+            // Corrected: Convert UTC time to local time
+            const localDate = new Date(
+              date.getTime() - date.getTimezoneOffset() * 60000
+            );
+
+            return {
+              ...session,
+              date: localDate.toLocaleString(undefined, {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false, // Optional: 24-hour format, remove for 12-hour with AM/PM
+              }),
+            };
+          });
+          setLastSessions(localizedSessions);
+        } else {
+          console.error("Expected an array but got:", sessions);
+          setLastSessions([]); // Handle case where response is not an array
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching last sessions:", error);
+        setLastSessions([]); // Handle error scenario
+      });
   }, [facilitatorId, location.state]);
 
   useEffect(() => {
@@ -72,10 +112,19 @@ function FacilitatorQR() {
     setQrUrl(newUrl);
     setSessionCreated(true);
     setCurrentSlide(0); // Reset to QR code slide
+
+    // Add new session to lastSessions list
+    const newSession = {
+      sessionId,
+      date: now.toLocaleString(),
+    };
+    setLastSessions((prevSessions) =>
+      [newSession, ...prevSessions].slice(0, 3)
+    ); // Keep only the last 3 sessions
   };
 
-  const handleFetchSessionResults = () => {
-    const sessionId = qrUrl.split('/').pop();
+  const handleFetchSessionResults = (sessionId) => {
+    console.log("Fetching results for sessionId:", sessionId); // Debug: Log sessionId
     setIsDataLoaded(false); // Set data loading state to false
     fetch(`/api/sessionResults?sessionId=${sessionId}`)
       .then((response) => response.json())
@@ -86,6 +135,7 @@ function FacilitatorQR() {
         }));
         setData(formattedData);
         setIsDataLoaded(true); // Data is loaded successfully
+        setCurrentSlide(1); // Move to the chart slide
       })
       .catch((error) => {
         console.error("Error fetching session results:", error);
@@ -94,9 +144,6 @@ function FacilitatorQR() {
   };
 
   const handleNext = () => {
-    if (currentSlide === 0 && sessionCreated) {
-      handleFetchSessionResults(); // Fetch session results before showing chart
-    }
     if (currentSlide < totalSlides - 1) {
       setCurrentSlide(currentSlide + 1);
     }
@@ -119,7 +166,11 @@ function FacilitatorQR() {
             <>
               <p>Scan this QR code to visit the facilitator's page.</p>
               <p>
-                Or click <a href={qrUrl} target="_blank" rel="noopener noreferrer">here</a> to visit the page.
+                Or click{" "}
+                <a href={qrUrl} target="_blank" rel="noopener noreferrer">
+                  here
+                </a>{" "}
+                to visit the page.
               </p>
             </>
           )}
@@ -131,10 +182,31 @@ function FacilitatorQR() {
           )}
 
           {sessionCreated && (
-            <button onClick={handleNext} className="close-session-button">
+            <button
+              onClick={() => handleFetchSessionResults(qrUrl.split("/").pop())}
+              className="close-session-button"
+            >
               Show results
             </button>
           )}
+
+          <div className="session-list">
+            <h3>Last Sessions</h3>
+            <ul>
+              {lastSessions.map((session) => (
+                <li key={session.session_id}>
+                  <span>{session.date}</span>{" "}
+                  <button
+                    onClick={() =>
+                      handleFetchSessionResults(session.session_id)
+                    }
+                  >
+                    View Results
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
@@ -171,7 +243,11 @@ function FacilitatorQR() {
                   dataKey="participants"
                   position="top"
                   formatter={(value) =>
-                    `${((value / data.reduce((acc, cur) => acc + cur.participants, 0)) * 100).toFixed(2)}%`
+                    `${(
+                      (value /
+                        data.reduce((acc, cur) => acc + cur.participants, 0)) *
+                      100
+                    ).toFixed(2)}%`
                   }
                 />
               </Bar>
@@ -182,13 +258,20 @@ function FacilitatorQR() {
 
       {currentSlide === 2 && (
         <div className="slide">
-          <img src={kayaIdentityImage} alt="Kaya Identity Equation" className="equation-image" />
+          <img
+            src={kayaIdentityImage}
+            alt="Kaya Identity Equation"
+            className="equation-image"
+          />
         </div>
       )}
 
       <div className="navigation">
         {currentSlide > 0 && (
-          <button className="carousel-arrow left-arrow" onClick={handlePrevious}>
+          <button
+            className="carousel-arrow left-arrow"
+            onClick={handlePrevious}
+          >
             ←
           </button>
         )}
