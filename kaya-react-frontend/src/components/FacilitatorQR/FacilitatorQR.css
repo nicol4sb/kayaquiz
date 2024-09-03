@@ -1,15 +1,61 @@
 .qr-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .qr-container h1 {
-    margin-bottom: 20px;
-  }
-  
-  .qr-container p {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    color: #666;
-  }
-  
+  text-align: center;
+  padding: 20px;
+}
+
+.qr-container h1 {
+  margin-bottom: 20px;
+}
+
+.qr-container p {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.qr-slide, .chart-container, .equation-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-slide h1, .qr-slide p {
+  margin: 10px 0;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 48px;
+  color: #333;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
+
+.carousel-arrow:hover {
+  color: #000;
+  background: rgba(255, 255, 255, 0.9);
+}
