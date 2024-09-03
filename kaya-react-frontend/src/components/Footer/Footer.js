@@ -16,7 +16,7 @@ const Footer = () => {
       © {new Date().getFullYear()} kayaquiz.com. {t("All_rights_reserved")}
       <br />
       <Link to="/stats" style={{ color: "blue", textDecoration: "underline" }}>
-        {t("Stats")}
+        {t("FacilitatorSpace")}
       </Link>
     </footer>
   );
