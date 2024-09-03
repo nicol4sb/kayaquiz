@@ -159,7 +159,7 @@ function FacilitatorQR() {
     <div className="qr-container">
       {currentSlide === 0 && (
         <div className="slide">
-          <h1>QR Code for Facilitator: {facilitatorName}</h1>
+          <h1>{facilitatorName}'s space</h1>
 
           {qrUrl && <QRCode value={qrUrl} size={384} />}
           {qrUrl && (
@@ -192,9 +192,9 @@ function FacilitatorQR() {
 
           <div className="session-list">
             <h3>Last Sessions</h3>
-            <ul>
+            <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
               {lastSessions.map((session) => (
-                <li key={session.session_id}>
+                <li key={session.session_id} style={{ marginBottom: "10px" }}>
                   <span>{session.date}</span>{" "}
                   <button
                     onClick={() =>
