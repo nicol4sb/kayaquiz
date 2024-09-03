@@ -49,6 +49,16 @@ app.get("/api/resultsDetails", (req, res) => {
   db.fetchResultsDetails(res);
 });
 
+app.get("/api/sessionResults", (req, res) => {
+  const sessionId = req.query.sessionId;
+
+  if (!sessionId) {
+    return res.status(400).json({ error: "Session ID is required" });
+  }
+
+  db.fetchResultsBySession(sessionId, res);
+});
+
 app.get('/api/total-visits', (req, res) => {
   db.fetchTotalVisits(res);
 });

@@ -17,31 +17,27 @@ import {
 } from "recharts";
 
 const colorMapping = {
-  "SSP119": "#1ebcca",
-  "SSP126": "#053081",
-  "SSP245": "#f2b211",
-  "SSP370": "#ed4433",
-  "SSP585": "#900C3F",
+  SSP119: "#1ebcca",
+  SSP126: "#053081",
+  SSP245: "#f2b211",
+  SSP370: "#ed4433",
+  SSP585: "#900C3F",
 };
 
 function FacilitatorQR() {
   const { facilitatorId } = useParams();
   const location = useLocation();
-  const [facilitatorName, setFacilitatorName] = useState('Loading...'); // Set default to 'Loading...'
-
-  const initialUrl = `${window.location.origin}/${facilitatorId}`;
-  const [qrUrl, setQrUrl] = useState(initialUrl);
+  const [facilitatorName, setFacilitatorName] = useState('Loading...');
+  const [qrUrl, setQrUrl] = useState(`${window.location.origin}/${facilitatorId}`);
   const [sessionCreated, setSessionCreated] = useState(false);
   const [showCarousel, setShowCarousel] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [data, setData] = useState([{ name: "SSP5-8.5", participants: 1 }]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    // If facilitatorName is passed via location.state, use it. Otherwise, fetch it based on facilitatorId.
     if (location.state?.facilitatorName) {
       setFacilitatorName(location.state.facilitatorName);
     } else {
-      // Example fetch from API or lookup
       fetch(`/api/facilitator/${facilitatorId}`)
         .then((response) => response.json())
         .then((data) => setFacilitatorName(data.name || 'Unknown Facilitator'))
@@ -52,51 +48,43 @@ function FacilitatorQR() {
     }
   }, [facilitatorId, location.state]);
 
-  useEffect(() => {
-    fetch("/api/groupResults", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        const formattedData = response.map((item) => ({
-          name: item.text,
-          participants: item.value,
-        }));
-        setData(formattedData);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-  const totalParticipants = data.reduce(
-    (acc, cur) => acc + cur.participants,
-    0
-  );
-
   const generateSessionId = () => {
     const now = new Date();
     const sessionId = now.toISOString().replace(/[-:.TZ]/g, "");
     const newUrl = `${window.location.origin}/${facilitatorId}/${sessionId}`;
     setQrUrl(newUrl);
     setSessionCreated(true);
-    setShowCarousel(false); // Ensure chart is hidden until "Close Session" is clicked
+    setShowCarousel(false);
+    
+    // Fetch session results after creating a new session
+    fetch(`/api/sessionResults?sessionId=${sessionId}`)
+      .then((response) => response.json())
+      .then((response) => {
+        const formattedData = response.map((item) => ({
+          name: item.calculatedSSP,
+          participants: item.count, // Use item.count directly without fallback
+        }));
+        setData(formattedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching session results:", error);
+      });
   };
 
   const handleCloseSession = () => {
-    setShowCarousel(true); // Show the carousel when "Close Session" is clicked
+    setShowCarousel(true);
   };
 
   const handleNext = () => {
-    setCarouselIndex(1); // Move to the "Equation time!" slide
+    setCarouselIndex(1);
   };
 
   const handlePrevious = () => {
-    setCarouselIndex(0); // Move back to the results slide
+    setCarouselIndex(0);
   };
 
   const handleReturnToQR = () => {
-    setShowCarousel(false); // Hide the carousel and return to the QR code
+    setShowCarousel(false);
   };
 
   return (
@@ -160,7 +148,7 @@ function FacilitatorQR() {
                       dataKey="participants"
                       position="top"
                       formatter={(value) =>
-                        `${((value / totalParticipants) * 100).toFixed(2)}%`
+                        `${((value / data.reduce((acc, cur) => acc + cur.participants, 0)) * 100).toFixed(2)}%`
                       }
                     />
                   </Bar>
@@ -182,8 +170,6 @@ function FacilitatorQR() {
           )}
         </div>
       )}
-
-      {data.length === 0 && <p>Loading data or no data available...</p>}
     </div>
   );
 }

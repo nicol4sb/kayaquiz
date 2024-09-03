@@ -140,11 +140,33 @@ function fetchTotalVisits(res) {
   });
 }
 
-// Export functions
+
+// Function to fetch results by session ID
+function fetchResultsBySession(sessionId, res) {
+  console.log(" ----------- "+sessionId);
+  db.all(
+    "SELECT SSP, COUNT(*) as count FROM QUIZ_ANSWERS GROUP BY SSP",
+    (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      // Transform rows to the desired format
+      const formattedData = rows.map((row) => ({
+        text: row.SSP,
+        value: row.count,
+      }));
+
+      // Send the formatted data as JSON
+      res.json(formattedData);
+    }
+  );
+}
+
 module.exports = {
   storeRestCallResult,
-  storeEmail,
   fetchResultsGroupedBySSP,
   fetchResultsDetails,
   fetchTotalVisits,
+  fetchResultsBySession, // Export the new function
 };
