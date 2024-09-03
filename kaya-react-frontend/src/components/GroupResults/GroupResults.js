@@ -14,11 +14,11 @@ import {
 
 // Static mapping of column names to colors
 const colorMapping = {
-  "+1.5°C (SSP 1-1.9)": "#1ebcca",
-  "+2°C (SSP 1-2.6)": "#053081",
-  "+3°C (SSP 2-4.5)": "#f2b211",
-  "+4°C (SSP 3-7.0)": "#ed4433",
-  "+5°C (SSP 5-8.5)": "#900C3F",
+  "SSP119": "#1ebcca",
+  "SSP126": "#053081",
+  "SSP245": "#f2b211",
+  "SSP370": "#ed4433",
+  "SSP585": "#900C3F",
   // Add other column names and their colors as needed
 };
 

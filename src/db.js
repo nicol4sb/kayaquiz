@@ -24,7 +24,14 @@ db.serialize(() => {
 });
 
 // Function to store REST call result
-function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id, session_id) {
+function storeRestCallResult(
+  ip,
+  result,
+  ssp,
+  browser_lang,
+  facilitator_id,
+  session_id
+) {
   db.run(
     `INSERT INTO QUIZ_ANSWERS (ip, result, SSP, browser_lang, facilitator_id, session_id) VALUES (?, ?, ?,?,?,?)`,
     [ip, result, ssp, browser_lang, facilitator_id, session_id],
@@ -42,7 +49,7 @@ function storeRestCallResult(ip, result, ssp, browser_lang, facilitator_id, sess
             " --- browser lang " +
             browser_lang +
             " --- facilitator : " +
-            facilitator_id+
+            facilitator_id +
             " --- session Id : " +
             session_id
         );
@@ -140,12 +147,11 @@ function fetchTotalVisits(res) {
   });
 }
 
-
 // Function to fetch results by session ID
 function fetchResultsBySession(sessionId, res) {
-  console.log(" ----------- "+sessionId);
   db.all(
-    "SELECT SSP, COUNT(*) as count FROM QUIZ_ANSWERS GROUP BY SSP",
+    "SELECT SSP, COUNT(*) as count FROM QUIZ_ANSWERS WHERE session_id = (?) GROUP BY SSP",
+    sessionId,
     (err, rows) => {
       if (err) {
         res.status(500).json({ error: err.message });
