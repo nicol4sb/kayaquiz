@@ -157,9 +157,10 @@ function FacilitatorQR() {
 
   return (
     <div className="qr-container">
+      {/* Permanent Header */}
+      <h1>{facilitatorName}'s space</h1>
       {currentSlide === 0 && (
         <div className="slide">
-          <h1>{facilitatorName}'s space</h1>
 
           {qrUrl && <QRCode value={qrUrl} size={384} />}
           {qrUrl && (
