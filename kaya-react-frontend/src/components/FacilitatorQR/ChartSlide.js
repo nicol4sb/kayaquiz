@@ -19,7 +19,7 @@ function ChartSlide({ data }) {
       <ResponsiveContainer width="100%" height={500}>
         <BarChart
           data={data}
-          margin={{ top: 40, right: 60, left: 80, bottom: 40 }} 
+          margin={{ top: 40, right: 60, left: 120, bottom: 40 }}  
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
           <XAxis
@@ -29,11 +29,12 @@ function ChartSlide({ data }) {
             tickFormatter={(name) => sspLabelMapping[name] || name}  // Use the label mapping for XAxis
           />
           <YAxis
+            allowDecimals={false}  // Ensure the Y-axis only shows integer values
             label={{
               value: "Participants",
               angle: -90,
               position: "outsideLeft",
-              dx: -20,
+              dx: -60,  // Push the Y-axis label even farther
               fontSize: 24,
             }}
             tick={{ fontSize: 24 }} 
