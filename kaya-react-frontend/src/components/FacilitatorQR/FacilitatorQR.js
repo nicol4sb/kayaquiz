@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from "react";
-import QRCode from "qrcode.react";
+import QRCodeSlide from "./QRCodeSlide";
+import ChartSlide from "./ChartSlide";
+import IdentitySlide from "./IdentitySlide";
 import { useLocation, useParams } from "react-router-dom";
-import "./FacilitatorQR.css";
-import kayaIdentityImage from "../../assets/kayaIdentity.png"; // Adjust the path as necessary
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Cell,
-  LabelList,
-} from "recharts";
-
-const colorMapping = {
-  SSP119: "#1ebcca",
-  SSP126: "#053081",
-  SSP245: "#f2b211",
-  SSP370: "#ed4433",
-  SSP585: "#900C3F",
-};
+  fetchFacilitator,
+  fetchLastSessions,
+  fetchSessionResults,
+} from "../../utils/api";
+import "./FacilitatorQR.css";
 
 function FacilitatorQR() {
   const { facilitatorId } = useParams();
@@ -32,64 +18,59 @@ function FacilitatorQR() {
     `${window.location.origin}/${facilitatorId}`
   );
   const [sessionCreated, setSessionCreated] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0); // Track the current slide
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [data, setData] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false); // Track if data is loaded
-  const [lastSessions, setLastSessions] = useState([]); // Store the last three sessions
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [lastSessions, setLastSessions] = useState([]);
 
-  const totalSlides = 3; // Total number of slides (QR code, chart, image)
+  const totalSlides = 3;
 
+  // Fetch facilitator name
   useEffect(() => {
-    if (location.state?.facilitatorName) {
-      setFacilitatorName(location.state.facilitatorName);
-    } else {
-      fetch(`/api/facilitator/${facilitatorId}`)
-        .then((response) => response.json())
-        .then((data) => setFacilitatorName(data.name || "Unknown Facilitator"))
-        .catch((error) => {
-          console.error("Error fetching facilitator name:", error);
-          setFacilitatorName("Unknown Facilitator");
-        });
-    }
+    const loadFacilitator = async () => {
+      const name = await fetchFacilitator(facilitatorId, location);
+      setFacilitatorName(name);
+    };
 
-    // Fetch last three sessions on component mount
-    fetch(`/api/lastSessions?facilitatorId=${facilitatorId}`)
-      .then((response) => response.json())
-      .then((sessions) => {
-        if (Array.isArray(sessions)) {
-          const localizedSessions = sessions.map((session) => {
-            const date = new Date(session.date);
+    loadFacilitator();
+  }, [facilitatorId, location]);
 
-            // Corrected: Convert UTC time to local time
-            const localDate = new Date(
-              date.getTime() - date.getTimezoneOffset() * 60000
-            );
+  // Fetch last sessions
+  useEffect(() => {
+    const loadLastSessions = async () => {
+      const sessions = await fetchLastSessions(facilitatorId);
+      setLastSessions(sessions);
+    };
 
-            return {
-              ...session,
-              date: localDate.toLocaleString(undefined, {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: false, // Optional: 24-hour format, remove for 12-hour with AM/PM
-              }),
-            };
-          });
-          setLastSessions(localizedSessions);
-        } else {
-          console.error("Expected an array but got:", sessions);
-          setLastSessions([]); // Handle case where response is not an array
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching last sessions:", error);
-        setLastSessions([]); // Handle error scenario
-      });
-  }, [facilitatorId, location.state]);
+    loadLastSessions();
+  }, [facilitatorId]);
 
+  // Generate a session ID and update QR URL
+  const generateSessionId = () => {
+    const sessionId = new Date().toISOString().replace(/[-:.TZ]/g, "");
+    setQrUrl(`${window.location.origin}/${facilitatorId}/${sessionId}`);
+    setSessionCreated(true);
+    setCurrentSlide(0);
+  };
+
+  // Fetch session results
+  const handleFetchSessionResults = async (sessionId) => {
+    const resultData = await fetchSessionResults(sessionId);
+    setData(resultData);
+    setIsDataLoaded(true);
+    setCurrentSlide(1);
+  };
+
+  // Handle next and previous slide
+  const handleNext = () => {
+    if (currentSlide < totalSlides - 1) setCurrentSlide(currentSlide + 1);
+  };
+
+  const handlePrevious = () => {
+    if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
+  };
+
+  // Add keyboard shortcuts for left and right arrow keys
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "ArrowLeft" && currentSlide > 0) {
@@ -100,218 +81,40 @@ function FacilitatorQR() {
     };
 
     window.addEventListener("keydown", handleKeyDown);
+
+    // Clean up event listener on component unmount
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentSlide]);
-
-  const generateSessionId = () => {
-    const now = new Date();
-    const sessionId = now.toISOString().replace(/[-:.TZ]/g, "");
-    const newUrl = `${window.location.origin}/${facilitatorId}/${sessionId}`;
-    setQrUrl(newUrl);
-    setSessionCreated(true);
-    setCurrentSlide(0); // Reset to QR code slide
-
-    // Add new session to lastSessions list
-    const newSession = {
-      sessionId,
-      date: now.toLocaleString(),
-    };
-    setLastSessions((prevSessions) =>
-      [newSession, ...prevSessions].slice(0, 3)
-    ); // Keep only the last 3 sessions
-  };
-
-  const labelMapping = {
-    SSP119: "1.5°C",
-    SSP126: "2°C",
-    SSP245: "3°C",
-    SSP370: "4°C",
-    SSP585: "5°C",
-  };
-
-  const colorMapping = {
-    SSP119: "#4CAF50", // Green for 1.5°C
-    SSP126: "#2196F3", // Blue for 2°C
-    SSP245: "#FFC107", // Amber for 3°C
-    SSP370: "#FF5722", // Orange for 4°C
-    SSP585: "#F44336", // Red for 5°C
-  };
-
-  // Format the data to use the temperature labels
-  const handleFetchSessionResults = (sessionId) => {
-    console.log("Fetching results for sessionId:", sessionId); // Debug: Log sessionId
-    setIsDataLoaded(false); // Set data loading state to false
-    fetch(`/api/sessionResults?sessionId=${sessionId}`)
-      .then((response) => response.json())
-      .then((response) => {
-        const formattedData = response.map((item) => ({
-          name: labelMapping[item.text] || item.text, // Map the SSP to temperature
-          participants: item.value,
-        }));
-        setData(formattedData);
-        setIsDataLoaded(true); // Data is loaded successfully
-        setCurrentSlide(1); // Move to the chart slide
-      })
-      .catch((error) => {
-        console.error("Error fetching session results:", error);
-        setIsDataLoaded(false); // Set data loading state to false on error
-      });
-  };
-
-  const handleNext = () => {
-    if (currentSlide < totalSlides - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+  });
 
   return (
     <div className="qr-container">
-      {/* Permanent Header */}
       <h1>Kaya Quiz</h1>
       <h3>{facilitatorName}</h3>
+
       {currentSlide === 0 && (
-        <div className="slide">
-          {qrUrl && <QRCode value={qrUrl} size={384} />}
-          {qrUrl && (
-            <>
-              <p>Scan this QR code to visit the facilitator's page.</p>
-              <p>
-                Or click{" "}
-                <a href={qrUrl} target="_blank" rel="noopener noreferrer">
-                  here
-                </a>{" "}
-                to visit the page.
-              </p>
-            </>
-          )}
-
-          {!sessionCreated && (
-            <button onClick={generateSessionId} className="new-session-button">
-              New Session
-            </button>
-          )}
-
-          {sessionCreated && (
-            <button
-              onClick={() => handleFetchSessionResults(qrUrl.split("/").pop())}
-              className="close-session-button"
-            >
-              Show results
-            </button>
-          )}
-
-          <div className="session-list">
-            <h3>Last Sessions</h3>
-            <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
-              {lastSessions.map((session) => (
-                <li key={session.session_id} style={{ marginBottom: "10px" }}>
-                  <span>{session.date}</span>{" "}
-                  <button
-                    onClick={() =>
-                      handleFetchSessionResults(session.session_id)
-                    }
-                  >
-                    View Results
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <QRCodeSlide
+          qrUrl={qrUrl}
+          sessionCreated={sessionCreated}
+          generateSessionId={generateSessionId}
+          handleFetchSessionResults={handleFetchSessionResults}
+          lastSessions={lastSessions}
+        />
       )}
-      {currentSlide === 1 && isDataLoaded && (
-        <div className="slide">
-          <div className="chart-container">
-            {" "}
-            {/* Wrapper div for centering */}
-            <ResponsiveContainer width="80%" height={400}>
-              <BarChart
-                data={data}
-                margin={{
-                  top: 20,
-                  right: 20, // Reduced right margin
-                  left: 20,
-                  bottom: 20, // Increased bottom margin for better label spacing
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 12 }} // Adjusted font size
-                  padding={{ left: 10, right: 10 }} // Add padding between labels and chart edge
-                />
-                <YAxis
-                  label={{
-                    value: "Participants",
-                    angle: -90,
-                    position: "insideLeft",
-                    fontSize: 12, // Adjusted label font size
-                  }}
-                  tick={{ fontSize: 12 }} // Adjusted font size
-                />
-                <Tooltip contentStyle={{ fontSize: 12 }} />{" "}
-                {/* Adjusted tooltip font size */}
-                <Legend wrapperStyle={{ fontSize: 12 }} />{" "}
-                {/* Adjusted legend font size */}
-                <Bar
-                  dataKey="participants"
-                  isAnimationActive={false}
-                  barSize={40}
-                >
-                  {data.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={colorMapping[entry.name] || "#8884d8"} // Apply the custom color mapping
-                    />
-                  ))}
-                  <LabelList
-                    dataKey="participants"
-                    position="top"
-                    formatter={(value) =>
-                      `${(
-                        (value /
-                          data.reduce(
-                            (acc, cur) => acc + cur.participants,
-                            0
-                          )) *
-                        100
-                      ).toFixed(2)}%`
-                    }
-                  />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      )}{" "}
-      {currentSlide === 2 && (
-        <div className="slide">
-          <img
-            src={kayaIdentityImage}
-            alt="Kaya Identity Equation"
-            className="equation-image"
-          />
-        </div>
-      )}
+
+      {currentSlide === 1 && isDataLoaded && <ChartSlide data={data} />}
+
+      {currentSlide === 2 && <IdentitySlide />}
+
       <div className="navigation">
         {currentSlide > 0 && (
-          <button
-            className="carousel-arrow left-arrow"
-            onClick={handlePrevious}
-          >
+          <button className="prev-button" onClick={handlePrevious}>
             ←
           </button>
         )}
         {currentSlide < totalSlides - 1 && (
-          <button className="carousel-arrow right-arrow" onClick={handleNext}>
+          <button className="next-button" onClick={handleNext}>
             →
           </button>
         )}
