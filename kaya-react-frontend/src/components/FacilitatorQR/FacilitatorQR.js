@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import QRCodeSlide from "./QRCodeSlide";
 import ChartSlide from "./ChartSlide";
 import IdentitySlide from "./IdentitySlide";
+import KayaMaterialSlide from "./KayaMaterialSlide"; // Import the new slide
 import { useLocation, useParams } from "react-router-dom";
 import {
   fetchFacilitator,
@@ -23,9 +24,8 @@ function FacilitatorQR() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [lastSessions, setLastSessions] = useState([]);
 
-  const totalSlides = 3;
+  const totalSlides = 4; // Updated totalSlides to include the new slide
 
-  // Fetch facilitator name
   useEffect(() => {
     const loadFacilitator = async () => {
       const name = await fetchFacilitator(facilitatorId, location);
@@ -35,7 +35,6 @@ function FacilitatorQR() {
     loadFacilitator();
   }, [facilitatorId, location]);
 
-  // Fetch last sessions
   useEffect(() => {
     const loadLastSessions = async () => {
       const sessions = await fetchLastSessions(facilitatorId);
@@ -45,7 +44,24 @@ function FacilitatorQR() {
     loadLastSessions();
   }, [facilitatorId]);
 
-  // Generate a session ID and update QR URL
+  // Add keyboard event listeners
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowRight") {
+        handleNext();
+      } else if (event.key === "ArrowLeft") {
+        handlePrevious();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentSlide, totalSlides]); // Add the necessary dependencies
+
   const generateSessionId = () => {
     const sessionId = new Date().toISOString().replace(/[-:.TZ]/g, "");
     setQrUrl(`${window.location.origin}/${facilitatorId}/${sessionId}`);
@@ -53,7 +69,6 @@ function FacilitatorQR() {
     setCurrentSlide(0);
   };
 
-  // Fetch session results
   const handleFetchSessionResults = async (sessionId) => {
     const resultData = await fetchSessionResults(sessionId);
     setData(resultData);
@@ -61,7 +76,6 @@ function FacilitatorQR() {
     setCurrentSlide(1);
   };
 
-  // Handle next and previous slide
   const handleNext = () => {
     if (currentSlide < totalSlides - 1) setCurrentSlide(currentSlide + 1);
   };
@@ -70,28 +84,9 @@ function FacilitatorQR() {
     if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
   };
 
-  // Add keyboard shortcuts for left and right arrow keys
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "ArrowLeft" && currentSlide > 0) {
-        handlePrevious();
-      } else if (event.key === "ArrowRight" && currentSlide < totalSlides - 1) {
-        handleNext();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    // Clean up event listener on component unmount
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  });
-
   return (
     <div className="qr-container">
-      <h1>Kaya Quiz</h1>
-      <h3>{facilitatorName}</h3>
+      <h2>Kaya Quiz - {facilitatorName}</h2>
 
       {currentSlide === 0 && (
         <QRCodeSlide
@@ -106,6 +101,8 @@ function FacilitatorQR() {
       {currentSlide === 1 && isDataLoaded && <ChartSlide data={data} />}
 
       {currentSlide === 2 && <IdentitySlide />}
+
+      {currentSlide === 3 && <KayaMaterialSlide />} {/* New Slide Added */}
 
       <div className="navigation">
         {currentSlide > 0 && (

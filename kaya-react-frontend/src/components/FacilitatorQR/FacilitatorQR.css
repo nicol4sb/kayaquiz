@@ -4,45 +4,52 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding: 20px;
   text-align: center;
 }
 
+h2 {
+  font-size: 3rem;
+  margin-bottom: 40px;
+}
+
 .slide {
-  width: 80%;
-  max-width: 1000px;
+  width: 90%; /* Ensure the slide occupies enough width */
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+  position: relative; /* Position relative for absolute navigation arrows */
+  min-height: 400px; /* Ensure all slides have minimum height */
 }
 
 .navigation {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1000px;
-  margin-top: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .prev-button, .next-button {
-  position: absolute;
-  top: 50%; /* Vertically center the buttons */
-  transform: translateY(-50%);
-  background-color: transparent; /* Remove background */
-  color: #333; /* Dark color for the arrows */
+  font-size: 3rem;
+  padding: 10px 20px;
+  background-color: transparent;
   border: none;
-  padding: 0; /* Remove padding */
   cursor: pointer;
-  font-size: 48px; /* Larger font size for flatter arrows */
-  font-weight: bold;
-  z-index: 100; /* Ensure the buttons are above other content */
+  color: #333;
+  transition: color 0.3s ease;
+  position: absolute; /* Make sure the buttons are positioned absolutely */
 }
 
 .prev-button {
-  left: 20px; /* Place the button 20px from the left side */
+  left: 20px; /* Position the previous button on the left side */
 }
 
 .next-button {
-  right: 20px; /* Place the button 20px from the right side */
+  right: 20px; /* Position the next button on the right side */
 }
 
 .prev-button:hover, .next-button:hover {
-  color: #000; /* Darker color on hover */
+  color: #000;
 }

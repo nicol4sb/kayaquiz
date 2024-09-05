@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const cors = require("cors");
 const db = require("./src/db"); // Import the db module
 const SSPCalculation = require("./src/SSPcalculation");
@@ -31,8 +32,8 @@ app.post("/api/submitForm", (req, res) => {
     JSON.stringify(req.body),
     sspRes[1],
     "en",
-    req.header('Facilitator-Id'),
-    req.header('Session-Id'),
+    req.header("Facilitator-Id"),
+    req.header("Session-Id")
   );
 
   res.json({
@@ -59,7 +60,7 @@ app.get("/api/sessionResults", (req, res) => {
   db.fetchResultsBySession(sessionId, res);
 });
 
-app.get('/api/total-visits', (req, res) => {
+app.get("/api/total-visits", (req, res) => {
   db.fetchTotalVisits(res);
 });
 
@@ -74,6 +75,21 @@ app.get("/api/lastSessions", (req, res) => {
   db.fetchLastSessions(facilitatorId, res);
 });
 
+app.get("/api/kaya_materials", (req, res) => {
+  const directoryPath = path.join(__dirname, "kaya-react-frontend/public/kaya_material");
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      return res.status(500).send("Unable to scan directory: " + err);
+    }
+
+    const fileLinks = files.map((file) => ({
+      name: file,
+      url: `/kaya_material/${file}`,
+    }));
+
+    res.json(fileLinks);
+  });
+});
 
 app.post("/api/submitEmail", (req, res) => {
   const email = req.body.email;

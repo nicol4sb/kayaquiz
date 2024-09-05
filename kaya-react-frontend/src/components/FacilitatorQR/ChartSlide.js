@@ -11,58 +11,50 @@ import {
   Cell,
   LabelList,
 } from "recharts";
-import { colorMapping } from "../../utils/constants";
-
-// Label mapping to translate SSP keys to temperature values
-const sspLabelMapping = {
-  "SSP119": "1.5°C",
-  "SSP126": "2°C",
-  "SSP245": "3°C",
-  "SSP370": "4°C",
-  "SSP585": "5°C",
-};
+import { colorMapping, sspLabelMapping } from "../../utils/constants";  // Import both mappings
 
 function ChartSlide({ data }) {
   return (
     <div className="slide">
-      <ResponsiveContainer width="100%" height={500}> {/* Increased height */}
+      <ResponsiveContainer width="100%" height={500}>
         <BarChart
           data={data}
-          margin={{ top: 40, right: 60, left: 80, bottom: 40 }}  // Increased left margin
+          margin={{ top: 40, right: 60, left: 80, bottom: 40 }} 
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
           <XAxis
             dataKey="name"
-            tick={{ fontSize: 24 }}  // Increased font size
+            tick={{ fontSize: 24 }}  
             padding={{ left: 20, right: 20 }}
-            tickFormatter={(name) => sspLabelMapping[name] || name}
+            tickFormatter={(name) => sspLabelMapping[name] || name}  // Use the label mapping for XAxis
           />
           <YAxis
             label={{
               value: "Participants",
               angle: -90,
-              position: "outsideLeft",  // Move the label outside the chart area
-              dx: -20,  // Adjust horizontal offset to move the label further left
-              fontSize: 24,  // Increased font size
+              position: "outsideLeft",
+              dx: -20,
+              fontSize: 24,
             }}
-            tick={{ fontSize: 24 }}  // Increased font size for Y-axis ticks
+            tick={{ fontSize: 24 }} 
           />
           <Tooltip
-            contentStyle={{ fontSize: 18 }}  // Increased tooltip font size
-            formatter={(value, name) => [value, sspLabelMapping[name] || name]}  // Translate SSP to temperature
+            contentStyle={{ fontSize: 18 }}  
+            labelFormatter={(label) => sspLabelMapping[label] || label}  // Translate SSP key in tooltip header
+            formatter={(value, name) => [value, "Participants"]}  // Correctly display "Participants" in tooltip
           />
-          <Legend wrapperStyle={{ fontSize: 18 }} />  {/* Increased legend font size */}
-          <Bar dataKey="participants" isAnimationActive={false} barSize={80}>  {/* Increased bar size */}
+          <Legend wrapperStyle={{ fontSize: 18 }} />
+          <Bar dataKey="participants" isAnimationActive={false} barSize={80}> 
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={colorMapping[entry.name] || "#8884d8"}
+                fill={colorMapping[entry.name] || "#8884d8"}  
               />
             ))}
             <LabelList
               dataKey="participants"
               position="top"
-              fontSize={24}  // Increased label font size
+              fontSize={24}  
               formatter={(value) =>
                 `${(
                   (value /
