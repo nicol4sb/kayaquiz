@@ -123,6 +123,23 @@ function FacilitatorQR() {
     ); // Keep only the last 3 sessions
   };
 
+  const labelMapping = {
+    SSP119: "1.5°C",
+    SSP126: "2°C",
+    SSP245: "3°C",
+    SSP370: "4°C",
+    SSP585: "5°C",
+  };
+
+  const colorMapping = {
+    SSP119: "#4CAF50", // Green for 1.5°C
+    SSP126: "#2196F3", // Blue for 2°C
+    SSP245: "#FFC107", // Amber for 3°C
+    SSP370: "#FF5722", // Orange for 4°C
+    SSP585: "#F44336", // Red for 5°C
+  };
+
+  // Format the data to use the temperature labels
   const handleFetchSessionResults = (sessionId) => {
     console.log("Fetching results for sessionId:", sessionId); // Debug: Log sessionId
     setIsDataLoaded(false); // Set data loading state to false
@@ -130,7 +147,7 @@ function FacilitatorQR() {
       .then((response) => response.json())
       .then((response) => {
         const formattedData = response.map((item) => ({
-          name: item.text,
+          name: labelMapping[item.text] || item.text, // Map the SSP to temperature
           participants: item.value,
         }));
         setData(formattedData);
@@ -158,10 +175,10 @@ function FacilitatorQR() {
   return (
     <div className="qr-container">
       {/* Permanent Header */}
-      <h1>{facilitatorName}'s space</h1>
+      <h1>Kaya Quiz</h1>
+      <h3>{facilitatorName}</h3>
       {currentSlide === 0 && (
         <div className="slide">
-
           {qrUrl && <QRCode value={qrUrl} size={384} />}
           {qrUrl && (
             <>
@@ -210,53 +227,71 @@ function FacilitatorQR() {
           </div>
         </div>
       )}
-
       {currentSlide === 1 && isDataLoaded && (
         <div className="slide">
-          <ResponsiveContainer width="100%" height={600}>
-            <BarChart
-              data={data}
-              margin={{
-                top: 20,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis
-                label={{
-                  value: "Participants",
-                  angle: -90,
+          <div className="chart-container">
+            {" "}
+            {/* Wrapper div for centering */}
+            <ResponsiveContainer width="80%" height={400}>
+              <BarChart
+                data={data}
+                margin={{
+                  top: 20,
+                  right: 20, // Reduced right margin
+                  left: 20,
+                  bottom: 20, // Increased bottom margin for better label spacing
                 }}
-              />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="participants" isAnimationActive={false}>
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={colorMapping[entry.name] || "#8884d8"}
-                  />
-                ))}
-                <LabelList
-                  dataKey="participants"
-                  position="top"
-                  formatter={(value) =>
-                    `${(
-                      (value /
-                        data.reduce((acc, cur) => acc + cur.participants, 0)) *
-                      100
-                    ).toFixed(2)}%`
-                  }
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fontSize: 12 }} // Adjusted font size
+                  padding={{ left: 10, right: 10 }} // Add padding between labels and chart edge
                 />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+                <YAxis
+                  label={{
+                    value: "Participants",
+                    angle: -90,
+                    position: "insideLeft",
+                    fontSize: 12, // Adjusted label font size
+                  }}
+                  tick={{ fontSize: 12 }} // Adjusted font size
+                />
+                <Tooltip contentStyle={{ fontSize: 12 }} />{" "}
+                {/* Adjusted tooltip font size */}
+                <Legend wrapperStyle={{ fontSize: 12 }} />{" "}
+                {/* Adjusted legend font size */}
+                <Bar
+                  dataKey="participants"
+                  isAnimationActive={false}
+                  barSize={40}
+                >
+                  {data.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={colorMapping[entry.name] || "#8884d8"} // Apply the custom color mapping
+                    />
+                  ))}
+                  <LabelList
+                    dataKey="participants"
+                    position="top"
+                    formatter={(value) =>
+                      `${(
+                        (value /
+                          data.reduce(
+                            (acc, cur) => acc + cur.participants,
+                            0
+                          )) *
+                        100
+                      ).toFixed(2)}%`
+                    }
+                  />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-      )}
-
+      )}{" "}
       {currentSlide === 2 && (
         <div className="slide">
           <img
@@ -266,7 +301,6 @@ function FacilitatorQR() {
           />
         </div>
       )}
-
       <div className="navigation">
         {currentSlide > 0 && (
           <button
