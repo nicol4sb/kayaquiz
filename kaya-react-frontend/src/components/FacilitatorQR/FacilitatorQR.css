@@ -2,24 +2,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Center the entire content vertically */
   height: 100vh;
-  padding: 20px;
+  padding: 10px 20px; /* Add some padding */
   text-align: center;
 }
 
 h2 {
-  font-size: 3rem;
-  margin-bottom: 40px;
+  font-size: 2.5rem;
+  margin-bottom: 10px; /* Reduced margin below header */
+  margin-top: 0; /* Remove top margin */
 }
 
 .slide {
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
   width: 90%; /* Ensure the slide occupies enough width */
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  position: relative; /* Position relative for absolute navigation arrows */
-  min-height: 400px; /* Ensure all slides have minimum height */
+  position: relative; /* Position relative for navigation arrows */
+  flex-grow: 1; /* Allow slide content to take up available space */
+  min-height: 60vh; /* Allow slides to occupy at least 60% of the viewport height */
 }
 
 .navigation {

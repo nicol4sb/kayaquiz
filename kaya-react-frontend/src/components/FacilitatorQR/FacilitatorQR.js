@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import QRCodeSlide from "./QRCodeSlide";
 import ChartSlide from "./ChartSlide";
-import IdentitySlide from "./IdentitySlide";
+import { Consequences1, Consequences2 } from "./Consequences";
 import KayaMaterialSlide from "./KayaMaterialSlide"; // Import the new slide
 import { useLocation, useParams } from "react-router-dom";
 import {
@@ -24,7 +24,7 @@ function FacilitatorQR() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [lastSessions, setLastSessions] = useState([]);
 
-  const totalSlides = 4; // Updated totalSlides to include the new slide
+  const totalSlides = 5; // Updated totalSlides to include the new slide
 
   useEffect(() => {
     const loadFacilitator = async () => {
@@ -100,9 +100,11 @@ function FacilitatorQR() {
 
       {currentSlide === 1 && isDataLoaded && <ChartSlide data={data} />}
 
-      {currentSlide === 2 && <IdentitySlide />}
+      {currentSlide === 2 && <Consequences1 />}
 
-      {currentSlide === 3 && <KayaMaterialSlide />} {/* New Slide Added */}
+      {currentSlide === 3 && <Consequences2 />}
+
+      {currentSlide === 4 && <KayaMaterialSlide />} {/* New Slide Added */}
 
       <div className="navigation">
         {currentSlide > 0 && (
