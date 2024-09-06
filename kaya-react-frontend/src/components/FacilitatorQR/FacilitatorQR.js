@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from "react";
 import QRCodeSlide from "./QRCodeSlide";
 import ChartSlide from "./ChartSlide";
-import { Consequences1, Consequences2 } from "./Consequences";
-import KayaMaterialSlide from "./KayaMaterialSlide"; // Import the new slide
+import { Consequences1, Consequences2 } from "./Consequences"; // Correct named imports
+import SecondSessionQRCodeSlide from "./SecondSessionQRCodeSlide"; // Import second session slide
+import CompareSessionsChartSlide from "./CompareSessionsChartSlide"; // Import the comparison chart slide
+import KayaMaterialSlide from "./KayaMaterialSlide"; // Import the Kaya Material slide
 import { useLocation, useParams } from "react-router-dom";
-import {
-  fetchFacilitator,
-  fetchLastSessions,
-  fetchSessionResults,
-} from "../../utils/api";
+import { fetchFacilitator, fetchLastSessions, fetchSessionResults } from "../../utils/api";
 import "./FacilitatorQR.css";
 
 function FacilitatorQR() {
   const { facilitatorId } = useParams();
   const location = useLocation();
   const [facilitatorName, setFacilitatorName] = useState("Loading...");
-  const [qrUrl, setQrUrl] = useState(
-    `${window.location.origin}/${facilitatorId}`
-  );
+  const [qrUrl, setQrUrl] = useState(`${window.location.origin}/${facilitatorId}`);
   const [sessionCreated, setSessionCreated] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [data, setData] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [lastSessions, setLastSessions] = useState([]);
 
-  const totalSlides = 5; // Updated totalSlides to include the new slide
+  const totalSlides = 7; // Updated total slides to include KayaMaterialSlide
 
   useEffect(() => {
     const loadFacilitator = async () => {
@@ -44,7 +40,6 @@ function FacilitatorQR() {
     loadLastSessions();
   }, [facilitatorId]);
 
-  // Add keyboard event listeners
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "ArrowRight") {
@@ -56,11 +51,10 @@ function FacilitatorQR() {
 
     window.addEventListener("keydown", handleKeyDown);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentSlide, totalSlides]); // Add the necessary dependencies
+  }, [currentSlide, totalSlides]);
 
   const generateSessionId = () => {
     const sessionId = new Date().toISOString().replace(/[-:.TZ]/g, "");
@@ -101,10 +95,19 @@ function FacilitatorQR() {
       {currentSlide === 1 && isDataLoaded && <ChartSlide data={data} />}
 
       {currentSlide === 2 && <Consequences1 />}
-
       {currentSlide === 3 && <Consequences2 />}
+      {currentSlide === 4 && <SecondSessionQRCodeSlide facilitatorId={facilitatorId} />}
+      {currentSlide === 5 && (
+        <CompareSessionsChartSlide
+          session1Data={lastSessions[0]?.data || []}
+          session2Data={lastSessions[1]?.data || []}
+          session1Date={lastSessions[0]?.date || "N/A"}
+          session2Date={lastSessions[1]?.date || "N/A"}
+        />
+      )}
 
-      {currentSlide === 4 && <KayaMaterialSlide />} {/* New Slide Added */}
+      {/* Add the KayaMaterialSlide as the last slide */}
+      {currentSlide === 6 && <KayaMaterialSlide />}
 
       <div className="navigation">
         {currentSlide > 0 && (
