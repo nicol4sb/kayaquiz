@@ -8,22 +8,22 @@ export async function fetchFacilitator(facilitatorId, location) {
   return data.name || "Unknown Facilitator";
 }
 
-// Function to convert the UTC session date string (DD/MM/YYYY HH:mm:ss) to local time
-// Function to convert the UTC session date string to local time
 const formatDateToLocal = (dateString) => {
   console.log("Original date string:", dateString); // Debug log for the original string
 
   try {
-    // Check if the dateString is in a valid format
-    const utcDate = new Date(dateString); // Create the date object from the string
+    // Create a new Date object assuming the dateString is in UTC
+    const utcDate = new Date(dateString + " UTC"); // Append 'UTC' to ensure the string is parsed as UTC time
 
     if (isNaN(utcDate.getTime())) {
-      // If the date is invalid, log and return an error message
-      console.error("Invalid date string:", dateString);
-      return "Invalid date";
+      // If the date is invalid, throw an error
+      throw new Error("Invalid Date Format");
     }
 
-    const localDate = utcDate.toLocaleString(); // Convert to local time string
+    console.log("Parsed date object:", utcDate); // Debug log for the parsed UTC date object
+
+    // Convert the date to the local time string
+    const localDate = utcDate.toLocaleString();
     console.log("Local date string:", localDate); // Debug log for the local date string
 
     return localDate; // Return the local time as a string
@@ -33,11 +33,12 @@ const formatDateToLocal = (dateString) => {
   }
 };
 
-
 export async function fetchLastSessions(facilitatorId) {
-  const response = await fetch(`/api/lastSessions?facilitatorId=${facilitatorId}`);
+  const response = await fetch(
+    `/api/lastSessions?facilitatorId=${facilitatorId}`
+  );
   const sessions = await response.json();
-  
+
   return Array.isArray(sessions)
     ? sessions.map((session) => ({
         ...session,
