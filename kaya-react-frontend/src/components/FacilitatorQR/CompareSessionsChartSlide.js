@@ -1,91 +1,88 @@
 import React, { useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
-import { fetchLastSessions } from "../../utils/api"; // Assuming this API fetches last sessions
-import { colorMapping, sspLabelMapping } from "../../utils/constants";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { fetchSessionResults, fetchLastSessions } from "../../utils/api";
 
 function CompareSessionsChartSlide({ facilitatorId }) {
   const [session1Data, setSession1Data] = useState([]);
   const [session2Data, setSession2Data] = useState([]);
-  const [session1Date, setSession1Date] = useState("N/A");
-  const [session2Date, setSession2Date] = useState("N/A");
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [mergedData, setMergedData] = useState([]);
 
+  // Fetch the two most recent session data
   useEffect(() => {
-    console.log("facilitatorId:", facilitatorId); // Debugging log to verify facilitatorId
-
-    const loadLastTwoSessions = async () => {
+    const fetchSessionsData = async () => {
       try {
-        if (facilitatorId) {
-          // Fetch the last sessions
-          const lastSessions = await fetchLastSessions(facilitatorId);
+        const lastTwoSessions = await fetchLastSessions(facilitatorId);
+        if (lastTwoSessions.length >= 2) {
+          const session1 = lastTwoSessions[0].session_id;
+          const session2 = lastTwoSessions[1].session_id;
 
-          if (lastSessions.length >= 2) {
-            // Set the data for the two most recent sessions
-            setSession1Data(lastSessions[0].data || []);
-            setSession1Date(lastSessions[0].date || "N/A");
+          const session1Results = await fetchSessionResults(session1);
+          const session2Results = await fetchSessionResults(session2);
 
-            setSession2Data(lastSessions[1].data || []);
-            setSession2Date(lastSessions[1].date || "N/A");
-
-            setIsDataLoaded(true);
-          } else {
-            console.warn("Not enough sessions to compare.");
-          }
+          setSession1Data(session1Results);
+          setSession2Data(session2Results);
+        } else {
+          console.error("Not enough sessions found.");
         }
       } catch (error) {
         console.error("Error fetching sessions:", error);
       }
     };
 
-    loadLastTwoSessions();
+    fetchSessionsData();
   }, [facilitatorId]);
 
-  if (!isDataLoaded) {
-    return <p>Loading session comparison...</p>;
-  }
+  // Merge session data when session1Data and session2Data are loaded
+  useEffect(() => {
+    if (session1Data.length > 0 && session2Data.length > 0) {
+      const merged = mergeSessionData(session1Data, session2Data);
+      setMergedData(merged);
+    }
+  }, [session1Data, session2Data]);
+
+  // Function to merge session data
+  const mergeSessionData = (session1Data, session2Data) => {
+    const mergedData = {};
+
+    // Map session 1 data
+    session1Data.forEach((item) => {
+      if (item.name) {
+        mergedData[item.name] = { name: item.name, session1: item.participants };
+      }
+    });
+
+    // Map session 2 data
+    session2Data.forEach((item) => {
+      if (item.name) {
+        if (mergedData[item.name]) {
+          mergedData[item.name].session2 = item.participants;
+        } else {
+          mergedData[item.name] = { name: item.name, session2: item.participants };
+        }
+      }
+    });
+
+    return Object.values(mergedData); // Convert the merged object into an array for Recharts
+  };
 
   return (
     <div className="slide">
       <h3>Comparison of Last Two Sessions</h3>
-      <div style={{ display: "flex", justifyContent: "space-around", width: "100%" }}>
-        {/* Chart for session 1 */}
-        <div>
-          <h4>Session on {session1Date}</h4>
-          <ResponsiveContainer width={400} height={300}>
-            <BarChart data={session1Data} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tickFormatter={(name) => sspLabelMapping[name] || name} />
-              <YAxis allowDecimals={false} />
-              <Tooltip labelFormatter={(label) => sspLabelMapping[label] || label} />
-              <Legend />
-              <Bar dataKey="participants" fill="#8884d8">
-                {session1Data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colorMapping[entry.name] || "#8884d8"} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Chart for session 2 */}
-        <div>
-          <h4>Session on {session2Date}</h4>
-          <ResponsiveContainer width={400} height={300}>
-            <BarChart data={session2Data} margin={{ top: 20, right: 30, left: 30, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tickFormatter={(name) => sspLabelMapping[name] || name} />
-              <YAxis allowDecimals={false} />
-              <Tooltip labelFormatter={(label) => sspLabelMapping[label] || label} />
-              <Legend />
-              <Bar dataKey="participants" fill="#8884d8">
-                {session2Data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colorMapping[entry.name] || "#8884d8"} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      {mergedData.length > 0 ? (
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={mergedData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="session1" fill="#8884d8" />
+            <Bar dataKey="session2" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        <p>Loading data...</p>
+      )}
     </div>
   );
 }

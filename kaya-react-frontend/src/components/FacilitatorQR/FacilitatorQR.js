@@ -6,14 +6,20 @@ import SecondSessionQRCodeSlide from "./SecondSessionQRCodeSlide"; // Import sec
 import CompareSessionsChartSlide from "./CompareSessionsChartSlide"; // Import the comparison chart slide
 import KayaMaterialSlide from "./KayaMaterialSlide"; // Import the Kaya Material slide
 import { useLocation, useParams } from "react-router-dom";
-import { fetchFacilitator, fetchLastSessions, fetchSessionResults } from "../../utils/api";
+import {
+  fetchFacilitator,
+  fetchLastSessions,
+  fetchSessionResults,
+} from "../../utils/api";
 import "./FacilitatorQR.css";
 
 function FacilitatorQR() {
   const { facilitatorId } = useParams();
   const location = useLocation();
   const [facilitatorName, setFacilitatorName] = useState("Loading...");
-  const [qrUrl, setQrUrl] = useState(`${window.location.origin}/${facilitatorId}`);
+  const [qrUrl, setQrUrl] = useState(
+    `${window.location.origin}/${facilitatorId}`
+  );
   const [sessionCreated, setSessionCreated] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [data, setData] = useState([]);
@@ -96,14 +102,9 @@ function FacilitatorQR() {
 
       {currentSlide === 2 && <Consequences1 />}
       {currentSlide === 3 && <Consequences2 />}
-      {currentSlide === 4 && <SecondSessionQRCodeSlide facilitatorId={facilitatorId} />}
+      {currentSlide === 4 && <SecondSessionQRCodeSlide />}
       {currentSlide === 5 && (
-        <CompareSessionsChartSlide
-          session1Data={lastSessions[0]?.data || []}
-          session2Data={lastSessions[1]?.data || []}
-          session1Date={lastSessions[0]?.date || "N/A"}
-          session2Date={lastSessions[1]?.date || "N/A"}
-        />
+        <CompareSessionsChartSlide facilitatorId={facilitatorId} />
       )}
 
       {/* Add the KayaMaterialSlide as the last slide */}
