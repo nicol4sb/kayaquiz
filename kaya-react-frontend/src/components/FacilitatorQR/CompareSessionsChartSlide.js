@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LabelList,
+} from "recharts";
 import { fetchSessionResults, fetchLastSessions } from "../../utils/api";
+import { sspLabelMapping } from "../../utils/constants";  // Import both mappings
 
-function CompareSessionsChartSlide({ facilitatorId }) {
+function SecondSessionQRCodeSlide({ facilitatorId }) {
   const [session1Data, setSession1Data] = useState([]);
   const [session2Data, setSession2Data] = useState([]);
   const [mergedData, setMergedData] = useState([]);
+  const [session1Date, setSession1Date] = useState("");
+  const [session2Date, setSession2Date] = useState("");
 
-  // Fetch the two most recent session data
   useEffect(() => {
     const fetchSessionsData = async () => {
       try {
@@ -15,6 +26,9 @@ function CompareSessionsChartSlide({ facilitatorId }) {
         if (lastTwoSessions.length >= 2) {
           const session1 = lastTwoSessions[0].session_id;
           const session2 = lastTwoSessions[1].session_id;
+
+          setSession1Date(lastTwoSessions[0].date);
+          setSession2Date(lastTwoSessions[1].date);
 
           const session1Results = await fetchSessionResults(session1);
           const session2Results = await fetchSessionResults(session2);
@@ -32,7 +46,6 @@ function CompareSessionsChartSlide({ facilitatorId }) {
     fetchSessionsData();
   }, [facilitatorId]);
 
-  // Merge session data when session1Data and session2Data are loaded
   useEffect(() => {
     if (session1Data.length > 0 && session2Data.length > 0) {
       const merged = mergeSessionData(session1Data, session2Data);
@@ -40,18 +53,15 @@ function CompareSessionsChartSlide({ facilitatorId }) {
     }
   }, [session1Data, session2Data]);
 
-  // Function to merge session data
   const mergeSessionData = (session1Data, session2Data) => {
     const mergedData = {};
 
-    // Map session 1 data
     session1Data.forEach((item) => {
       if (item.name) {
         mergedData[item.name] = { name: item.name, session1: item.participants };
       }
     });
 
-    // Map session 2 data
     session2Data.forEach((item) => {
       if (item.name) {
         if (mergedData[item.name]) {
@@ -62,24 +72,65 @@ function CompareSessionsChartSlide({ facilitatorId }) {
       }
     });
 
-    return Object.values(mergedData); // Convert the merged object into an array for Recharts
+    return Object.values(mergedData);
   };
 
   return (
     <div className="slide">
       <h3>Comparison of Last Two Sessions</h3>
       {mergedData.length > 0 ? (
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={mergedData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="session1" fill="#8884d8" />
-            <Bar dataKey="session2" fill="#82ca9d" />
-          </BarChart>
-        </ResponsiveContainer>
+        <>
+          <ResponsiveContainer width="100%" height={500}>
+            <BarChart
+              data={mergedData}
+              margin={{ top: 40, right: 60, left: 120, bottom: 40 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+              <XAxis
+                dataKey="name"
+                tick={{ fontSize: 24 }}
+                padding={{ left: 20, right: 20 }}
+                tickFormatter={(name) => sspLabelMapping[name] || name}  // Convert SSP to temperature
+              />
+              <YAxis
+                allowDecimals={false}
+                label={{
+                  value: "Participants",
+                  angle: -90,
+                  position: "outsideLeft",
+                  dx: -60,
+                  fontSize: 24,
+                }}
+                tick={{ fontSize: 24 }}
+              />
+              <Tooltip
+                contentStyle={{ fontSize: 18 }}
+                labelFormatter={(label) => sspLabelMapping[label] || label}  // Convert SSP in tooltip
+                formatter={(value) => `${value} Participants`}
+              />
+              <Bar dataKey="session1" fill="#8884d8" barSize={80}>
+                <LabelList
+                  dataKey="session1"
+                  position="top"
+                  fontSize={24}
+                  formatter={(value) => `${value}`}
+                />
+              </Bar>
+              <Bar dataKey="session2" fill="#82ca9d" barSize={80}>
+                <LabelList
+                  dataKey="session2"
+                  position="top"
+                  fontSize={24}
+                  formatter={(value) => `${value}`}
+                />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <div className="session-dates">
+            <p>Last session: {session1Date}</p>
+            <p>Previous session: {session2Date}</p>
+          </div>
+        </>
       ) : (
         <p>Loading data...</p>
       )}
@@ -87,4 +138,4 @@ function CompareSessionsChartSlide({ facilitatorId }) {
   );
 }
 
-export default CompareSessionsChartSlide;
+export default SecondSessionQRCodeSlide;
