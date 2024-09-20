@@ -6,10 +6,11 @@ function SecondSessionQRCodeSlide({ facilitatorId }) {
 
   // Automatically generate the second session URL if it's empty
   useEffect(() => {
-    if (!secondSessionUrl) {
+    if (facilitatorId && !secondSessionUrl) {
       generateSecondSession();
     }
-  }, [secondSessionUrl]); // Runs when the component loads or secondSessionUrl changes
+  }, [secondSessionUrl, facilitatorId]); // Watch for facilitatorId as well
+  
 
   const generateSecondSession = () => {
     const sessionId = new Date().toISOString().replace(/[-:.TZ]/g, "");

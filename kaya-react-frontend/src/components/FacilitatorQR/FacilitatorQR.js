@@ -102,7 +102,7 @@ function FacilitatorQR() {
 
       {currentSlide === 2 && <Consequences1 />}
       {currentSlide === 3 && <Consequences2 />}
-      {currentSlide === 4 && <SecondSessionQRCodeSlide />}
+      {currentSlide === 4 && <SecondSessionQRCodeSlide facilitatorId={facilitatorId} />}
       {currentSlide === 5 && (
         <CompareSessionsChartSlide facilitatorId={facilitatorId} />
       )}
