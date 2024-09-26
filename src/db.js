@@ -115,11 +115,12 @@ function fetchTotalVisits(res) {
 
   const totalQuery = `
   SELECT 
-      COALESCE(f.name, 'Kaya community') AS facilitator, f.id,
-      COUNT(*) AS total_visits
-  FROM QUIZ_ANSWERS qa
-  LEFT JOIN FACILITATORS f ON qa.facilitator_id = f.id
-  GROUP BY facilitator;
+      COALESCE(f.name, 'Kaya community') AS facilitator, 
+      f.id, 
+      COUNT(qa.id) AS total_visits
+  FROM FACILITATORS f
+  LEFT JOIN QUIZ_ANSWERS qa ON qa.facilitator_id = f.id
+  GROUP BY f.id;
 `;
 
   db.all(weeklyQuery, [], (err, weeklyRows) => {
