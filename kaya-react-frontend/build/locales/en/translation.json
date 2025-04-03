@@ -4,7 +4,7 @@
   "IntroParagraph1": "In order to limit global warming to 1.5°C or 2°C by 2100, we will need to significantly reduce global CO2 emissions by 2050 (and continue to reduce after that).",
   "IntroParagraph2": "You will be asked 3 questions that will help understand the arbitrages needed to get there.",
   "Q1Title": "1. World Population",
-  "Q1": "<p>What do you believe the world population in 2050 will be? </p><p>Current world population is estimated at 8 billion people.UN projections are for the world population to be between 9.4b and 10.1b in 2050</p>",
+  "Q1": "<p>What do you believe the world population in 2050 will be? </p><p>Current world population is estimated at 8 billion people. UN projections are for the world population to be between 9.4 billion and 10.1 billion in 2050</p>",
   "Q1Slider": "World population in 2050 : {{value}} billion",
   "Q2Title": "2. GDP per person (inflation adjusted)<br/><br/>",
   "Q2": "Current world GDP per person is roughly 12'500 USD. <br/>How much do you think GDP per person will be by 2050?<br/><br/>- 9'700 USD with minus 1% per year<br/>- 16'000 USD with +1% growth per year<br/>- 20'000 USD with +2% growth per year (since WW2 it has been roughly 2% per year)<br/>- 26'000 USD with +3% growth per year",
