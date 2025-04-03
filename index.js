@@ -27,13 +27,28 @@ app.post("/api/submitForm", (req, res) => {
     req.body.question3
   );
 
+  const {
+    facilitator_id,
+    session_id,
+    session_type = 0, // default if missing
+    language = "en", // optional
+  } = req.body;
+
+  const ip = req.header("x-forwarded-for") || req.connection.remoteAddress;
+
   db.storeRestCallResult(
-    req.header("x-forwarded-for"),
-    JSON.stringify(req.body),
+    ip,
+    JSON.stringify({
+      question1: req.body.question1,
+      question2: req.body.question2,
+      question3: req.body.question3,
+      language: req.body.language,
+    }),
     sspRes[1],
-    "en",
-    req.header("Facilitator-Id"),
-    req.header("Session-Id")
+    language,
+    facilitator_id,
+    session_id,
+    session_type
   );
 
   res.json({
@@ -76,7 +91,10 @@ app.get("/api/lastSessions", (req, res) => {
 });
 
 app.get("/api/kaya_materials", (req, res) => {
-  const directoryPath = path.join(__dirname, "kaya-react-frontend/public/kaya_material");
+  const directoryPath = path.join(
+    __dirname,
+    "kaya-react-frontend/public/kaya_material"
+  );
   fs.readdir(directoryPath, (err, files) => {
     if (err) {
       return res.status(500).send("Unable to scan directory: " + err);

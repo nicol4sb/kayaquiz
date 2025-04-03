@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { colorMapping, sspLabelMapping } from "../../utils/constants";  // Import both mappings
 
-function ChartSlide({ data }) {
+function InitialSessionResultsAfterQRCodeScan({ data }) {
   return (
     <div className="slide">
       <ResponsiveContainer width="100%" height={500}>
@@ -71,4 +71,4 @@ function ChartSlide({ data }) {
   );
 }
 
-export default ChartSlide;
+export default InitialSessionResultsAfterQRCodeScan;

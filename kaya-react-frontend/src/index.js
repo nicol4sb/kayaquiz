@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   useParams,
+  useLocation
 } from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -20,8 +21,20 @@ import { ModalProvider } from "./components/ModalContext/ModalContext";
 
 const KayaQuizWithFacilitator = () => {
   const { facilitatorId, sessionId } = useParams();
-  return <KayaQuizForm facilitatorId={facilitatorId} sessionId={sessionId} />;
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const sessionType = parseInt(queryParams.get("session_type") || "0", 10); // default to 0
+
+  return (
+    <KayaQuizForm
+      facilitatorId={facilitatorId}
+      sessionId={sessionId}
+      sessionType={sessionType}
+    />
+  );
 };
+
+
 
 const App = () => {
   return (

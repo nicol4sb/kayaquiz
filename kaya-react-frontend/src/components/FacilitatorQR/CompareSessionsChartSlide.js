@@ -26,11 +26,11 @@ function SecondSessionQRCodeSlide({ facilitatorId }) {
       try {
         const lastTwoSessions = await fetchLastSessions(facilitatorId);
         if (lastTwoSessions.length >= 2) {
-          const session1 = lastTwoSessions[0].session_id;
-          const session2 = lastTwoSessions[1].session_id;
+          const session1 = lastTwoSessions[1].session_id;
+          const session2 = lastTwoSessions[0].session_id;
 
-          setSession1Date(lastTwoSessions[0].date);
-          setSession2Date(lastTwoSessions[1].date);
+          setSession1Date(lastTwoSessions[1].date);
+          setSession2Date(lastTwoSessions[0].date);
 
           console.log("----"+lastTwoSessions[0].date);
 

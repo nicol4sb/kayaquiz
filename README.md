@@ -1,6 +1,13 @@
 The Kaya quiz allows to play with the 3 factors that compound into our carbon emissions.
 This is a tool that supports workshops we do live, and quick quizzes done purely online in autonomy.
 
+Todo :
+Make a new QR code when clicking on the facilitator name
+Make the arrow right work the same as "see results"
+Make the slides show full screen and a bit bigger in the preview
+Social media sharing link to work better
+
+
 Dev manual :
 Git clone
 Run the node backend on port 5000 :

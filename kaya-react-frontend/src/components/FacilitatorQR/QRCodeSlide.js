@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import QRCode from "qrcode.react";
 
-function QRCodeSlide({ qrUrl, sessionCreated, generateSessionId, handleFetchSessionResults, lastSessions }) {
+function QRCodeSlide({
+  qrUrl,
+  sessionCreated,
+  generateSessionId,
+  handleFetchSessionResults,
+  lastSessions,
+  sessionStartTime,
+}) {
+  // Generate the session ID on mount
+  useEffect(() => {
+    if (!sessionCreated) {
+      generateSessionId();
+    }
+  }, [sessionCreated, generateSessionId]);
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
   return (
     <div className="slide">
-      {qrUrl && <QRCode value={qrUrl} size={384} />}
-      <p>Scan this QR code to visit the facilitator's page.</p>
+      {qrUrl && (
+        <>
+          <a href={qrUrl} target="_blank" rel="noopener noreferrer">
+            <QRCode value={qrUrl} size={384} />
+          </a>
+          {sessionStartTime && (
+            <p style={{ marginTop: "10px", fontStyle: "italic" }}>
+              Session started at {formatTime(new Date(sessionStartTime))}
+            </p>
+          )}
+        </>
+      )}
 
       {!sessionCreated ? (
         <button onClick={generateSessionId} className="new-session-button">
@@ -19,11 +51,6 @@ function QRCodeSlide({ qrUrl, sessionCreated, generateSessionId, handleFetchSess
           >
             Show results
           </button>
-          <p>
-            <a href={qrUrl} target="_blank" rel="noopener noreferrer">
-              Desktop link
-            </a>
-          </p>
         </div>
       )}
 
@@ -32,7 +59,6 @@ function QRCodeSlide({ qrUrl, sessionCreated, generateSessionId, handleFetchSess
         <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
           {lastSessions.map((session) => (
             <li key={session.session_id} style={{ marginBottom: "10px" }}>
-              {/* Format the session date to local time */}
               <span>{session.date}</span>
               <button
                 onClick={() => handleFetchSessionResults(session.session_id)}

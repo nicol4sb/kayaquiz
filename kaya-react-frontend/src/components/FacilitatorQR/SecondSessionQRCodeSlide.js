@@ -9,8 +9,7 @@ function SecondSessionQRCodeSlide({ facilitatorId }) {
     if (facilitatorId && !secondSessionUrl) {
       generateSecondSession();
     }
-  }, [secondSessionUrl, facilitatorId]); // Watch for facilitatorId as well
-  
+  }, [secondSessionUrl, facilitatorId]);
 
   const generateSecondSession = () => {
     const sessionId = new Date().toISOString().replace(/[-:.TZ]/g, "");
@@ -20,15 +19,17 @@ function SecondSessionQRCodeSlide({ facilitatorId }) {
 
   return (
     <div className="slide">
-      <h3>Second Session</h3>
+      <h3
+        style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "1rem" }}
+      >
+        Second Session
+      </h3>
+
       {secondSessionUrl ? (
         <div>
-          <QRCode value={secondSessionUrl} size={384} />
-          <p>
-            <a href={secondSessionUrl} target="_blank" rel="noopener noreferrer">
-              Desktop Link to Second Session
-            </a>
-          </p>
+          <a href={secondSessionUrl} target="_blank" rel="noopener noreferrer">
+            <QRCode value={secondSessionUrl} size={384} />
+          </a>
         </div>
       ) : (
         <p>Loading...</p>

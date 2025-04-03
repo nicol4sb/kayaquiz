@@ -30,28 +30,31 @@ function storeRestCallResult(
   ssp,
   browser_lang,
   facilitator_id,
-  session_id
+  session_id,
+  session_type
 ) {
   db.run(
-    `INSERT INTO QUIZ_ANSWERS (ip, result, SSP, browser_lang, facilitator_id, session_id) VALUES (?, ?, ?,?,?,?)`,
-    [ip, result, ssp, browser_lang, facilitator_id, session_id],
+    `INSERT INTO QUIZ_ANSWERS (ip, result, SSP, browser_lang, facilitator_id, session_id, session_type) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [ip, result, ssp, browser_lang, facilitator_id, session_id, session_type],
     function (err) {
       if (err) {
         console.error("Error storing quiz result:", err);
       } else {
         console.log(
-          "Stored quiz result with id" +
+          "Stored quiz result with id " +
             this.lastID +
             " and content " +
             result +
             " --- IP : " +
             ip +
-            " --- browser lang " +
+            " --- browser lang : " +
             browser_lang +
             " --- facilitator : " +
             facilitator_id +
             " --- session Id : " +
-            session_id
+            session_id +
+            " --- session type : " +
+            session_type
         );
       }
     }

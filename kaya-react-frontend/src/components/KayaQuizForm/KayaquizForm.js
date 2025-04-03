@@ -7,7 +7,7 @@ import IntroParagraph from "../IntroParagraph/IntroParagraph";
 import { useNavigate } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 
-function KayaQuizForm({ facilitatorId, sessionId }) {
+function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
   const { t } = useTranslation();
   
   //------------------------------------------------------
@@ -58,6 +58,7 @@ function KayaQuizForm({ facilitatorId, sessionId }) {
         language, // Add the language to the submission data
         facilitator_id: facilitatorId, // Add the facilitator_id to the submission data
         session_id: sessionId, // Add the session_id to the submission data
+        session_type: sessionType,
     };
 
     try {
@@ -65,8 +66,6 @@ function KayaQuizForm({ facilitatorId, sessionId }) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Facilitator-Id": facilitatorId, // Pass facilitatorId as a custom header
-                "Session-Id": sessionId, // Pass sessionId as a custom header 
             },
             body: JSON.stringify(submissionData),
         });

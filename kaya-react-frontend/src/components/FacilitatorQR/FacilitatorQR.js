@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import QRCodeSlide from "./QRCodeSlide";
-import ChartSlide from "./ChartSlide";
-import { Consequences1, Consequences2 } from "./Consequences"; // Correct named imports
-import SecondSessionQRCodeSlide from "./SecondSessionQRCodeSlide"; // Import second session slide
-import CompareSessionsChartSlide from "./CompareSessionsChartSlide"; // Import the comparison chart slide
-import KayaMaterialSlide from "./KayaMaterialSlide"; // Import the Kaya Material slide
-import { useLocation, useParams } from "react-router-dom";
+import InitialSessionResultsAfterQRCodeScan from "./ChartSlide";
+import { Consequences1, Consequences2 } from "./Consequences";
+import SecondSessionQRCodeSlide from "./SecondSessionQRCodeSlide";
+import CompareSessionsChartSlide from "./CompareSessionsChartSlide";
+import KayaMaterialSlide from "./KayaMaterialSlide";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   fetchFacilitator,
   fetchLastSessions,
@@ -16,24 +16,22 @@ import "./FacilitatorQR.css";
 function FacilitatorQR() {
   const { facilitatorId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [facilitatorName, setFacilitatorName] = useState("Loading...");
-  const [qrUrl, setQrUrl] = useState(
-    `${window.location.origin}/${facilitatorId}`
-  );
+  const [qrUrl, setQrUrl] = useState(`${window.location.origin}/${facilitatorId}`);
   const [sessionCreated, setSessionCreated] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [data, setData] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [lastSessions, setLastSessions] = useState([]);
-
-  const totalSlides = 7; // Updated total slides to include KayaMaterialSlide
+  const totalSlides = 7;
 
   useEffect(() => {
     const loadFacilitator = async () => {
       const name = await fetchFacilitator(facilitatorId, location);
       setFacilitatorName(name);
     };
-
     loadFacilitator();
   }, [facilitatorId, location]);
 
@@ -42,7 +40,6 @@ function FacilitatorQR() {
       const sessions = await fetchLastSessions(facilitatorId);
       setLastSessions(sessions);
     };
-
     loadLastSessions();
   }, [facilitatorId]);
 
@@ -56,15 +53,13 @@ function FacilitatorQR() {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentSlide, totalSlides]);
 
   const generateSessionId = () => {
     const sessionId = new Date().toISOString().replace(/[-:.TZ]/g, "");
-    setQrUrl(`${window.location.origin}/${facilitatorId}/${sessionId}`);
+    const url = `${window.location.origin}/${facilitatorId}/${sessionId}`;
+    setQrUrl(url);
     setSessionCreated(true);
     setCurrentSlide(0);
   };
@@ -77,11 +72,16 @@ function FacilitatorQR() {
   };
 
   const handleNext = () => {
-    if (currentSlide < totalSlides - 1) setCurrentSlide(currentSlide + 1);
+    if (currentSlide < totalSlides - 1) {
+      setCurrentSlide(currentSlide + 1);
+    }
   };
 
   const handlePrevious = () => {
     if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
+    if (currentSlide === 0) {
+      navigate("/stats");
+    }
   };
 
   return (
@@ -98,24 +98,24 @@ function FacilitatorQR() {
         />
       )}
 
-      {currentSlide === 1 && isDataLoaded && <ChartSlide data={data} />}
+      {currentSlide === 1 && isDataLoaded && (
+        <InitialSessionResultsAfterQRCodeScan data={data} />
+      )}
 
       {currentSlide === 2 && <Consequences1 />}
       {currentSlide === 3 && <Consequences2 />}
-      {currentSlide === 4 && <SecondSessionQRCodeSlide facilitatorId={facilitatorId} />}
+      {currentSlide === 4 && (
+        <SecondSessionQRCodeSlide facilitatorId={facilitatorId} />
+      )}
       {currentSlide === 5 && (
         <CompareSessionsChartSlide facilitatorId={facilitatorId} />
       )}
-
-      {/* Add the KayaMaterialSlide as the last slide */}
       {currentSlide === 6 && <KayaMaterialSlide />}
 
       <div className="navigation">
-        {currentSlide > 0 && (
-          <button className="prev-button" onClick={handlePrevious}>
-            ←
-          </button>
-        )}
+        <button className="prev-button" onClick={handlePrevious}>
+          ←
+        </button>
         {currentSlide < totalSlides - 1 && (
           <button className="next-button" onClick={handleNext}>
             →
