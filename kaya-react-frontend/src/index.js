@@ -1,12 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useParams,
-  useLocation
-} from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import KayaQuizForm from "./components/KayaQuizForm/KayaquizForm";
@@ -18,13 +11,21 @@ import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
 import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR";
 import { ModalProvider } from "./components/ModalContext/ModalContext"; 
+import i18n from './i18n'; // full import, since we'll await it
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+  useLocation
+} from "react-router-dom";
 
 const KayaQuizWithFacilitator = () => {
   const { facilitatorId, sessionId } = useParams();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
-  const sessionType = parseInt(queryParams.get("session_type") || "0", 10); // default to 0
-
+  const sessionType = parseInt(queryParams.get("session_type") || "0", 10);
   return (
     <KayaQuizForm
       facilitatorId={facilitatorId}
@@ -33,8 +34,6 @@ const KayaQuizWithFacilitator = () => {
     />
   );
 };
-
-
 
 const App = () => {
   return (
@@ -48,34 +47,27 @@ const App = () => {
             <Route path="/conclusion" element={<Conclusion />} />
             <Route path="/admin" element={<GroupResults />} />
             <Route path="/stats" element={<Stats />} />
-            <Route
-              path="/facilitator/:facilitatorId"
-              element={<FacilitatorQR />}
-            />
-            <Route
-              path="/:facilitatorId/:sessionId"
-              element={<KayaQuizWithFacilitator />}
-            />
+            <Route path="/facilitator/:facilitatorId" element={<FacilitatorQR />} />
+            <Route path="/:facilitatorId/:sessionId" element={<KayaQuizWithFacilitator />} />
           </Routes>
         </div>
-        <div>
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </Router>
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <React.StrictMode>
-    <ModalProvider>
-      <App />
-    </ModalProvider>
-  </React.StrictMode>
-);
+// ✅ Wait until i18n is initialized before rendering
+i18n.init().then(() => {
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(
+    <React.StrictMode>
+      <ModalProvider>
+        <App />
+      </ModalProvider>
+    </React.StrictMode>
+  );
+});
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Optional performance measuring
 reportWebVitals();

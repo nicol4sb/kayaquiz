@@ -1,7 +1,6 @@
 import "./IntroParagraph.css";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
-import "../../i18n"; // Import the i18n configuration
 
 function IntroParagraph() {
   const { t } = useTranslation();

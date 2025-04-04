@@ -14,7 +14,10 @@ console.log("Server startup");
 app.use(cors());
 
 // Serve static files from the 'build' directory
-app.use(express.static(path.join(__dirname, "kaya-react-frontend/build")));
+app.use(express.static(path.join(__dirname, "kaya-react-frontend/build"), {
+  maxAge: '1d',
+}));
+
 
 // Parse JSON bodies
 app.use(express.json());
