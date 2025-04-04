@@ -1,54 +1,42 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import HttpBackend from 'i18next-http-backend'; // Ensure this import is correct
-import LanguageDetector from 'i18next-browser-languagedetector'; // Import the language detector
+import HttpBackend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
-  .use(HttpBackend) // load translation using http
-  .use(LanguageDetector) // use LanguageDetector
-  .init({
-    fallbackLng: 'en',
-    debug: true,
+if (!i18n.isInitialized || i18n.isInitialized === false) {
+  i18n
+    .use(initReactI18next)
+    .use(HttpBackend)
+    .use(LanguageDetector)
+    .init({
+      fallbackLng: 'en',
+      debug: false,
 
-    // Automatically determine the user's language
-    detection: {
-      // Order and from where user language should be detected
-      order: ['querystring', 'cookie', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
-      
-      // Keys or params to lookup language from
-      lookupQuerystring: 'lng',
-      lookupCookie: 'i18next',
-      lookupLocalStorage: 'i18nextLng',
-      lookupSessionStorage: 'i18nextLng',
-      lookupFromPathIndex: 0,
-      lookupFromSubdomainIndex: 0,
+      detection: {
+        order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag'],
+        lookupQuerystring: 'lng',
+        lookupCookie: 'i18next',
+        lookupLocalStorage: 'i18nextLng',
+        caches: ['localStorage', 'cookie'],
+        htmlTag: document.documentElement,
+      },
 
-      // Cache user language on
-      caches: ['localStorage', 'cookie'],
-      excludeCacheFor: ['cimode'], // languages to not persist (cookie, localStorage)
+      backend: {
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
+      },
 
-      // Optional htmlTag with lang attribute, e.g. <html lang="en">
-      htmlTag: document.documentElement
-    },
+      ns: ['translation'],
+      defaultNS: 'translation',
+      interpolation: {
+        escapeValue: false,
+      },
 
-    backend: {
-      // Path where resources load from
-      loadPath: '/locales/{{lng}}/{{ns}}.json'
-    },
-
-    ns: ['translation'],
-    defaultNS: 'translation',
-
-    keySeparator: false, // we use content as keys
-
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
-    },
-
-    react: {
-      useSuspense: false // you can set this to true if you're using Suspense
-    }
-  });
+      react: {
+        useSuspense: true,
+      }
+    });
+} else {
+  console.log('[i18n] Already initialized — skipping');
+}
 
 export default i18n;

@@ -10,15 +10,16 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
 import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR";
-import { ModalProvider } from "./components/ModalContext/ModalContext"; 
-import i18n from './i18n'; // full import, since we'll await it
+import { ModalProvider } from "./components/ModalContext/ModalContext";
+import "./i18n"; // ✅ just import — no need to call init here
+import { Suspense } from "react";
 
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useParams,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 
 const KayaQuizWithFacilitator = () => {
@@ -57,17 +58,16 @@ const App = () => {
   );
 };
 
-// ✅ Wait until i18n is initialized before rendering
-i18n.init().then(() => {
-  const root = ReactDOM.createRoot(document.getElementById("root"));
-  root.render(
-    <React.StrictMode>
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <Suspense fallback={<div>Loading translations...</div>}>
       <ModalProvider>
         <App />
       </ModalProvider>
-    </React.StrictMode>
-  );
-});
+    </Suspense>
+  </React.StrictMode>
+);
 
 // Optional performance measuring
 reportWebVitals();

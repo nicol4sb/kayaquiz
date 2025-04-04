@@ -24,11 +24,6 @@ function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
   });
   //------------------------------------------------------
 
-  useEffect(() => {
-    console.log("Facilitator ID:", facilitatorId);
-    console.log("Session ID:", sessionId);
-  }, [facilitatorId, sessionId]);
-
   const handleAnswerChange = (question, value) => {
     setAnswers({ ...answers, [question]: value });
     console.log("Form changed :: " + question + " " + value);
