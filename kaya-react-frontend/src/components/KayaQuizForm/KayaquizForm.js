@@ -1,155 +1,192 @@
 import React, { useState, useEffect } from "react";
-import "./Form.css"; // Importing external stylesheet for component-specific styles
+import "./Form.css";
 import Question1 from "../Questions/Question1";
 import Question2 from "../Questions/Question2";
 import Question3 from "../Questions/Question3";
 import IntroParagraph from "../IntroParagraph/IntroParagraph";
 import { useNavigate } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
+import { useSwipeable } from "react-swipeable";
 
 function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
   const { t } = useTranslation();
-  
-  //------------------------------------------------------
-  // Initialize questions state from local storage
-  const storedAnswersString = localStorage.getItem("answers");
-  const storedAnswers = storedAnswersString
-    ? JSON.parse(storedAnswersString)
-    : { question1: "", question2: "", question3: "" };
+  const navigate = useNavigate();
+  const [step, setStep] = useState(0);
 
-  const [answers, setAnswers] = useState({
-    question1: storedAnswers.question1,
-    question2: storedAnswers.question2,
-    question3: storedAnswers.question3,
-  });
-  //------------------------------------------------------
-
-  const handleAnswerChange = (question, value) => {
-    setAnswers({ ...answers, [question]: value });
-    console.log("Form changed :: " + question + " " + value);
+  const storedAnswers = JSON.parse(localStorage.getItem("answers")) || {
+    question1: "",
+    question2: "",
+    question3: "",
   };
 
-  // Update localStorage when answers are changed
+  const [answers, setAnswers] = useState(storedAnswers);
+
+  const handleAnswerChange = (question, value) => {
+    setAnswers((prev) => ({ ...prev, [question]: value }));
+  };
+
   useEffect(() => {
     localStorage.setItem("answers", JSON.stringify(answers));
   }, [answers]);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Check if all sliders have been touched
-    if (!answers.question1 || !answers.question2 || answers.question3 === "") {
-        alert(t("alertMissingFields"));
-        return; // Stop the form submission if not all answers are filled
+  const handleSubmit = async () => {
+    const { question1, question2, question3 } = answers;
+    if (!question1 || !question2 || question3 === "") {
+      alert(t("alertMissingFields"));
+      return;
     }
 
-    // Retrieve the language setting from localStorage
-    const language = localStorage.getItem('i18nextLng') || 'en'; // Default to English if not found
-
+    const language = localStorage.getItem("i18nextLng") || "en";
     const submissionData = {
-        ...answers,
-        language, // Add the language to the submission data
-        facilitator_id: facilitatorId, // Add the facilitator_id to the submission data
-        session_id: sessionId, // Add the session_id to the submission data
-        session_type: sessionType,
+      ...answers,
+      language,
+      facilitator_id: facilitatorId,
+      session_id: sessionId,
+      session_type: sessionType,
     };
 
     try {
-        const response = await fetch(`/api/submitForm`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(submissionData),
-        });
+      const response = await fetch("/api/submitForm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submissionData),
+      });
 
-        if (response.ok) {
-            const serverResponse = await response.json();
-            localStorage.setItem("CO2Tons", serverResponse.CO2Tons);
-            localStorage.setItem("calculatedSSP", serverResponse.calculatedSSP);
-            navigate("/results", {
-                state: { ans: answers },
-            });
-            console.log("Form submitted successfully! - result :: " +
-                serverResponse.calculatedSSP + " --- " +
-                serverResponse.CO2Tons);
-        } else {
-            console.error("Form submission failed:", response.statusText);
-        }
+      if (response.ok) {
+        const serverResponse = await response.json();
+        localStorage.setItem("CO2Tons", serverResponse.CO2Tons);
+        localStorage.setItem("calculatedSSP", serverResponse.calculatedSSP);
+        navigate("/results", { state: { ans: answers } });
+      } else {
+        console.error("Form submission failed:", response.statusText);
+      }
     } catch (error) {
-        console.error("Error submitting form:", error);
+      console.error("Error submitting form:", error);
     }
-};
+  };
 
-  return (
-    <div className="content-container">
-      <IntroParagraph />
-      <form onSubmit={handleSubmit}>
-        <div className="option-container">
-          <Question1 />
-          <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />{" "}
-          <input
-            type="range"
-            value={answers.question1}
-            min="6"
-            max="12"
-            step="0.1"
-            onChange={(e) =>
-              handleAnswerChange("question1", parseFloat(e.target.value))
-            }
-          />
-        </div>
+  const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
+  const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
 
-        <div className="option-container">
-          <Question2 />
-          <Trans i18nKey="Q2Slider" /> {answers.question2} USD
-          <input
-            type="range"
-            className="slider" // You can define this class in your CSS for styling
-            min="8000"
-            max="30000"
-            step="100" // Adjust step as needed for granularity
-            value={answers.question2}
-            onChange={(e) =>
-              handleAnswerChange("question2", parseFloat(e.target.value))
-            }
-          />
-        </div>
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: (eventData) => {
+      if (eventData.event.target.tagName !== "INPUT") nextStep();
+    },
+    onSwipedRight: (eventData) => {
+      if (eventData.event.target.tagName !== "INPUT") prevStep();
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
-        <div>
-          <Question3 />
-          <div className="option-container">
-            {/* Displaying a descriptive label based on the value could improve UX */}
-            {answers.question3 <= 0.0
-              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
-              : answers.question3 > 0 && answers.question3 <= 0.005
-              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider2")
-              : answers.question3 > 0.005 && answers.question3 <= 0.015
-              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
-              : answers.question3 > 0.015 && answers.question3 <= 0.025
-              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
-              : answers.question3 >= 0.025
-              ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
-              : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return (
+          <div className="step-slide">
+            <IntroParagraph />
+            <div className="nav-buttons center-nav">  
+              <button
+                className="start-big-button"
+                onClick={nextStep}
+              >
+                🚀 {t("start", "Start your journey")}
+              </button>
+            </div>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="step-slide">
+            <Question1 />
+            <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />
             <input
               type="range"
-              className="slider" // Use this class for any needed CSS styling
-              min="-0.02"
-              max="0.04"
-              step="0.001"
-              value={answers.question3}
+              value={answers.question1}
+              min="6"
+              max="12"
+              step="0.1"
               onChange={(e) =>
-                handleAnswerChange("question3", parseFloat(e.target.value))
+                handleAnswerChange("question1", parseFloat(e.target.value))
               }
             />
+            <div className="nav-buttons">
+              <button onClick={prevStep}>←</button>
+              <button onClick={nextStep} disabled={!answers.question1}>
+                →
+              </button>
+            </div>
           </div>
-          <button className="submit-button" type="submit">
-            Go !
-          </button>
-        </div>
-      </form>
+        );
+      case 2:
+        return (
+          <div className="step-slide">
+            <Question2 />
+            <Trans i18nKey="Q2Slider" /> {answers.question2} USD
+            <input
+              type="range"
+              value={answers.question2}
+              min="8000"
+              max="30000"
+              step="100"
+              onChange={(e) =>
+                handleAnswerChange("question2", parseFloat(e.target.value))
+              }
+            />
+            <div className="nav-buttons">
+              <button onClick={prevStep}>←</button>
+              <button onClick={nextStep} disabled={!answers.question2}>
+                →
+              </button>
+            </div>
+          </div>
+        );
+      case 3:
+        return (
+          <div className="step-slide">
+            <Question3 />
+            <div className="option-container">
+              {answers.question3 <= 0.0
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
+                : answers.question3 > 0 && answers.question3 <= 0.005
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider2")
+                : answers.question3 > 0.005 && answers.question3 <= 0.015
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
+                : answers.question3 > 0.015 && answers.question3 <= 0.025
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider3")
+                : answers.question3 >= 0.025
+                ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
+                : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
+              <input
+                type="range"
+                value={answers.question3}
+                min="-0.02"
+                max="0.04"
+                step="0.001"
+                onChange={(e) =>
+                  handleAnswerChange("question3", parseFloat(e.target.value))
+                }
+              />
+            </div>
+            <div className="nav-buttons">
+              <button onClick={prevStep}>←</button>
+              <button
+                onClick={handleSubmit}
+                disabled={answers.question3 === ""}
+              >
+                ✔ {t("submit")}
+              </button>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="content-container" {...swipeHandlers}>
+      {renderStep()}
     </div>
   );
 }

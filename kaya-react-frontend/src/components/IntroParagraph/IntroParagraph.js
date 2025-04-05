@@ -7,7 +7,10 @@ function IntroParagraph() {
 
   return (
     <div className="intro-paragraph">
-      <LanguageSwitcher />
+      <div className="intro-header">
+        <div className="spacer" /> {/* Pushes flags to the right */}
+        <LanguageSwitcher />
+      </div>
       <p className="title">{t("IntroTitle")}</p>
       <p>{t("IntroParagraph1")}</p>
       <p>{t("IntroParagraph2")}</p>

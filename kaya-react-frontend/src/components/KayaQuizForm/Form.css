@@ -19,3 +19,69 @@
 .option-container label:hover {
   background-color: #dcdcdc; /* Darker shade on hover */
 }
+
+/* Layout container ensures footer sticks */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.start-big-button {
+  font-size: 1.4rem;
+  padding: 1.2rem 2.5rem;
+  border-radius: 14px;
+  background: linear-gradient(to right, #007acc, #00b8d9);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-big-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Fancy styling for all nav buttons */
+.nav-buttons button {
+  padding: 0.8rem 1.6rem;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right, #007acc, #00b8d9);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.nav-buttons button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+
+.center-nav {
+  justify-content: center;
+  margin: 0 auto;
+}
+
+

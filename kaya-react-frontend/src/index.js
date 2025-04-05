@@ -11,7 +11,7 @@ import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
 import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR";
 import { ModalProvider } from "./components/ModalContext/ModalContext";
-import "./i18n"; // ✅ just import — no need to call init here
+import "./i18n";
 import { Suspense } from "react";
 
 import {
@@ -22,6 +22,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
+// Route wrapper for session-specific quizzes
 const KayaQuizWithFacilitator = () => {
   const { facilitatorId, sessionId } = useParams();
   const { search } = useLocation();
@@ -40,8 +41,8 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="App">
-        <div className="content">
+      <div className="app-layout">
+        <div className="main-content">
           <Routes>
             <Route path="/" element={<KayaQuizForm />} />
             <Route path="/results" element={<Results />} />
@@ -69,5 +70,4 @@ root.render(
   </React.StrictMode>
 );
 
-// Optional performance measuring
 reportWebVitals();
