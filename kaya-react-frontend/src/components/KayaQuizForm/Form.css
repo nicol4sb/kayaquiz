@@ -1,31 +1,58 @@
+/* ============================
+   Form Layout & Components
+   ============================ */
+
+/* Container for questions and sliders */
 .option-container {
   display: flex;
-  flex-direction: column; /* Stacks children vertically */
-  align-items: center; /* Center children horizontally */
-  justify-content: center; /* Adjust this if you need vertical centering as well */
-  gap: 15px; /* Adds space between children elements */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
 }
 
 .option-container label {
   display: flex;
   padding: 10px;
-  background-color: #f0f0f0; /* Grey background color */
+  background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 5px;
   transition: background-color 1s ease;
-  margin-bottom: 10px; /* Adds space below the label */
+  margin-bottom: 10px;
 }
 
 .option-container label:hover {
-  background-color: #dcdcdc; /* Darker shade on hover */
+  background-color: #dcdcdc;
 }
 
-/* Layout container ensures footer sticks */
+/* ============================
+   Content & Layout
+   ============================ */
+
 .content-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
+
+.step-slide {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.5rem 1rem 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 1rem; /* controls spacing between children */
+}
+
+/* ============================
+   Buttons
+   ============================ */
 
 .start-big-button {
   font-size: 1.4rem;
@@ -52,7 +79,6 @@
   max-width: 600px;
 }
 
-/* Fancy styling for all nav buttons */
 .nav-buttons button {
   padding: 0.8rem 1.6rem;
   font-size: 1.4rem;
@@ -78,10 +104,95 @@
   box-shadow: none;
 }
 
-
 .center-nav {
   justify-content: center;
   margin: 0 auto;
 }
 
+/* Responsive and consistent styling for all range sliders */
+.step-slide input[type="range"] {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  margin: 1rem auto;
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
 
+/* Slider thumbs for all major browsers */
+.step-slide input[type="range"]::-webkit-slider-thumb,
+.step-slide input[type="range"]::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  background: #007acc;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -6px;
+}
+
+/* Wrapper around sliders for spacing and layout */
+.slider-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+/* Ensure all sliders are consistently styled */
+.slider-container input[type="range"] {
+  width: 100%;
+  max-width: 600px;
+  height: 12px;
+  background: #ddd;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+/* ============================
+   Media & Visuals
+   ============================ */
+
+.step-slide img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 40vh;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .step-slide input[type="range"] {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .step-slide img {
+    max-height: 30vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .step-slide input[type="range"] {
+    max-width: 100%;
+  }
+}
+
+/* ============================
+   Typography spacing tweaks
+   ============================ */
+.step-slide h3 {
+  margin-bottom: 0.3rem; /* tighter spacing under titles */
+}
+
+.step-slide p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}

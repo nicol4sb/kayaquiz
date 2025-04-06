@@ -85,31 +85,33 @@ function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
         return (
           <div className="step-slide">
             <IntroParagraph />
-            <div className="nav-buttons center-nav">  
-              <button
-                className="start-big-button"
-                onClick={nextStep}
-              >
+            <div className="nav-buttons center-nav">
+              <button className="start-big-button" onClick={nextStep}>
                 🚀 {t("start", "Start your journey")}
               </button>
             </div>
           </div>
         );
+
       case 1:
         return (
           <div className="step-slide">
             <Question1 />
-            <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />
-            <input
-              type="range"
-              value={answers.question1}
-              min="6"
-              max="12"
-              step="0.1"
-              onChange={(e) =>
-                handleAnswerChange("question1", parseFloat(e.target.value))
-              }
-            />
+            <div style={{ minHeight: "1.5rem", textAlign: "center" }}>
+              <Trans i18nKey="Q1Slider" values={{ value: answers.question1 }} />
+            </div>
+            <div className="slider-container">
+              <input
+                type="range"
+                value={answers.question1}
+                min="6"
+                max="12"
+                step="0.1"
+                onChange={(e) =>
+                  handleAnswerChange("question1", parseFloat(e.target.value))
+                }
+              />
+            </div>
             <div className="nav-buttons">
               <button onClick={prevStep}>←</button>
               <button onClick={nextStep} disabled={!answers.question1}>
@@ -118,21 +120,26 @@ function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
             </div>
           </div>
         );
+
       case 2:
         return (
           <div className="step-slide">
             <Question2 />
-            <Trans i18nKey="Q2Slider" /> {answers.question2} USD
-            <input
-              type="range"
-              value={answers.question2}
-              min="8000"
-              max="30000"
-              step="100"
-              onChange={(e) =>
-                handleAnswerChange("question2", parseFloat(e.target.value))
-              }
-            />
+            <div style={{ minHeight: "1.5rem", textAlign: "center" }}>
+              <Trans i18nKey="Q2Slider" /> {answers.question2} USD
+            </div>
+            <div className="slider-container">
+              <input
+                type="range"
+                value={answers.question2}
+                min="8000"
+                max="30000"
+                step="100"
+                onChange={(e) =>
+                  handleAnswerChange("question2", parseFloat(e.target.value))
+                }
+              />
+            </div>
             <div className="nav-buttons">
               <button onClick={prevStep}>←</button>
               <button onClick={nextStep} disabled={!answers.question2}>
@@ -141,11 +148,12 @@ function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
             </div>
           </div>
         );
+
       case 3:
         return (
           <div className="step-slide">
             <Question3 />
-            <div className="option-container">
+            <div style={{ minHeight: "1.5rem", textAlign: "center" }}>
               {answers.question3 <= 0.0
                 ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider1")
                 : answers.question3 > 0 && answers.question3 <= 0.005
@@ -157,6 +165,8 @@ function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
                 : answers.question3 >= 0.025
                 ? Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider4")
                 : Number((answers.question3 * 100).toFixed(2)) + t("Q3Slider5")}
+            </div>
+            <div className="slider-container">
               <input
                 type="range"
                 value={answers.question3}
@@ -179,6 +189,7 @@ function KayaQuizForm({ facilitatorId, sessionId, sessionType }) {
             </div>
           </div>
         );
+
       default:
         return null;
     }
