@@ -4,6 +4,9 @@ The key is used to access the droplet on DigitalOcean
 Generated ssh keys server side - openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
 then moved to /etc/ssl/certs etc
 
+# autocannon to test the resilience of the caching setup :
+npx autocannon -c 200 -d 15 -p 10 https://kayaquiz.com
+
 NGINx config refers to these locations
 
 # Define a shared cache zone with disk size cap
