@@ -12,6 +12,8 @@ if (!i18n.isInitialized || i18n.isInitialized === false) {
       fallbackLng: 'en',
       debug: false,
 
+      load: "languageOnly",
+
       detection: {
         order: ['querystring', 'cookie', 'localStorage', 'navigator', 'htmlTag'],
         lookupQuerystring: 'lng',

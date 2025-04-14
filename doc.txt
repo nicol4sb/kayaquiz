@@ -6,20 +6,45 @@ then moved to /etc/ssl/certs etc
 
 NGINx config refers to these locations
 
+proxy_cache_path /var/cache/nginx/kayaquiz levels=1:2 keys_zone=kayaquiz_cache:10m inactive=7d use_temp_path=off;
+
 server {
     listen 443 ssl;
-    server_name kayaquiz.com;  # Replace with your domain
+    server_name kayaquiz.com www.kayaquiz.com;
 
-    ssl_certificate /etc/ssl/certs/kaya-server.cert;  # Replace with your SSL certificate path
-    ssl_certificate_key /etc/ssl/private/kaya-server.key;  # Replace with your private key path
+    ssl_certificate /etc/nginx/ssl/kayaquiz.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/kayaquiz.com.key;
 
-    location / {
-        proxy_pass http://localhost:5000;  # Replace with your Node.js server address
+    # 🚫 No cache for API requests
+    location ~* ^/api/ {
+        proxy_pass http://localhost:5000;
+
+        proxy_no_cache 1;
+        proxy_cache_bypass 1;
+
         proxy_http_version 1.1;
+        proxy_set_header Host $host;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # ✅ Cache everything else (static + React routes)
+    location / {
+        proxy_pass http://localhost:5000;
+
+        proxy_cache kayaquiz_cache;
+        proxy_cache_valid 200 302 7d;
+        proxy_cache_valid 404 1m;
+        proxy_cache_use_stale error timeout updating;
+        add_header X-Cache-Status $upstream_cache_status;
+
+        proxy_http_version 1.1;
         proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -28,20 +53,7 @@ server {
 
 server {
     listen 80;
-    server_name kayaquiz.com;  # Replace with your domain name or IP address
+    server_name kayaquiz.com www.kayaquiz.com;
 
-    location / {
-        proxy_pass http://127.0.0.1:5000;  # Proxy to port 5000
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
+    return 301 https://$host$request_uri;
 }
-
-
-
