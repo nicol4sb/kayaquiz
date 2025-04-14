@@ -7,9 +7,24 @@ then moved to /etc/ssl/certs etc
 # autocannon to test the resilience of the caching setup :
 npx autocannon -c 200 -d 15 -p 10 https://kayaquiz.com
 
+npx autocannon -c 100 -d 20 https://kayaquiz.com/fr/translation.json
+
+
+# this should be blocked by NGINX - denied / 503
+npx autocannon -c 50 -d 30 -m POST \
+  -H "Content-Type: application/json" \
+  -b '{"question1":8,"question2":12000,"question3":0.01}' \
+  https://kayaquiz.com/api/submitForm
+
+
+
 NGINx config refers to these locations
 
-# Define a shared cache zone with disk size cap
+# 🔐 Define rate limits per IP
+limit_req_zone $binary_remote_addr zone=submitform_limit:10m rate=1r/m;  # Approx 5 requests per 10 min
+limit_req_zone $binary_remote_addr zone=api_limit:10m rate=1r/s;         # General API rate limit (1 req/sec)
+
+# 🧠 Cache path configuration (disk-based, can tweak to tmpfs later)
 proxy_cache_path /var/cache/nginx/kayaquiz levels=1:2 keys_zone=kayaquiz_cache:10m max_size=50m inactive=7d use_temp_path=off;
 
 server {
@@ -19,8 +34,25 @@ server {
     ssl_certificate /etc/nginx/ssl/kayaquiz.com.crt;
     ssl_certificate_key /etc/nginx/ssl/kayaquiz.com.key;
 
-    # No cache for API calls
+    # 🔐 Special rate limit for /api/submitForm (5 requests per 10 minutes)
+    location = /api/submitForm {
+        limit_req zone=submitform_limit burst=5 nodelay;
+
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # 🛡️ Rate limit + no caching for all other /api routes
     location ~* ^/api/ {
+        limit_req zone=api_limit burst=10 nodelay;
+
         proxy_pass http://localhost:5000;
 
         proxy_no_cache 1;
@@ -35,21 +67,22 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Cache everything else (static + React app)
+    # 🧠 Cached content (React app, assets, locales, etc.)
     location / {
         proxy_pass http://localhost:5000;
 
+        # Enable NGINX caching
         proxy_cache kayaquiz_cache;
         proxy_cache_valid 200 302 7d;
         proxy_cache_valid 404 1m;
         proxy_cache_use_stale error timeout updating;
         add_header X-Cache-Status $upstream_cache_status;
 
-        # Client/browser caching
+        # ✅ Tell browser to cache too
         expires 1h;
         add_header Cache-Control "public, max-age=3600";
 
-        # Buffer tuning for memory-constrained servers
+        # Light buffering for low RAM systems
         proxy_buffers 8 16k;
         proxy_buffer_size 32k;
 
@@ -62,30 +95,30 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Optional: status endpoint (localhost only)
+    # ✅ Optional: local-only status page
     location /nginx_status {
         stub_status;
         allow 127.0.0.1;
         deny all;
     }
 
-    # Gzip compression for lighter bandwidth usage
+    # ⚡ Gzip compression for lighter transfer
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
     gzip_min_length 1024;
     gzip_comp_level 5;
 
-    # Better log performance
+    # 📋 Logging
     access_log /var/log/nginx/access.log combined buffer=16k flush=5s;
 
-    # Connection management
+    # 🔄 Connection reuse
     keepalive_timeout 10s;
 }
 
+# 📦 Redirect HTTP to HTTPS
 server {
     listen 80;
     server_name kayaquiz.com www.kayaquiz.com;
 
-    # Redirect all HTTP traffic to HTTPS
     return 301 https://$host$request_uri;
 }
