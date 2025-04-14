@@ -6,7 +6,32 @@ const db = require("./src/db"); // Import the db module
 const SSPCalculation = require("./src/SSPcalculation");
 
 const app = express();
+
+// log performance
+app.use((req, res, next) => {
+  const start = Date.now();
+
+  // Capture when a static file is served
+  const originalSendFile = res.sendFile;
+  res.sendFile = function (...args) {
+    res.locals.servedFile = args[0]; // Store file path
+    return originalSendFile.apply(res, args);
+  };
+
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    const logLine = `${new Date().toISOString()} ${req.method} ${req.originalUrl} ${
+      res.statusCode
+    } - ${duration}ms${res.locals.servedFile ? ` [file: ${res.locals.servedFile}]` : ""}\n`;
+
+    console.log(logLine.trim());
+  });
+
+  next();
+});
+
 const PORT = process.env.PORT || 5000;
+
 
 console.log("Server startup");
 
@@ -21,6 +46,7 @@ app.use(express.static(path.join(__dirname, "kaya-react-frontend/build"), {
 
 // Parse JSON bodies
 app.use(express.json());
+
 
 // API routes
 app.post("/api/submitForm", (req, res) => {
