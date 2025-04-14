@@ -1,79 +1,57 @@
 const puppeteer = require("puppeteer");
 
-const BATCH_SIZE = 300;
-const CONCURRENCY = 10;
+const BROWSER_COUNT = 30;
 const URL = "https://kayaquiz.com";
-
-const SLOW_4G = {
+const SLOW_3G = {
   offline: false,
-  downloadThroughput: (200 * 1024) / 8,
-  uploadThroughput: (200 * 1024) / 8,
+  downloadThroughput: (400 * 1024) / 8,
+  uploadThroughput: (400 * 1024) / 8,
   latency: 400,
 };
 
-function delay(ms) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
 (async () => {
+  console.log(`🚨 Starting spike load test with ${BROWSER_COUNT} clients...`);
+
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
-  const pagePool = [];
+  const tasks = Array.from({ length: BROWSER_COUNT }, async (_, i) => {
+    try {
+      const page = await browser.newPage();
 
-  for (let i = 0; i < BATCH_SIZE; i++) {
-    if (i > 0 && i % CONCURRENCY === 0) {
-      console.log(`⌛ Pausing after batch ${i}...`);
-      await delay(2000);
-    }
-
-    const page = await browser.newPage();
-
-    // Simulate mobile
-    await page.setViewport({ width: 375, height: 667 });
-    await page.setUserAgent(
-      "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
-    );
-
-    // Throttle network
-    const client = await page.target().createCDPSession();
-    await client.send("Network.enable");
-    await client.send("Network.emulateNetworkConditions", SLOW_4G);
-
-    await page.setCacheEnabled(false);
-
-    // Unregister service workers
-    await page.evaluateOnNewDocument(() => {
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then((regs) =>
-          regs.forEach((reg) => reg.unregister())
-        );
-      }
-    });
-
-    page.on("response", (response) => {
-      if (!response.ok()) {
-        console.warn(`⚠️ ${response.status()} on ${response.url()}`);
-      }
-    });
-
-    pagePool.push(page);
-
-    // Try to load page with more generous timeout and deeper wait
-    page
-      .goto(`${URL}?rnd=${Date.now()}&user=${i}`, {
-        waitUntil: "networkidle2",
-        timeout: 60000,
-      })
-      .then(() => console.log(`✅ Page ${i + 1} loaded`))
-      .catch((err) =>
-        console.error(`❌ Page ${i + 1} failed to load: ${err.message}`)
+      await page.setViewport({ width: 375, height: 667 });
+      await page.setUserAgent(
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
       );
-  }
 
-  console.log("🔁 Waiting to observe traffic for 30s...");
-  await delay(30000);
+      const client = await page.target().createCDPSession();
+      await client.send("Network.enable");
+      await client.send("Network.emulateNetworkConditions", SLOW_3G);
+
+      page.on("request", (req) => {
+        console.log(`🛰️ [${i + 1}] Request: ${req.method()} ${req.url()}`);
+      });
+
+      page.on("response", (res) => {
+        console.log(`📦 [${i + 1}] Response: ${res.status()} ${res.url()}`);
+      });
+
+      await page.goto(URL, {
+        waitUntil: "networkidle0",
+        timeout: 60000,
+      });
+
+      console.log(`✅ [${i + 1}] Page loaded`);
+    } catch (err) {
+      console.error(`❌ [${i + 1}] Failed: ${err.message}`);
+    }
+  });
+
+  // Fire them all at once!
+  await Promise.all(tasks);
+
+  console.log("🎉 Spike test complete.");
   await browser.close();
 })();

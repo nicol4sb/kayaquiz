@@ -6,7 +6,8 @@ then moved to /etc/ssl/certs etc
 
 NGINx config refers to these locations
 
-proxy_cache_path /var/cache/nginx/kayaquiz levels=1:2 keys_zone=kayaquiz_cache:10m inactive=7d use_temp_path=off;
+# Define a shared cache zone with disk size cap
+proxy_cache_path /var/cache/nginx/kayaquiz levels=1:2 keys_zone=kayaquiz_cache:10m max_size=50m inactive=7d use_temp_path=off;
 
 server {
     listen 443 ssl;
@@ -15,7 +16,7 @@ server {
     ssl_certificate /etc/nginx/ssl/kayaquiz.com.crt;
     ssl_certificate_key /etc/nginx/ssl/kayaquiz.com.key;
 
-    # 🚫 No cache for API requests
+    # No cache for API calls
     location ~* ^/api/ {
         proxy_pass http://localhost:5000;
 
@@ -31,7 +32,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # ✅ Cache everything else (static + React routes)
+    # Cache everything else (static + React app)
     location / {
         proxy_pass http://localhost:5000;
 
@@ -41,6 +42,14 @@ server {
         proxy_cache_use_stale error timeout updating;
         add_header X-Cache-Status $upstream_cache_status;
 
+        # Client/browser caching
+        expires 1h;
+        add_header Cache-Control "public, max-age=3600";
+
+        # Buffer tuning for memory-constrained servers
+        proxy_buffers 8 16k;
+        proxy_buffer_size 32k;
+
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header Upgrade $http_upgrade;
@@ -49,11 +58,31 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
+
+    # Optional: status endpoint (localhost only)
+    location /nginx_status {
+        stub_status;
+        allow 127.0.0.1;
+        deny all;
+    }
+
+    # Gzip compression for lighter bandwidth usage
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_min_length 1024;
+    gzip_comp_level 5;
+
+    # Better log performance
+    access_log /var/log/nginx/access.log combined buffer=16k flush=5s;
+
+    # Connection management
+    keepalive_timeout 10s;
 }
 
 server {
     listen 80;
     server_name kayaquiz.com www.kayaquiz.com;
 
+    # Redirect all HTTP traffic to HTTPS
     return 301 https://$host$request_uri;
 }
