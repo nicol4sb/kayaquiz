@@ -10,6 +10,7 @@ import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import Footer from "./components/Footer/Footer";
 import Stats from "./components/Stats/Stats";
 import FacilitatorQR from "./components/FacilitatorQR/FacilitatorQR";
+import Solver from "./components/Solver/Solver";
 import { ModalProvider } from "./components/ModalContext/ModalContext";
 import "./i18n";
 import { Suspense } from "react";
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/admin" element={<GroupResults />} />
             <Route path="/stats" element={<Stats />} />
             <Route path="/facilitator/:facilitatorId" element={<FacilitatorQR />} />
+            <Route path="/solver" element={<Solver />} />
             <Route path="/:facilitatorId/:sessionId" element={<KayaQuizWithFacilitator />} />
           </Routes>
         </div>
